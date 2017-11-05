@@ -1,22 +1,26 @@
 <?xml version='1.0' encoding='utf-8'?>
 <!DOCTYPE hibernate-configuration PUBLIC
-    "-//Hibernate/Hibernate Configuration DTD//EN"
-    "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+        "-//Hibernate/Hibernate Configuration DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
-  <session-factory>
-    <property name="connection.url">jdbc:postgresql://194.87.92.66:5432/hospitalDB</property> <!-- BD Mane -->
-    <property name="connection.driver_class">org.postgresql.Driver</property> <!-- DB Driver -->
-    <!-- DB User -->
-    <!-- DB Password -->
+    <session-factory>
+        <property name="connection.url">jdbc:postgresql://194.87.92.66:5432/hospitalDB</property> <!-- BD Mane -->
+        <property name="connection.driver_class">org.postgresql.Driver</property> <!-- DB Driver -->
+        <property name="hibernate.connection.username">
+            postgres
+        </property>
+        <property name="hibernate.connection.password">
+            xxx$zzz
+        </property>
 
-    <property name="dialect">org.hibernate.dialect.PostgreSQL9Dialect</property> <!-- DB Dialect -->
-    <property name="hbm2ddl.auto">update</property> <!-- create / create-drop / update -->
+        <property name="dialect">org.hibernate.dialect.PostgreSQL9Dialect</property> <!-- DB Dialect -->
+        <property name="hbm2ddl.auto">update</property> <!-- create / create-drop / update -->
 
-    <property name="show_sql">true</property> <!-- Show SQL in console -->
-    <property name="format_sql">true</property> <!-- Show SQL formatted -->
+        <property name="show_sql">true</property> <!-- Show SQL in console -->
+        <property name="format_sql">true</property> <!-- Show SQL formatted -->
 
-    <mapping class="com.epam.hospital.model.User"/>
-    <mapping class="com.epam.hospital.model.Role"/>
-    <mapping class="com.epam.hospital.model.UserRoles"/>
-  </session-factory>
+        <mapping class="com.epam.hospital.model.User"/>
+        <mapping class="com.epam.hospital.model.Role"/>
+        <mapping class="com.epam.hospital.model.AppointmentType"/>
+    </session-factory>
 </hibernate-configuration>

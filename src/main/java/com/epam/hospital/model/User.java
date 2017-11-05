@@ -8,8 +8,9 @@ import javax.persistence.*;
 import java.util.Collection;
 
 @Data
+
 @Entity
-@Table(name = "users", schema = "public", catalog = "hospitalDB")
+@Table(name = "users")
 public class User {
 
 
@@ -28,6 +29,8 @@ public class User {
     @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Collection<Role> roles;
+
+
 
 
 }

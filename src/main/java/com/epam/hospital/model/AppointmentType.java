@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.util.Set;
 
 @Entity
-@Table(name = "appointment_types", schema = "public", catalog = "hospitalDB")
+@Table(name = "appointment_types")
 public class AppointmentType {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -14,8 +14,4 @@ public class AppointmentType {
 
     @ManyToMany(mappedBy = "appointmentTypes")
     private Set<Role> roles;
-
-
-
-
 }

@@ -15,7 +15,6 @@ public class HibernateUtill {
         if (sessionFactory == null) {
             Configuration configuration = new Configuration();
             configuration.configure();
-//            configuration.buildSessionFactory();
             StandardServiceRegistryBuilder ssrb = new StandardServiceRegistryBuilder()
                     .applySettings(configuration.getProperties());
             sessionFactory = configuration.buildSessionFactory(ssrb.build());

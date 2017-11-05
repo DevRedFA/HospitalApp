@@ -1,13 +1,15 @@
 package com.epam.hospital.model;
 
 import lombok.Data;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.Collection;
 
 @Data
+@ToString(exclude = "users")
 @Entity
-@Table(name = "roles", schema = "public", catalog = "hospitalDB")
+@Table(name = "roles")
 public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
