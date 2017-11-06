@@ -1,50 +1,22 @@
 package com.epam.hospital.model;
 
+import lombok.Data;
+
 import javax.persistence.*;
 
+@Data
 @Entity
-@Table(name = "appointments", schema = "public", catalog = "hospitalDB")
+@Table(name = "appointments", schema = "public")
 public class Appointment {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
+
+    @Column(name = "name")
     private String name;
 
-    @Id
-    @Column(name = "id")
-    public int getId() {
-        return id;
-    }
+    @OneToOne
+    @JoinColumn(name = "appointment_type_id", referencedColumnName = "id")
+    private AppointmentType appointmentType;
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    @Basic
-    @Column(name = "name")
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Appointment that = (Appointment) o;
-
-        if (id != that.id) return false;
-        if (name != null ? !name.equals(that.name) : that.name != null) return false;
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = id;
-        result = 31 * result + (name != null ? name.hashCode() : 0);
-        return result;
-    }
 }

@@ -8,7 +8,7 @@ import org.hibernate.cfg.Configuration;
 /**
  * Class create SessionFactory as singleton.
  */
-public class HibernateUtill {
+public class HibernateUtil {
     private static SessionFactory sessionFactory = null;
 
     public static SessionFactory getSessionFactory() {

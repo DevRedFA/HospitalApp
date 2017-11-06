@@ -5,14 +5,12 @@ import lombok.*;
 
 
 import javax.persistence.*;
-import java.util.Collection;
+import java.util.Set;
 
 @Data
-
 @Entity
 @Table(name = "users")
 public class User {
-
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -28,7 +26,7 @@ public class User {
     @ManyToMany
     @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Collection<Role> roles;
+    private Set<Role> roles;
 
 
 

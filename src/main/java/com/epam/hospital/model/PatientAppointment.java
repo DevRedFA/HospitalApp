@@ -1,66 +1,40 @@
 package com.epam.hospital.model;
 
+import lombok.Data;
+
+
 import javax.persistence.*;
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
+@Data
 @Entity
-@Table(name = "patient_appointments", schema = "public", catalog = "hospitalDB")
+@Table(name = "patient_appointments", schema = "public")
 public class PatientAppointment {
-    private int id;
-    private Timestamp appointedDate;
-    private Timestamp fulfilledDate;
-
     @Id
-    @Column(name = "id")
-    public int getId() {
-        return id;
-    }
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int id;
 
-    public void setId(int id) {
-        this.id = id;
-    }
+    @ManyToOne
+    @JoinColumn(name = "patient_id", referencedColumnName = "id")
+    private Patient patient;
 
-    @Basic
+    @OneToOne
+    @JoinColumn(name = "appointment_id", referencedColumnName = "id")
+    private Appointment appointment;
+
+    @OneToOne
+    @JoinColumn(name = "appointed_by_id", referencedColumnName = "id")
+    private User appointedBy;
+
+    @OneToOne
+    @JoinColumn(name = "fulfilled_by_id", referencedColumnName = "id")
+    private User fulfilledBy;
+
     @Column(name = "appointed_date")
-    public Timestamp getAppointedDate() {
-        return appointedDate;
-    }
+    private LocalDateTime appointedDate;
 
-    public void setAppointedDate(Timestamp appointedDate) {
-        this.appointedDate = appointedDate;
-    }
-
-    @Basic
     @Column(name = "fulfilled_date")
-    public Timestamp getFulfilledDate() {
-        return fulfilledDate;
-    }
+    private LocalDateTime fulfilledDate;
 
-    public void setFulfilledDate(Timestamp fulfilledDate) {
-        this.fulfilledDate = fulfilledDate;
-    }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        PatientAppointment that = (PatientAppointment) o;
-
-        if (id != that.id) return false;
-        if (appointedDate != null ? !appointedDate.equals(that.appointedDate) : that.appointedDate != null)
-            return false;
-        if (fulfilledDate != null ? !fulfilledDate.equals(that.fulfilledDate) : that.fulfilledDate != null)
-            return false;
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = id;
-        result = 31 * result + (appointedDate != null ? appointedDate.hashCode() : 0);
-        result = 31 * result + (fulfilledDate != null ? fulfilledDate.hashCode() : 0);
-        return result;
-    }
 }
