@@ -4,7 +4,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.sql.Date;
-import java.util.Set;
+import java.util.List;
 
 @Data
 @Entity
@@ -24,7 +24,10 @@ public class Patient {
     private Date birthdate;
 
     @OneToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = true)
     private User user;
+
+    @OneToMany(mappedBy = "patient", fetch = FetchType.EAGER)
+    private List<PatientDiagnosis> patientDiagnoses;
 
 }

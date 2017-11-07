@@ -4,7 +4,7 @@ import lombok.Data;
 import lombok.ToString;
 
 import javax.persistence.*;
-import java.util.Set;
+import java.util.List;
 
 @Data
 @ToString(exclude = "users")
@@ -20,19 +20,18 @@ public class Role {
     private String name;
 
     @ManyToMany(mappedBy = "roles")
-    private Set<User> users;
+    private List<User> users;
 
     @ManyToMany
-    @JoinTable(name = "role_prescribable_appointment_type",
+    @JoinTable(name = "roles_prescribable_appointments_types",
             joinColumns = @JoinColumn(name = "role_id"),
             inverseJoinColumns = @JoinColumn(name = "appointment_type_id"))
-    private Set<AppointmentType> prescribableAppointmentType;
+    private List<AppointmentType> prescribableAppointmentType;
 
     @ManyToMany
-    @JoinTable(name = "role_executable_appointment_type",
+    @JoinTable(name = "roles_executable_appointments_types",
             joinColumns = @JoinColumn(name = "role_id"),
             inverseJoinColumns = @JoinColumn(name = "appointment_type_id"))
-    private Set<AppointmentType> executableAppointmentType;
-
+    private List<AppointmentType> executableAppointmentType;
 
 }

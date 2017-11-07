@@ -1,4 +1,4 @@
-package com.epam.hospital.dao;
+package com.epam.hospital.util;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
