@@ -1,12 +1,14 @@
 package com.epam.hospital.model;
 
 import lombok.Data;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Data
 @Entity
+@ToString(exclude = {"precriberRole", "executorRole"})
 @Table(name = "appointments_types", schema = "public")
 public class AppointmentType {
 

@@ -20,7 +20,5 @@
         <mapping class="com.epam.hospital.model.PatientDiagnosis"/>
         <mapping class="com.epam.hospital.model.Role"/>
         <mapping class="com.epam.hospital.model.User"/>
-        <mapping class="com.epam.hospital.model.Diagnoses"/>
-        <mapping class="com.epam.hospital.model.PatientDiagnoses"/>
     </session-factory>
 </hibernate-configuration>

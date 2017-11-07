@@ -8,6 +8,7 @@ import java.util.List;
 
 @Data
 @Entity
+@ToString(exclude = "roles")
 @Table(name = "users", schema = "public", catalog = "hospitalDB")
 public class User {
 

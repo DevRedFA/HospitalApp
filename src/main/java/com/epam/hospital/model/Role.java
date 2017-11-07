@@ -7,7 +7,7 @@ import javax.persistence.*;
 import java.util.List;
 
 @Data
-@ToString(exclude = "users")
+@ToString(exclude = {"users", "prescribableAppointmentType", "executableAppointmentType"})
 @Entity
 @Table(name = "roles")
 public class Role {

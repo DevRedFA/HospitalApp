@@ -1,11 +1,13 @@
 package com.epam.hospital.model;
 
 import lombok.Data;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Data
+@ToString(exclude = "appointmentType")
 @Entity
 @Table(name = "appointments", schema = "public")
 public class Appointment {
