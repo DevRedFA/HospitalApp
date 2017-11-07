@@ -4,12 +4,13 @@ import lombok.Data;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.sql.Date;
 import java.time.LocalDateTime;
 
 @Data
 @ToString(exclude = {"diagnosis", "patient", "diagnosedBy"})
 @Entity
-@Table(name = "patients_diagnoses", schema = "public", catalog = "hospitalDB")
+@Table(name = "patients_diagnoses", schema = "public")
 public class PatientDiagnosis {
 
     @Id
@@ -17,21 +18,26 @@ public class PatientDiagnosis {
     private int id;
 
     @ManyToOne
-    @JoinColumn(name = "patient_id", referencedColumnName = "id")
+    @JoinColumn(name = "patient_id",
+            referencedColumnName = "id")
     private Patient patient;
 
     @ManyToOne
-    @JoinColumn(name = "diagnosis_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "diagnosis_id",
+            referencedColumnName = "id",
+            nullable = false)
     private Diagnosis diagnosis;
 
     @Column(name = "diagnosed_date")
-    private LocalDateTime diagnosedDate;
+    private Date diagnosedDate;
 
     @Column(name = "discharge")
     private boolean discharge;
 
     @ManyToOne
-    @JoinColumn(name = "diagnosed_by", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "diagnosed_by",
+            referencedColumnName = "id",
+            nullable = false)
     private User diagnosedBy;
 
 }

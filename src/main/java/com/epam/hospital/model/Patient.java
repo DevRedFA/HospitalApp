@@ -25,10 +25,11 @@ public class Patient {
     private Date birthdate;
 
     @OneToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = true)
+    @JoinColumn(name = "user_id",
+            referencedColumnName = "id")
     private User user;
 
-    @OneToMany(mappedBy = "patient", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "patient")
     private List<PatientDiagnosis> patientDiagnoses;
 
 }

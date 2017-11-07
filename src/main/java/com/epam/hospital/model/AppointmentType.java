@@ -8,7 +8,7 @@ import java.util.List;
 
 @Data
 @Entity
-@ToString(exclude = {"precriberRole", "executorRole"})
+@ToString(exclude = {"prescriberRole", "executorRole"})
 @Table(name = "appointments_types", schema = "public")
 public class AppointmentType {
 
@@ -25,7 +25,7 @@ public class AppointmentType {
     @ManyToMany(mappedBy = "executableAppointmentType")
     private List<Role> executorRole;
 
-    @OneToMany(mappedBy = "appointmentType", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "appointmentType")
     private List<Appointment> appointments;
 
 }

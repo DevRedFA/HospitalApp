@@ -9,7 +9,7 @@ import java.util.List;
 @Data
 @ToString(exclude = {"users", "prescribableAppointmentType", "executableAppointmentType"})
 @Entity
-@Table(name = "roles")
+@Table(name = "roles", schema = "public")
 public class Role {
 
     @Id
