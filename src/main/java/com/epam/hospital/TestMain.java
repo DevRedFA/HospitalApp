@@ -17,7 +17,6 @@ public class TestMain {
         System.out.println("Test Nurse: " + userDao.getUserByName("Test Nurse"));
         System.out.println("Test Doctor: " + userDao.getUserByName("Test Doctor"));
         System.out.println("Test Absent: " + userDao.getUserByName("Test Absent"));
-
         session.close();
         sessionFactory.close();
 

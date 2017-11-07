@@ -20,6 +20,11 @@ public class UserDaoImpl implements UserDao{
     private SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 
     @Transactional
+    public User getUserById(int id) {
+        return null;
+    }
+
+    @Transactional
     public User getUserByName(String username) {
 
         User user = (User) sessionFactory.openSession()
@@ -28,4 +33,15 @@ public class UserDaoImpl implements UserDao{
                 .uniqueResult();
         return user;
     }
+
+    @Transactional
+    public boolean saveUser(User user) {
+        return false;
+    }
+
+    @Transactional
+    public boolean updateUser(User user) {
+        return false;
+    }
+
 }
