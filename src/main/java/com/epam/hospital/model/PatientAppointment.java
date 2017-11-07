@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 
 @Data
 @Entity
-@ToString(exclude = "patient")
+@ToString(exclude = {"patient", "appointment", "appointedBy", "fulfilledBy"})
 @Table(name = "patients_appointments", schema = "public")
 public class PatientAppointment {
 

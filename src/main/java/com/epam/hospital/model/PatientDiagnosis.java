@@ -5,10 +5,9 @@ import lombok.ToString;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.Objects;
 
 @Data
-@ToString(exclude = "diagnosis")
+@ToString(exclude = {"diagnosis", "patient", "diagnosedBy"})
 @Entity
 @Table(name = "patients_diagnoses", schema = "public", catalog = "hospitalDB")
 public class PatientDiagnosis {
