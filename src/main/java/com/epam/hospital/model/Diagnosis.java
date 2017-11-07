@@ -17,6 +17,6 @@ public class Diagnosis {
     @Column(name = "name")
     private String name;
 
-    @OneToMany(mappedBy = "diagnosis", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "diagnosis")
     private List<PatientDiagnosis> patientDiagnoses;
 }

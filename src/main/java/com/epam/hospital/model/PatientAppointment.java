@@ -5,6 +5,7 @@ import lombok.ToString;
 
 
 import javax.persistence.*;
+import java.sql.Date;
 import java.time.LocalDateTime;
 
 @Data
@@ -18,25 +19,32 @@ public class PatientAppointment {
     private int id;
 
     @ManyToOne
-    @JoinColumn(name = "patient_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "patient_id",
+            referencedColumnName = "id",
+            nullable = false)
     private Patient patient;
 
     @ManyToOne
-    @JoinColumn(name = "appointment_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "appointment_id",
+            referencedColumnName = "id",
+            nullable = false)
     private Appointment appointment;
 
     @ManyToOne
-    @JoinColumn(name = "appointed_by_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "appointed_by_id",
+            referencedColumnName = "id",
+            nullable = false)
     private User appointedBy;
 
     @ManyToOne
-    @JoinColumn(name = "fulfilled_by_id", referencedColumnName = "id")
+    @JoinColumn(name = "fulfilled_by_id",
+            referencedColumnName = "id")
     private User fulfilledBy;
 
     @Column(name = "appointed_date")
-    private LocalDateTime appointedDate;
+    private Date appointedDate;
 
     @Column(name = "fulfilled_date")
-    private LocalDateTime fulfilledDate;
+    private Date fulfilledDate;
 
 }
