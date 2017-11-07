@@ -1,13 +1,8 @@
-package com.epam.hospital.dao;
+package com.epam.hospital;
 
-import com.epam.hospital.model.AppointmentType;
-import com.epam.hospital.model.Role;
-import com.epam.hospital.model.User;
+import com.epam.hospital.util.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-
-import java.util.ArrayList;
-import java.util.Set;
 
 public class TestMain {
     public static void main(String[] args) {

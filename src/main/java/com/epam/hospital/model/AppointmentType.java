@@ -3,22 +3,27 @@ package com.epam.hospital.model;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.util.Set;
+import java.util.List;
 
 @Data
 @Entity
-@Table(name = "appointment_types", schema = "public")
+@Table(name = "appointments_types", schema = "public")
 public class AppointmentType {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
+
     @Column(name = "name")
     private String name;
 
     @ManyToMany(mappedBy = "prescribableAppointmentType")
-    private Set<Role> prescriberRole;
+    private List<Role> prescriberRole;
 
     @ManyToMany(mappedBy = "executableAppointmentType")
-    private Set<Role> executorRole;
+    private List<Role> executorRole;
+
+    @OneToMany(mappedBy = "appointmentType", fetch = FetchType.EAGER)
+    private List<Appointment> appointments;
 
 }

@@ -9,18 +9,18 @@
 
         <property name="dialect">org.hibernate.dialect.PostgreSQL9Dialect</property> <!-- DB Dialect -->
         <property name="hbm2ddl.auto">update</property> <!-- create / create-drop / update -->
-        <property name="connection.username">postgres</property>
-        <property name="connection.password">xxx$zzz</property>
         <property name="show_sql">true</property> <!-- Show SQL in console -->
         <property name="format_sql">true</property> <!-- Show SQL formatted -->
 
         <mapping class="com.epam.hospital.model.Appointment"/>
         <mapping class="com.epam.hospital.model.AppointmentType"/>
-        <mapping class="com.epam.hospital.model.Diagnose"/>
+        <mapping class="com.epam.hospital.model.Diagnosis"/>
         <mapping class="com.epam.hospital.model.Patient"/>
         <mapping class="com.epam.hospital.model.PatientAppointment"/>
-        <mapping class="com.epam.hospital.model.PatientDiagnoses"/>
+        <mapping class="com.epam.hospital.model.PatientDiagnosis"/>
         <mapping class="com.epam.hospital.model.Role"/>
         <mapping class="com.epam.hospital.model.User"/>
+        <mapping class="com.epam.hospital.model.Diagnoses"/>
+        <mapping class="com.epam.hospital.model.PatientDiagnoses"/>
     </session-factory>
 </hibernate-configuration>

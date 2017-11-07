@@ -1,15 +1,14 @@
 package com.epam.hospital.model;
 
-
 import lombok.*;
 
-
 import javax.persistence.*;
-import java.util.Set;
+import java.util.Collection;
+import java.util.List;
 
 @Data
 @Entity
-@Table(name = "users")
+@Table(name = "users", schema = "public", catalog = "hospitalDB")
 public class User {
 
     @Id
@@ -23,12 +22,20 @@ public class User {
     @Column(name = "password")
     private String password;
 
+    @OneToOne(mappedBy = "user", fetch = FetchType.EAGER)
+    private Patient patient;
+
     @ManyToMany
-    @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"),
+    @JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Set<Role> roles;
+    private List<Role> roles;
 
+    @OneToMany(mappedBy = "appointedBy", fetch = FetchType.EAGER)
+    private List<PatientAppointment> prescribedPatientAppointments;
 
+    @OneToMany(mappedBy = "fulfilledBy", fetch = FetchType.EAGER)
+    private List<PatientAppointment> fulfilledPatientAppointments;
 
-
+    @OneToMany(mappedBy = "diagnosedBy", fetch = FetchType.EAGER)
+    private List<PatientDiagnosis> patientsDiagnoses;
 }
