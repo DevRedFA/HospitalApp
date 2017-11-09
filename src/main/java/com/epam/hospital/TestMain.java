@@ -16,38 +16,38 @@ public class TestMain {
 
         UserDaoImpl userDao = new UserDaoImpl();
 
-//        System.out.println("Test Nurse: " + userDao.getUserByName("Test Nurse"));
-//        System.out.println("Test Doctor: " + userDao.getUserByName("Test Doctor"));
-//        System.out.println("Test Absent: " + userDao.getUserByName("Test Absent"));
-//
-//        System.out.println("5Test Nurse: " + userDao.getUserByName5("Test Nurse"));
-//        System.out.println("5Test Doctor: " + userDao.getUserByName5("Test Doctor"));
-//        System.out.println("5Test Absent: " + userDao.getUserByName5("Test Absent"));
-//
-//        User user = userDao.getUserById(1);
-//        System.out.println("User id 1: " + user);
-//
-//        Role role = session.get(Role.class, 1);
-//        System.out.println("Role 1: "+ role);
-//
-//        PatientDiagnosis patientDiagnosis = session.get(PatientDiagnosis.class, 1);
-//        System.out.println("PatientDiagnosis 1: "+ patientDiagnosis);
-//
-//        Patient patient = session.get(Patient.class, 1);
-//        System.out.println("Patient 1: "+ patient);
-//
-//        PatientAppointment patientAppointment = session.get(PatientAppointment.class, 2);
-//        System.out.println("PatientAppointment 2: "+ patientAppointment);
-//
-//        Diagnosis diagnosis = session.get(Diagnosis.class, 1);
-//        System.out.println("Diagnosis 1: "+ diagnosis);
-//
-//        Appointment appointment = session.get(Appointment.class, 1);
-//        System.out.println("Appointment 1: "+ appointment);
-//
-//        AppointmentType appointmentType = session.get(AppointmentType.class, 1);
-//        System.out.println("AppointmentType 1: "+ appointmentType);
-//        System.out.println();
+        System.out.println("Test Nurse: " + userDao.getUserByName("Test Nurse"));
+        System.out.println("Test Doctor: " + userDao.getUserByName("Test Doctor"));
+        System.out.println("Test Absent: " + userDao.getUserByName("Test Absent"));
+
+        System.out.println("5Test Nurse: " + userDao.getUserByName5("Test Nurse"));
+        System.out.println("5Test Doctor: " + userDao.getUserByName5("Test Doctor"));
+        System.out.println("5Test Absent: " + userDao.getUserByName5("Test Absent"));
+
+        User user = userDao.getUserById(1);
+        System.out.println("User id 1: " + user);
+
+        Role role = session.get(Role.class, 1);
+        System.out.println("Role 1: "+ role);
+
+        PatientDiagnosis patientDiagnosis = session.get(PatientDiagnosis.class, 1);
+        System.out.println("PatientDiagnosis 1: "+ patientDiagnosis);
+
+        Patient patient = session.get(Patient.class, 1);
+        System.out.println("Patient 1: "+ patient);
+
+        PatientAppointment patientAppointment = session.get(PatientAppointment.class, 2);
+        System.out.println("PatientAppointment 2: "+ patientAppointment);
+
+        Diagnosis diagnosis = session.get(Diagnosis.class, 1);
+        System.out.println("Diagnosis 1: "+ diagnosis);
+
+        Appointment appointment = session.get(Appointment.class, 1);
+        System.out.println("Appointment 1: "+ appointment);
+
+        AppointmentType appointmentType = session.get(AppointmentType.class, 1);
+        System.out.println("AppointmentType 1: "+ appointmentType);
+        System.out.println();
 
         //getting all users
         System.out.println("getting all users:");
