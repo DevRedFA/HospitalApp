@@ -81,7 +81,6 @@ public class PatientDaoImpl implements PatientDao {
     }
 
     @Transactional
-    @SuppressWarnings("unchecked")
     public List<Patient> getAllPatients() {
         Session session = null;
         List<Patient> patients = null;

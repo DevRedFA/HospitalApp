@@ -12,12 +12,12 @@ public class PatientAppointmentDaoImpl implements PatientAppointmentDao {
     @Transactional
     public boolean saveOrUpdatePatientAppointment(PatientAppointment patientAppointment) {
         Session session = null;
-        Transaction trans = null;
+        Transaction transaction = null;
         try {
             session = HibernateUtil.getSessionFactory().openSession();
-            trans = session.beginTransaction();
+            transaction = session.beginTransaction();
             session.saveOrUpdate(patientAppointment);
-            trans.commit();
+            transaction.commit();
 
         } catch (HibernateException hibEx) {
             new RuntimeException(hibEx);
@@ -25,8 +25,8 @@ public class PatientAppointmentDaoImpl implements PatientAppointmentDao {
             if (session != null && session.isOpen()) {
                 session.close();
             }
-            if (trans != null && !trans.wasCommitted()) {
-                trans.rollback();
+            if (transaction != null && !transaction.wasCommitted()) {
+                transaction.rollback();
             }
         }
 
