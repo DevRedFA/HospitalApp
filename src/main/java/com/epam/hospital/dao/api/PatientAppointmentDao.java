@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface PatientAppointmentDao {
 
-    PatientAppointment gitPatientAppointmentById(int id);
+    PatientAppointment getPatientAppointmentById(int id);
 
     boolean saveOrUpdatePatientAppointment(PatientAppointment patientAppointment);
 

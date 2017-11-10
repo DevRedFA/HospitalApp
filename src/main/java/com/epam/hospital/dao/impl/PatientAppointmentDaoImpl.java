@@ -14,7 +14,7 @@ public class PatientAppointmentDaoImpl implements PatientAppointmentDao {
     private SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 
     @Transactional
-    public PatientAppointment gitPatientAppointmentById(int id) {
+    public PatientAppointment getPatientAppointmentById(int id) {
         PatientAppointment patientAppointment = null;
         try (Session session = sessionFactory.openSession()) {
             patientAppointment = session.get(PatientAppointment.class, id);
