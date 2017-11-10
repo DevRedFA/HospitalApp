@@ -6,12 +6,12 @@ import com.epam.hospital.model.Role;
 import com.epam.hospital.model.User;
 import com.epam.hospital.service.api.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-
 
 
 @Service
@@ -30,13 +30,13 @@ public class UserServiceImpl implements UserService {
     public void save(User user) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         List<Role> roles = new ArrayList<>();
-        roles.add(roleDao.getOne(1));
+        roles.add(roleDao.getRoleById(3));
         user.setRoles(roles);
-        userDao.save(user);
+        userDao.saveOrUpdateUser(user);
     }
 
     @Override
     public User findByUsername(String username) {
-        return userDao.findByUsername(username);
+        return userDao.getUserByName(username);
     }
 }
