@@ -32,6 +32,9 @@ public class User {
             length = -1)
     private String password;
 
+    @Transient
+    private String confirmPassword;
+
     @OneToOne(mappedBy = "user", fetch = FetchType.EAGER)
     private Patient patient;
 
