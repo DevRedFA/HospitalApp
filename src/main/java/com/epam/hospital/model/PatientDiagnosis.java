@@ -29,7 +29,7 @@ public class PatientDiagnosis {
             nullable = false)
     private Boolean discharge;
 
-    @Column(name = "diagnosis_comment",
+    @Column(name = "details",
             nullable = true,
             length = -1)
     private String comment;
