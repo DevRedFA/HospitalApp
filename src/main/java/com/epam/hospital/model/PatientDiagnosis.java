@@ -3,6 +3,7 @@ package com.epam.hospital.model;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -27,6 +28,7 @@ public class PatientDiagnosis {
 
     @Column(name = "discharge",
             nullable = false)
+    @ColumnDefault("false")
     private Boolean discharge;
 
     @Column(name = "details",

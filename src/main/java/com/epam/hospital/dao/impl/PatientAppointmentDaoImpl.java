@@ -5,52 +5,50 @@ import com.epam.hospital.model.PatientAppointment;
 import com.epam.hospital.util.HibernateUtil;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.springframework.transaction.annotation.Transactional;
 
 public class PatientAppointmentDaoImpl implements PatientAppointmentDao {
+
+    private SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+
+    @Transactional
+    public PatientAppointment gitPatientAppointmentById(int id) {
+        PatientAppointment patientAppointment = null;
+        try (Session session = sessionFactory.openSession()) {
+            patientAppointment = session.get(PatientAppointment.class, id);
+        } catch (HibernateException hibEx) {
+            throw new RuntimeException(hibEx);
+        }
+        return patientAppointment;
+    }
+
     @Transactional
     public boolean saveOrUpdatePatientAppointment(PatientAppointment patientAppointment) {
-        Session session = null;
+
         Transaction transaction = null;
-        try {
-            session = HibernateUtil.getSessionFactory().openSession();
+        try (Session session = sessionFactory.openSession()) {
             transaction = session.beginTransaction();
             session.saveOrUpdate(patientAppointment);
             transaction.commit();
 
         } catch (HibernateException hibEx) {
-            new RuntimeException(hibEx);
-        } finally {
-            if (session != null && session.isOpen()) {
-                session.close();
-            }
-            if (transaction != null && !transaction.wasCommitted()) {
-                transaction.rollback();
-            }
+            throw new RuntimeException(hibEx);
         }
-
         return true;
     }
 
     @Transactional
     public boolean deletePatientAppointment(PatientAppointment patientAppointment) {
-        Session session = null;
         Transaction transaction = null;
-        try {
-            session = HibernateUtil.getSessionFactory().openSession();
+        try (Session session = sessionFactory.openSession()) {
             transaction = session.beginTransaction();
             session.delete(patientAppointment);
             transaction.commit();
         } catch (HibernateException hibEx) {
+            transaction.rollback();
             throw new RuntimeException(hibEx);
-        } finally {
-            if (session != null && session.isOpen()) {
-                session.close();
-            }
-            if (transaction != null && !transaction.wasCommitted()) {
-                transaction.rollback();
-            }
         }
         return true;
     }

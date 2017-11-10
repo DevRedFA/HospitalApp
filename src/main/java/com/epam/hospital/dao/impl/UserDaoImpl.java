@@ -24,58 +24,38 @@ public class UserDaoImpl implements UserDao {
     @Transactional
     public User getUserById(int id) {
         User user = null;
-        Session session = null;
-        try {
-            session = sessionFactory.openSession();
+        try (Session session = sessionFactory.openSession()) {
             user = (User) session.get(User.class, id);
         } catch (HibernateException hibEx) {
             throw new RuntimeException(hibEx);
-        } finally {
-            if (session != null && session.isOpen()) {
-                session.close();
-            }
         }
-
         return user;
     }
 
     @Transactional
     public User getUserByName(String username) {
         User user = null;
-        Session session = null;
-        try {
-            session = sessionFactory.openSession();
+        try (Session session = sessionFactory.openSession()) {
             user = (User) session.createQuery("FROM User WHERE username=:username")
                     .setParameter("username", username)
                     .uniqueResult();
         } catch (HibernateException hibEx) {
             throw new RuntimeException(hibEx);
-        } finally {
-            if (session != null && session.isOpen()) {
-                session.close();
-            }
         }
         return user;
     }
 
     @Transactional
     public boolean saveOrUpdateUser(User user) {
-        Session session = null;
         Transaction transaction = null;
-        try {
-            session = sessionFactory.openSession();
+        try (Session session = sessionFactory.openSession()) {
+            sessionFactory.openSession();
             transaction = session.beginTransaction();
             session.saveOrUpdate(user);
             transaction.commit();
         } catch (HibernateException hibEx) {
+            transaction.rollback();
             throw new RuntimeException(hibEx);
-        } finally {
-            if (session != null && session.isOpen()) {
-                session.close();
-            }
-            if (transaction != null && !transaction.wasCommitted()) {
-                transaction.rollback();
-            }
         }
         return true;
     }

@@ -6,6 +6,8 @@ import java.util.List;
 
 public interface PatientDiagnosisDao {
 
+    PatientDiagnosis getPatientDiagnosisById(int id);
+
     boolean saveOrUpdatePatientDiagnosis(PatientDiagnosis patientDiagnosis);
 
     boolean deletePatientDiagnosis(PatientDiagnosis patientDiagnosis);

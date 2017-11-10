@@ -4,23 +4,27 @@ import com.epam.hospital.dao.api.PatientDao;
 import com.epam.hospital.model.Patient;
 import com.epam.hospital.util.HibernateUtil;
 import org.hibernate.HibernateException;
-import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 import org.springframework.transaction.annotation.Transactional;
+
 
 import java.util.Date;
 import java.util.List;
 
 public class PatientDaoImpl implements PatientDao {
 
+    private SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+
     @Transactional
     public Patient getPatientById(int id) {
         Patient patient = null;
         Session session = null;
         try {
-            session = HibernateUtil.getSessionFactory().openSession();
-            patient = (Patient) session.get(Patient.class, id);
+            session = sessionFactory.openSession();
+            patient = session.get(Patient.class, id);
         } catch (HibernateException hibEx) {
             throw new RuntimeException(hibEx);
         } finally {
@@ -53,23 +57,16 @@ public class PatientDaoImpl implements PatientDao {
 
     @Transactional
     public boolean saveOrUpdatePatient(Patient patient) {
-        Session session = null;
+
         Transaction transaction = null;
-        try {
-            session = HibernateUtil.getSessionFactory().openSession();
+        try (Session session = sessionFactory.openSession()) {
             transaction = session.beginTransaction();
             session.saveOrUpdate(patient);
             transaction.commit();
 
         } catch (HibernateException hibEx) {
-            new RuntimeException(hibEx);
-        } finally {
-            if (session != null && session.isOpen()) {
-                session.close();
-            }
-            if (transaction != null && !transaction.wasCommitted()) {
-                transaction.rollback();
-            }
+            transaction.rollback();
+            throw new RuntimeException(hibEx);
         }
         return true;
     }
@@ -77,19 +74,17 @@ public class PatientDaoImpl implements PatientDao {
 
     @Override
     public boolean deletePatient(Patient patient) {
-        return false;
+        throw new UnsupportedOperationException();
     }
 
     @Transactional
     public List<Patient> getAllPatients() {
-        Session session = null;
         List<Patient> patients = null;
-        try {
-            session = HibernateUtil.getSessionFactory().openSession();
+        try (Session session = sessionFactory.openSession()) {
             Query query = session.createQuery("FROM Patient");
             patients = (List<Patient>) query.list();
         } catch (HibernateException hibEx) {
-            new RuntimeException(hibEx);
+            throw new RuntimeException(hibEx);
         }
         return patients;
     }
