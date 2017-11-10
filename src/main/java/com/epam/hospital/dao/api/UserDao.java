@@ -7,9 +7,5 @@ public interface UserDao {
 
     User getUserByName(String username);
 
-    boolean saveUser(User user);
-
-    boolean updateUser(User user);
-
-
+    boolean saveOrUpdateUser(User user);
 }

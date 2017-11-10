@@ -16,4 +16,7 @@ public interface AppointmentDao {
     boolean deleteAppointment(Appointment appointment);
 
     List<Appointment> getAllAppointments();
+
+    //09.11
+    List<Appointment> getExtraServices();
 }

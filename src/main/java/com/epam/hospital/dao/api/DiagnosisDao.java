@@ -13,7 +13,7 @@ public interface DiagnosisDao {
 
     boolean updateDiagnosis(Diagnosis diagnosis);
 
-    boolean deleteAppointment(Diagnosis diagnosis);
+    boolean deleteDiagnosis(Diagnosis diagnosis);
 
     List<Diagnosis> getAllDiagnosis();
 }

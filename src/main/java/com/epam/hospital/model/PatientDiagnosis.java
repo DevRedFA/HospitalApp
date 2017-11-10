@@ -32,7 +32,7 @@ public class PatientDiagnosis {
     @Column(name = "details",
             nullable = true,
             length = -1)
-    private String comment;
+    private String details;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "patient_id",

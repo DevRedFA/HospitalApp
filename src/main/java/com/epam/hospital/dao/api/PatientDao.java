@@ -11,16 +11,16 @@ import java.util.List;
 public interface PatientDao {
     Patient getPatientById(int id);
     Patient getByName(String name);
+    //09.11
+    Patient getPatientbyUserId(int id);
 
     Patient getBySurname(String surname);
 
     Patient getByBirthDate(Date date);
 
-    boolean savePatient(Patient patient);
+    boolean saveOrUpdatePatient(Patient patient);
 
-    boolean updatePatient(Patient patinet);
-
-    boolean removePatient(Patient patient);
+    boolean deletePatient(Patient patient);
 
     List<Patient> getAllPatients();
 
