@@ -22,6 +22,9 @@ public class User {
     @Column(name = "password")
     private String password;
 
+    @Transient
+    private String confirmPassword;
+
     @OneToOne(mappedBy = "user", fetch = FetchType.EAGER)
     private Patient patient;
 

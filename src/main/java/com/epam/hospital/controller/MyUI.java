@@ -30,7 +30,7 @@ public class MyUI extends UI {
         final TextField name = new TextField();
         name.setCaption("Login:"); // use ResourceBundleService for diff languages
 
-        final TextField pass = new TextField();
+        final PasswordField pass = new PasswordField();
         pass.setCaption("Password:");
 
         Button button = new Button("Sign in");
