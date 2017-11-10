@@ -2,16 +2,12 @@ package com.epam.hospital.controller;
 
 import javax.servlet.annotation.WebServlet;
 
-import com.epam.hospital.service.api.SecurityService;
-import com.epam.hospital.service.api.UserService;
-import com.epam.hospital.validator.UserValidator;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
+import com.vaadin.server.ExternalResource;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
 import com.vaadin.ui.*;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 
 /**
  * This UI is the application entry point. A UI may either represent a browser window
@@ -20,51 +16,33 @@ import org.springframework.stereotype.Controller;
  * The UI is initialized using {@link #init(VaadinRequest)}. This method is intended to be
  * overridden to add component to the user interface and initialize non-component functionality.
  */
-@Controller
 @Theme("mytheme")
 public class MyUI extends UI {
-
-    @Autowired
-    private UserService userService;
-
-    @Autowired
-    private SecurityService securityService;
-
-    @Autowired
-    private UserValidator userValidator;
 
     @Override
     protected void init(VaadinRequest vaadinRequest) {
 
+        final String userName = vaadinRequest.getRemoteUser();
         final VerticalLayout root = new VerticalLayout();
-        root.setSizeFull();
-        final VerticalLayout verticalLayout = new VerticalLayout();
-        final HorizontalLayout loginHorizontalLayoutLayout = new HorizontalLayout();
-        final HorizontalLayout passwordHorizontalLayoutLayout = new HorizontalLayout();
 
-        final TextField name = new TextField();
-        name.setCaption("Login:"); // use ResourceBundleService for diff languages
+        Label label = new Label("Hello " + userName);
 
-        final PasswordField pass = new PasswordField();
-        pass.setCaption("Password:");
+        Link linkLogout = new Link("Log out!",
+                new ExternalResource("/login?logout"));
 
-        Button button = new Button("Sign in");
-        button.addClickListener(e -> {
-            Notification.show("Hello " + name.getValue().toString(), Notification.Type.TRAY_NOTIFICATION);
-        });
-
-        loginHorizontalLayoutLayout.addComponent(name);
-        passwordHorizontalLayoutLayout.addComponent(pass);
-
-        verticalLayout.addComponents(loginHorizontalLayoutLayout, passwordHorizontalLayoutLayout, button);
-
-        root.addComponent(verticalLayout);
-        root.setComponentAlignment(verticalLayout, Alignment.MIDDLE_CENTER);
+        root.addComponent(label);
+        root.addComponent(linkLogout);
 
         this.setContent(root);
+
     }
 
-    @WebServlet(urlPatterns = "/*", name = "MyUIServlet", asyncSupported = true)
+    /*
+    * /login path doesnt work - http://javainside.ru/spring-security-spring-mvc-spring-jpa-vaadin-chast-1/
+    * /VAADIN/* must be indicated necessarily
+    * */
+
+    @WebServlet(value = {"/vaadin/*", "/VAADIN/*"}, name = "MyUIServlet", asyncSupported = true)
     @VaadinServletConfiguration(ui = MyUI.class, productionMode = false)
     public static class MyUIServlet extends VaadinServlet {
     }
