@@ -1,37 +1,57 @@
 package com.epam.hospital.model;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 import javax.persistence.*;
-import java.util.List;
+import java.util.Set;
 
 @Data
-@ToString(exclude = {"users", "prescribableAppointmentType", "executableAppointmentType"})
+@ToString(exclude = {"prescribableAppointmentTypes", "executableAppointmentTypes"})
+@EqualsAndHashCode(of = "id")
 @Entity
 @Table(name = "roles", schema = "public")
 public class Role {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id",
+            nullable = false)
+    private Integer id;
 
-    @Column(name = "name")
+
+    @Column(name = "name",
+            nullable = false,
+            length = -1)
     private String name;
 
-    @ManyToMany(mappedBy = "roles")
-    private List<User> users;
+    @ManyToMany(mappedBy = "roles", fetch = FetchType.EAGER)
+    private Set<User> users;
 
-    @ManyToMany
-    @JoinTable(name = "roles_prescribable_appointments_types",
-            joinColumns = @JoinColumn(name = "role_id"),
-            inverseJoinColumns = @JoinColumn(name = "appointment_type_id"))
-    private List<AppointmentType> prescribableAppointmentType;
-
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "roles_executable_appointments_types",
-            joinColumns = @JoinColumn(name = "role_id"),
-            inverseJoinColumns = @JoinColumn(name = "appointment_type_id"))
-    private List<AppointmentType> executableAppointmentType;
+            schema = "public",
+            joinColumns = @JoinColumn(
+                    name = "role_id",
+                    referencedColumnName = "id",
+                    nullable = false),
+            inverseJoinColumns = @JoinColumn(
+                    name = "appointment_type_id",
+                    referencedColumnName = "id",
+                    nullable = false))
+    private Set<AppointmentType> executableAppointmentTypes;
 
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "roles_prescribable_appointments_types",
+            schema = "public",
+            joinColumns = @JoinColumn(
+                    name = "role_id",
+                    referencedColumnName = "id",
+                    nullable = false),
+            inverseJoinColumns = @JoinColumn(
+                    name = "appointment_type_id",
+                    referencedColumnName = "id",
+                    nullable = false))
+    private Set<AppointmentType> prescribableAppointmentTypes;
 }

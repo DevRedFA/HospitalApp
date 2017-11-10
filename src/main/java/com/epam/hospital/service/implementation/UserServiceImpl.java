@@ -11,16 +11,20 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 
 @Service
 public class UserServiceImpl implements UserService {
 
     @Autowired
+    @Qualifier("userDao")
     private UserDao userDao;
 
     @Autowired
+    @Qualifier("roleDao")
     private RoleDao roleDao;
 
     @Autowired
@@ -29,7 +33,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void save(User user) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        List<Role> roles = new ArrayList<>();
+        Set<Role> roles = new HashSet<>();
         roles.add(roleDao.getRoleById(3));
         user.setRoles(roles);
         userDao.saveOrUpdateUser(user);

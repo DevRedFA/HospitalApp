@@ -1,25 +1,35 @@
 package com.epam.hospital.model;
 
-import lombok.*;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 import javax.persistence.*;
-import java.util.List;
+import java.util.Set;
 
 @Data
+@ToString(exclude = {"roles", "patient"})
+@EqualsAndHashCode(of = "id")
 @Entity
-@ToString(exclude = "roles")
 @Table(name = "users", schema = "public")
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id")
-    private int id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id",
+            nullable = false)
+    private Integer id;
 
-    @Column(name = "username")
+
+    @Column(name = "username",
+            nullable = false,
+            length = -1)
     private String username;
 
-    @Column(name = "password")
+
+    @Column(name = "password",
+            nullable = false,
+            length = -1)
     private String password;
 
     @Transient
@@ -28,18 +38,26 @@ public class User {
     @OneToOne(mappedBy = "user", fetch = FetchType.EAGER)
     private Patient patient;
 
-    @ManyToMany
+    @OneToMany(mappedBy = "appointedBy", fetch = FetchType.EAGER)
+    private Set<PatientAppointment> prescribedPatientAppointments;
+
+    @OneToMany(mappedBy = "fulfilledBy", fetch = FetchType.EAGER)
+    private Set<PatientAppointment> fulfilledPatientAppointments;
+
+    @OneToMany(mappedBy = "diagnosedBy", fetch = FetchType.EAGER)
+    private Set<PatientDiagnosis> madePatientDiagnoses;
+
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "users_roles",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private List<Role> roles;
+            schema = "public",
+            joinColumns = @JoinColumn(
+                    name = "user_id",
+                    referencedColumnName = "id",
+                    nullable = false),
+            inverseJoinColumns = @JoinColumn(
+                    name = "role_id",
+                    referencedColumnName = "id",
+                    nullable = false))
+    private Set<Role> roles;
 
-    @OneToMany(mappedBy = "appointedBy")
-    private List<PatientAppointment> prescribedPatientAppointments;
-
-    @OneToMany(mappedBy = "fulfilledBy")
-    private List<PatientAppointment> fulfilledPatientAppointments;
-
-    @OneToMany(mappedBy = "diagnosedBy")
-    private List<PatientDiagnosis> patientsDiagnoses;
 }

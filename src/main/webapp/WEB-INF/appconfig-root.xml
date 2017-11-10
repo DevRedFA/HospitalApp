@@ -14,6 +14,6 @@
 
     <context:component-scan base-package="com.epam.hospital.*"/>
 
-    <context:property-placeholder location="classpath:database.properties"/>
+    <!--<context:property-placeholder location="classpath:database.properties"/>-->
 
 </beans>

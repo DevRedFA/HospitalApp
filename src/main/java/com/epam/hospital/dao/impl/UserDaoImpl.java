@@ -14,6 +14,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 @Repository
+@Qualifier("userDao")
 public class UserDaoImpl implements UserDao {
 
     private SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
@@ -22,9 +23,7 @@ public class UserDaoImpl implements UserDao {
     public User getUserById(int id) {
         User user = null;
         try (Session session = sessionFactory.openSession()) {
-            System.out.println("user start loading");
             user = (User) session.get(User.class, id);
-            System.out.println("user loaded" + user.toString());
         } catch (HibernateException hibEx) {
             throw new RuntimeException(hibEx);
         }

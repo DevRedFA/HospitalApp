@@ -1,31 +1,36 @@
 package com.epam.hospital.model;
 
 import lombok.Data;
-import lombok.ToString;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
-import java.util.List;
+import java.util.Set;
 
 @Data
+@EqualsAndHashCode(of = "id")
 @Entity
-@ToString(exclude = {"prescriberRole", "executorRole"})
 @Table(name = "appointments_types", schema = "public")
 public class AppointmentType {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id",
+            nullable = false)
+    private Integer id;
 
-    @Column(name = "name")
+
+    @Column(name = "name",
+            nullable = false,
+            length = -1)
     private String name;
 
-    @ManyToMany(mappedBy = "prescribableAppointmentType")
-    private List<Role> prescriberRole;
+    @OneToMany(mappedBy = "appointmentType", fetch = FetchType.EAGER)
+    private Set<Appointment> appointments;
 
-    @ManyToMany(mappedBy = "executableAppointmentType")
-    private List<Role> executorRole;
+    @ManyToMany(mappedBy = "executableAppointmentTypes", fetch = FetchType.EAGER)
+    private Set<Role> executorRoles;
 
-    @OneToMany(mappedBy = "appointmentType")
-    private List<Appointment> appointments;
-
+    @ManyToMany(mappedBy = "prescribableAppointmentTypes", fetch = FetchType.EAGER)
+    private Set<Role> prescriberRoles;
 }
+
