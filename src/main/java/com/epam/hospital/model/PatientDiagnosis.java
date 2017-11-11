@@ -13,11 +13,11 @@ import java.util.Objects;
 @ToString(exclude = {"diagnosis", "patient", "diagnosedBy"})
 @EqualsAndHashCode(of = "id")
 @Entity
-@Table(name = "patients_diagnoses", schema = "public", catalog = "hospitalDB")
+@Table(name = "patients_diagnoses", schema = "public")
 public class PatientDiagnosis {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id",
             nullable = false)
     private Integer id;
