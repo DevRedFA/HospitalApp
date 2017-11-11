@@ -6,9 +6,6 @@ public interface RoleDao {
 
     Role getRoleById(int id);
 
-    Role getRoleByName(String username);
+    Role getRoleByName(String roleName);
 
-    boolean saveRole(Role role);
-
-    boolean updateRole(Role role);
 }

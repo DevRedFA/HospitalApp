@@ -53,4 +53,3 @@ public class PatientAppointment {
     private User fulfilledBy;
 
 }
-

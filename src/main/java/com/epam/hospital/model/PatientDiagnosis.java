@@ -13,7 +13,7 @@ import java.util.Objects;
 @ToString(exclude = {"diagnosis", "patient", "diagnosedBy"})
 @EqualsAndHashCode(of = "id")
 @Entity
-@Table(name = "patients_diagnoses", schema = "public")
+@Table(name = "patients_diagnoses", schema = "public", catalog = "hospitalDB")
 public class PatientDiagnosis {
 
     @Id

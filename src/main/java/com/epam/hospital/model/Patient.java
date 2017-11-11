@@ -47,4 +47,3 @@ public class Patient {
     private Set<PatientDiagnosis> patientDiagnoses;
 
 }
-

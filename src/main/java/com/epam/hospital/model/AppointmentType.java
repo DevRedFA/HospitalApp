@@ -33,4 +33,3 @@ public class AppointmentType {
     @ManyToMany(mappedBy = "prescribableAppointmentTypes", fetch = FetchType.EAGER)
     private Set<Role> prescriberRoles;
 }
-
