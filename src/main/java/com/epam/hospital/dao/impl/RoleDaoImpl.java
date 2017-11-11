@@ -27,14 +27,5 @@ public class RoleDaoImpl implements RoleDao {
                 .uniqueResult();
 
     }
-
-    @Override
-    public boolean saveRole(Role role) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public boolean updateRole(Role role) {
-        throw new UnsupportedOperationException();
-    }
+    
 }
