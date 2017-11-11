@@ -2,15 +2,10 @@ package com.epam.hospital.dao.impl;
 
 import com.epam.hospital.dao.api.RoleDao;
 import com.epam.hospital.model.Role;
-import com.epam.hospital.util.HibernateUtil;
-import org.hibernate.HibernateException;
-import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 @Qualifier("roleDao")
