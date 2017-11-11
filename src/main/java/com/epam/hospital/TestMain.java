@@ -11,8 +11,8 @@ import java.sql.Timestamp;
 public class TestMain {
     public static void main(String[] args) {
 
-//        UserDao userDao = new UserDaoImpl();
-//        User user = userDao.getUserById(2);
+        UserDao userDao = new UserDaoImpl();
+        User user = userDao.getUserById(2);
 //        PatientAppointment patientAppointment = new PatientAppointment();
 //        Patient patient = new PatientDaoImpl().getPatientById(1);
 //        patientAppointment.setAppointedBy(user);

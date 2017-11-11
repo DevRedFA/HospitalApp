@@ -7,8 +7,11 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+@Repository
 public class PatientDiagnosisDaoImpl implements PatientDiagnosisDao {
 
     private SessionFactory sessionFactory = HibernateUtil.getSessionFactory();

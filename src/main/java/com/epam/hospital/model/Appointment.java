@@ -15,7 +15,7 @@ import java.util.Set;
 public class Appointment {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id",
             nullable = false)
     private Integer id;
@@ -33,4 +33,3 @@ public class Appointment {
     @OneToMany(mappedBy = "appointment", fetch = FetchType.EAGER)
     private Set<PatientAppointment> patientAppointments;
 }
-

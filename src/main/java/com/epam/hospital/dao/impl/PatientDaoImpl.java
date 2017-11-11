@@ -8,12 +8,15 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 
 import java.util.Date;
 import java.util.List;
 
+@Repository
 public class PatientDaoImpl implements PatientDao {
 
     private SessionFactory sessionFactory = HibernateUtil.getSessionFactory();

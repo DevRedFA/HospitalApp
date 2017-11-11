@@ -2,6 +2,7 @@ package com.epam.hospital.dao.api;
 
 import com.epam.hospital.model.User;
 
+
 public interface UserDao {
     User getUserById(int id);
 
@@ -9,3 +10,4 @@ public interface UserDao {
 
     boolean saveOrUpdateUser(User user);
 }
+
