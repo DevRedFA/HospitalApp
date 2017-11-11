@@ -6,6 +6,8 @@ import com.epam.hospital.service.api.UserService;
 import com.epam.hospital.validator.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -44,7 +46,7 @@ public class UserController {
 
         securityService.autoLogin(userForm.getUsername(), userForm.getConfirmPassword());
 
-        return "redirect:/";
+        return "redirect:/vaadin"; // here must by patient UI
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
