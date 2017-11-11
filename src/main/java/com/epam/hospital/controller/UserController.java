@@ -44,7 +44,7 @@ public class UserController {
 
         securityService.autoLogin(userForm.getUsername(), userForm.getConfirmPassword());
 
-        return "redirect:/";
+        return "redirect:/vaadin"; // here must by patient UI
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
