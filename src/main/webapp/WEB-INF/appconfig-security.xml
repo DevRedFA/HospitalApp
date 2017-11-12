@@ -11,6 +11,7 @@
         <intercept-url pattern="/" access="hasAnyRole('ROLE_NURSE', 'ROLE_DOCTOR')"/>
         <intercept-url pattern="/vaadin" access="hasAnyRole('ROLE_NURSE', 'ROLE_DOCTOR', 'ROLE_PATIENT')"/>
         <intercept-url pattern="/patients" access="hasAnyRole('ROLE_NURSE', 'ROLE_DOCTOR')"/>
+        <intercept-url pattern="/card" access="hasAnyRole('ROLE_NURSE', 'ROLE_DOCTOR', 'ROLE_PATIENT')"/>
         <intercept-url pattern="/admin" access="hasRole('ROLE_ADMIN')"/>
         <csrf disabled="true"/>
 

@@ -9,6 +9,7 @@ import com.epam.hospital.views.PatientsView;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.navigator.Navigator;
+import com.vaadin.navigator.Navigator.ComponentContainerViewDisplay;
 import com.vaadin.server.ExternalResource;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
@@ -47,36 +48,30 @@ public class MainUI extends UI {
 
 
     public static final String VAADINVIEW = "vaadin";
-    public Navigator navigator;
     public static final String PATIENTVIEW = "patients";
-    public static final String CARD = "card";
+    public static final String CARD = "card/";
+    public Navigator navigator;
 
     @Autowired
-    PatientService patientService;
+//    PatientsView patientsView ;
+            PatientsView patientsView = new PatientsView();
     @Autowired
-    PatientsView patientsView;
-    @Autowired
-    PatientCardView patientCardView;
+//    PatientCardView patientCardView;
+            PatientCardView patientCardView = new PatientCardView();
 
     @Override
     protected void init(VaadinRequest vaadinRequest) {
-        final VerticalLayout root = new VerticalLayout();
-        final HorizontalLayout menu = new HorizontalLayout();
-        final String userName = vaadinRequest.getRemoteUser();
-        Label label = new Label("Singed in: " + userName);
-        Button buttonLogout = new Button("sign out",
-                new ExternalResource("/login?logout"));
-        menu.setSizeFull();
-        menu.addComponent(label);
-        menu.addComponent(buttonLogout);
-
-        Navigator.ComponentContainerViewDisplay viewDisplay = new Navigator.ComponentContainerViewDisplay(root);
+        final VerticalLayout layout = new VerticalLayout();
+        layout.setMargin(true);
+        layout.setSpacing(true);
+        setContent(layout);
+        ComponentContainerViewDisplay viewDisplay = new ComponentContainerViewDisplay(layout);
         navigator = new Navigator(UI.getCurrent(), viewDisplay);
-        navigator.addView(PATIENTVIEW, patientsView);
-        navigator.addView(CARD, patientCardView);
-        root.addComponent(menu);
-        root.addComponent(new PatientsView());
-        this.setContent(root);
+        navigator.addView("card/", patientCardView);
+        navigator.addView("vaadin/card/", patientCardView);
+        navigator.addView("vaadin/", patientsView);
+//        navigator.addView("/", patientsView);
+        layout.addComponent(patientsView);
     }
 
 
@@ -85,7 +80,7 @@ public class MainUI extends UI {
     * /VAADIN/* must be indicated necessarily
     * */
 
-    @WebServlet(value = {"/vaadin/*", "/VAADIN/*", "/patients/*", "/PATIENTS/*", "/help/*", "/HELP/*"}, name = "MyUIServlet", asyncSupported = true)
+    @WebServlet(value = {"/vaadin/*", "/VAADIN/*", "/card/*" , "/CARD/*" ,"/patients/*", "/PATIENTS/*", "/help/*", "/HELP/*"}, name = "MyUIServlet", asyncSupported = true)
     @VaadinServletConfiguration(ui = MainUI.class, productionMode = false)
     public static class MyUIServlet extends VaadinServlet {
     }
