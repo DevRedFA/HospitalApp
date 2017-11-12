@@ -1,0 +1,4 @@
+grid.column.id = id;
+grid.column.name = name;
+grid.column.surname = surname;
+grid.column.birthday = birthday;

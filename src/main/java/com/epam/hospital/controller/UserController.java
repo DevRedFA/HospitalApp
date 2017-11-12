@@ -43,8 +43,8 @@ public class UserController {
         userService.save(userForm);
 
         securityService.autoLogin(userForm.getUsername(), userForm.getConfirmPassword());
-
-        return "redirect:/vaadin"; // here must by patient UI
+//        return "redirect:/vaadin";
+        return "redirect:/patients"; // here must by patient UI
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)

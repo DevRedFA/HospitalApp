@@ -103,6 +103,7 @@
             <groupId>javax.el</groupId>
             <artifactId>el-api</artifactId>
             <version>2.2.1-b04</version>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>
@@ -180,7 +181,6 @@
             <version>1.2</version>
         </dependency>
 
-
         <dependency>
             <groupId>com.vaadin</groupId>
             <artifactId>vaadin-server</artifactId>
@@ -201,6 +201,13 @@
             <groupId>org.vaadin.addons</groupId>
             <artifactId>formsender</artifactId>
             <version>2.1.0</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/com.vaadin/vaadin-spring -->
+        <dependency>
+            <groupId>com.vaadin</groupId>
+            <artifactId>vaadin-spring</artifactId>
+            <version>2.0.1</version>
         </dependency>
 
 
