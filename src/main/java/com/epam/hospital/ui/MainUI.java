@@ -3,7 +3,10 @@ package com.epam.hospital.ui;
 import javax.servlet.annotation.WebListener;
 import javax.servlet.annotation.WebServlet;
 
+import com.epam.hospital.model.Role;
+import com.epam.hospital.model.User;
 import com.epam.hospital.service.api.PatientService;
+import com.epam.hospital.service.api.UserService;
 import com.epam.hospital.views.PatientCardView;
 import com.epam.hospital.views.PatientsView;
 import com.vaadin.annotations.Theme;
@@ -22,6 +25,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.context.ContextLoaderListener;
 
+import java.util.Set;
+
 /**
  * This UI is the application entry point. A UI may either represent a browser window
  * (or tab) or some part of an HTML page where a Vaadin application is embedded.
@@ -35,11 +40,14 @@ public class MainUI extends UI {
 
     public static final String VAADINVIEW = "vaadin";
     public static final String PATIENTVIEW = "patients";
-    public static final String CARD = "card/";
+    public static final String CARD = "card";
     public Navigator navigator;
 
     @Autowired
-    PatientsView patientsView ;
+    PatientsView patientsView;
+
+    @Autowired
+    UserService userService;
 
     @Autowired
     PatientCardView patientCardView;
@@ -49,24 +57,50 @@ public class MainUI extends UI {
         final VerticalLayout layout = new VerticalLayout();
         layout.setMargin(true);
         layout.setSpacing(true);
+// Single menu for all views. Doesn't show in pages.
+//        final HorizontalLayout menu = new HorizontalLayout();
+//        Label label = new Label("Singed in: " + userName);
+//        Button buttonLogout = new Button("sign out",
+//                new ExternalResource("/login?logout"));
+//        menu.setSizeFull();
+//        menu.addComponent(label);
+//        menu.addComponent(buttonLogout);
+//        layout.addComponent(menu);
+//        layout.addComponent(buttonLogout);
+//        layout.setComponentAlignment(menu, Alignment.MIDDLE_RIGHT);
+//
+        final String userName = vaadinRequest.getRemoteUser();
+        User user = userService.findByUsername(userName);
+        Set<Role> roles = user.getRoles();
+        if (roles.size() > 1) {
+            throw new RuntimeException("User has more then one role");
+        }
+        String userRole = null;
+        for (Role role : roles) {
+            userRole = role.getName();
+        }
         setContent(layout);
         ComponentContainerViewDisplay viewDisplay = new ComponentContainerViewDisplay(layout);
         navigator = new Navigator(UI.getCurrent(), viewDisplay);
-        // this part still doesn't work
-        navigator.addView("card/", patientCardView);
-        navigator.addView("vaadin/card/", patientCardView);
-        navigator.addView("vaadin/", patientsView);
-//        navigator.addView("/", patientsView);
-        layout.addComponent(patientsView);
+        switch (userRole) {
+            case "ROLE_PATIENT":
+                //don't work
+                Integer id = user.getPatient().getId();
+                navigator.addView("/" + String.valueOf(id), patientCardView);
+                break;
+            case "ROLE_DOCTOR":
+                navigator.addView(CARD, patientCardView);
+                navigator.addView("", patientsView);
+                break;
+            case "ROLE_NURSE":
+                navigator.addView(CARD, patientCardView);
+                navigator.addView("", patientsView);
+                break;
+        }
     }
 
 
-    /*
-    * /login path doesnt work - http://javainside.ru/spring-security-spring-mvc-spring-jpa-vaadin-chast-1/
-    * /VAADIN/* must be indicated necessarily
-    * */
-
-    @WebServlet(value = {"/vaadin/*", "/VAADIN/*", "/card/*" , "/CARD/*" ,"/patients/*", "/PATIENTS/*", "/help/*", "/HELP/*"}, name = "MyUIServlet", asyncSupported = true)
+    @WebServlet(value = {"/vaadin/*", "/VAADIN/*", "/card/*", "/CARD/*", "/patients/*", "/PATIENTS/*", "/help/*", "/HELP/*"}, name = "MyUIServlet", asyncSupported = true)
     public static class MyUIServlet extends SpringVaadinServlet {
     }
 

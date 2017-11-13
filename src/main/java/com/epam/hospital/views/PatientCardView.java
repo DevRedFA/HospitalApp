@@ -5,14 +5,12 @@ import com.epam.hospital.service.api.PatientService;
 import com.epam.hospital.service.implementation.PatientServiceImpl;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
-
+import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.spring.annotation.EnableVaadin;
 import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.spring.annotation.UIScope;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.TextArea;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 
@@ -25,10 +23,10 @@ public class PatientCardView extends VerticalLayout implements View {
 
     private Patient patient;
 
-    private TextArea patientInfo = new TextArea();
+    private Label patientInfo = new Label();
 
     @Autowired
-   PatientService patientService;
+    PatientService patientService;
 
     @PostConstruct
     void init() {
@@ -37,11 +35,13 @@ public class PatientCardView extends VerticalLayout implements View {
         components.addComponent(patientInfo);
     }
 
+
     @Override
-    public void enter(ViewChangeListener.ViewChangeEvent event) {
+    public void enter(ViewChangeEvent event) {
         if (event.getParameters() != null) {
             int idPatient = Integer.parseInt(event.getParameters());
             this.patient = patientService.getPatientById(idPatient);
+            Notification.show("patient: " + patient.toString());
             patientInfo.setValue("Name:" + patient.getName() + System.lineSeparator()
                     + "Name:" + patient.getSurname() + System.lineSeparator()
                     + "Birth day: " + patient.getBirthdate() + System.lineSeparator());

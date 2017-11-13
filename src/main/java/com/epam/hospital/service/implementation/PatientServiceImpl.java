@@ -30,6 +30,13 @@ public class PatientServiceImpl implements PatientService {
 
     @Override
     @Transactional
+    public List<Patient> getFirstPartOfPatients() {
+        return patientDao.getPatientsByRange(0, step);
+    }
+
+
+    @Override
+    @Transactional
     public List<Patient> getNextPartOfPatients() {
         List<Patient> patients;
         if (allPatients == null) {

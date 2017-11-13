@@ -2,21 +2,16 @@ package com.epam.hospital.views;
 
 import com.epam.hospital.model.Patient;
 import com.epam.hospital.service.api.PatientService;
-import com.epam.hospital.service.implementation.PatientServiceImpl;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
-import com.vaadin.spring.annotation.EnableVaadin;
 import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.spring.annotation.UIScope;
 import com.vaadin.ui.*;
 import com.epam.hospital.ui.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -43,7 +38,8 @@ public class PatientsView extends VerticalLayout implements View {
         components.addComponent(nextPage);
         patientGrid.setColumns("name", "surname", "birthdate");
         patientGrid.setSizeFull();
-        patientGrid.setItems(patientService.getNextPartOfPatients());
+        List<Patient> firstPartOfPatients = patientService.getFirstPartOfPatients();
+        patientGrid.setItems(firstPartOfPatients);
         previousPage.addClickListener(clickEvent ->
                 patientGrid.setItems(patientService.getPreviousPartOfPatients()));
         nextPage.addClickListener(clickEvent ->
@@ -53,7 +49,7 @@ public class PatientsView extends VerticalLayout implements View {
             if (selectedItems.size() == 1) {
                 Object[] objects = selectedItems.toArray();
                 Patient selectedPatient = (Patient) objects[0];
-                String s = MainUI.CARD + selectedPatient.getId();
+                String s = MainUI.CARD + "/" + selectedPatient.getId();
                 getUI().getNavigator().navigateTo(s);
             }
         });
