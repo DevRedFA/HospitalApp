@@ -10,4 +10,5 @@
 
     <bean class="com.epam.hospital.ui.MainUI.MyConfiguration"/>
 
+
 </beans>

@@ -15,12 +15,11 @@ import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
 import com.vaadin.spring.annotation.EnableVaadin;
 import com.vaadin.spring.annotation.SpringUI;
+import com.vaadin.spring.server.SpringVaadinServlet;
 import com.vaadin.ui.*;
-import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.stereotype.Component;
 import org.springframework.web.context.ContextLoaderListener;
 
 /**
@@ -32,20 +31,7 @@ import org.springframework.web.context.ContextLoaderListener;
  */
 @Theme("mytheme")
 @SpringUI
-@Component
-@Setter
 public class MainUI extends UI {
-
-
-    @WebListener
-    public static class MyContextLoaderListener extends ContextLoaderListener {
-    }
-
-    @Configuration
-    @EnableVaadin
-    public static class MyConfiguration {
-    }
-
 
     public static final String VAADINVIEW = "vaadin";
     public static final String PATIENTVIEW = "patients";
@@ -53,11 +39,10 @@ public class MainUI extends UI {
     public Navigator navigator;
 
     @Autowired
-//    PatientsView patientsView ;
-            PatientsView patientsView = new PatientsView();
+    PatientsView patientsView ;
+
     @Autowired
-//    PatientCardView patientCardView;
-            PatientCardView patientCardView = new PatientCardView();
+    PatientCardView patientCardView;
 
     @Override
     protected void init(VaadinRequest vaadinRequest) {
@@ -81,7 +66,12 @@ public class MainUI extends UI {
     * */
 
     @WebServlet(value = {"/vaadin/*", "/VAADIN/*", "/card/*" , "/CARD/*" ,"/patients/*", "/PATIENTS/*", "/help/*", "/HELP/*"}, name = "MyUIServlet", asyncSupported = true)
-    @VaadinServletConfiguration(ui = MainUI.class, productionMode = false)
-    public static class MyUIServlet extends VaadinServlet {
+    public static class MyUIServlet extends SpringVaadinServlet {
     }
+
+    @Configuration
+    @EnableVaadin
+    public static class MyConfiguration {
+    }
+
 }

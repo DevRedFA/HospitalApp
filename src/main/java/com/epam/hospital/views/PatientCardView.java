@@ -6,13 +6,19 @@ import com.epam.hospital.service.implementation.PatientServiceImpl;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 
+import com.vaadin.spring.annotation.EnableVaadin;
 import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.spring.annotation.SpringView;
+import com.vaadin.spring.annotation.UIScope;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.TextArea;
 import com.vaadin.ui.VerticalLayout;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
 
+import javax.annotation.PostConstruct;
+
+@UIScope
 @SpringView
 @SpringComponent
 public class PatientCardView extends VerticalLayout implements View {
@@ -22,10 +28,10 @@ public class PatientCardView extends VerticalLayout implements View {
     private TextArea patientInfo = new TextArea();
 
     @Autowired
-//    PatientService patientService;
-            PatientService patientService = new PatientServiceImpl();
+   PatientService patientService;
 
-    public PatientCardView() {
+    @PostConstruct
+    void init() {
         setSpacing(true);
         HorizontalLayout components = new HorizontalLayout();
         components.addComponent(patientInfo);
@@ -41,6 +47,8 @@ public class PatientCardView extends VerticalLayout implements View {
                     + "Birth day: " + patient.getBirthdate() + System.lineSeparator());
         }
     }
+
+
 }
 
 
