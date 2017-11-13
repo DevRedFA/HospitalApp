@@ -52,6 +52,7 @@ public class MainUI extends UI {
         setContent(layout);
         ComponentContainerViewDisplay viewDisplay = new ComponentContainerViewDisplay(layout);
         navigator = new Navigator(UI.getCurrent(), viewDisplay);
+        // this part still doesn't work
         navigator.addView("card/", patientCardView);
         navigator.addView("vaadin/card/", patientCardView);
         navigator.addView("vaadin/", patientsView);

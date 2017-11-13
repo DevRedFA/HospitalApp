@@ -29,10 +29,10 @@ public class PatientsView extends VerticalLayout implements View {
     @Autowired
     PatientService patientService;
 
-    protected Grid patientGrid = new Grid<>(Patient.class);
-    protected Button previousPage = new Button("Previous");
-    protected Button patientDetails = new Button("patientDetails");
-    protected Button nextPage = new Button("Next");
+    private Grid patientGrid = new Grid<>(Patient.class);
+    private Button previousPage = new Button("Previous");
+    private Button patientDetails = new Button("patientDetails");
+    private Button nextPage = new Button("Next");
 
     @PostConstruct
     void init() {
@@ -43,9 +43,7 @@ public class PatientsView extends VerticalLayout implements View {
         components.addComponent(nextPage);
         patientGrid.setColumns("name", "surname", "birthdate");
         patientGrid.setSizeFull();
-        patientService.init();
-        List<Patient> nextPartOfPatients = patientService.getNextPartOfPatients();
-        patientGrid.setItems(nextPartOfPatients);
+        patientGrid.setItems(patientService.getNextPartOfPatients());
         previousPage.addClickListener(clickEvent ->
                 patientGrid.setItems(patientService.getPreviousPartOfPatients()));
         nextPage.addClickListener(clickEvent ->
@@ -56,8 +54,7 @@ public class PatientsView extends VerticalLayout implements View {
                 Object[] objects = selectedItems.toArray();
                 Patient selectedPatient = (Patient) objects[0];
                 String s = MainUI.CARD + selectedPatient.getId();
-//                getUI().getNavigator().navigateTo(s);
-                getUI().getNavigator().navigateTo("card/");
+                getUI().getNavigator().navigateTo(s);
             }
         });
         addComponent(new Menu());

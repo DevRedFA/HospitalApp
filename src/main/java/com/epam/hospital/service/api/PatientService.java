@@ -8,7 +8,6 @@ public interface PatientService {
 
     Patient getPatientById(int id);
 
-    void init();
 
     List<Patient> getNextPartOfPatients();
 

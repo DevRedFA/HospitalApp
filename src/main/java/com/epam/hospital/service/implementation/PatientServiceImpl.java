@@ -7,6 +7,7 @@ import com.epam.hospital.service.api.PatientService;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -22,18 +23,18 @@ public class PatientServiceImpl implements PatientService {
     int step = 10;
 
     @Override
+    @Transactional
     public Patient getPatientById(int id) {
         return patientDao.getPatientById(id);
     }
 
-    public void init() {
-        allPatients = patientDao.getAllPatients();
-    }
-
-
     @Override
+    @Transactional
     public List<Patient> getNextPartOfPatients() {
         List<Patient> patients;
+        if (allPatients == null) {
+            allPatients = patientDao.getAllPatients();
+        }
         if (currentPos + step <= allPatients.size()) {
             patients = allPatients.subList(currentPos, currentPos + step);
             currentPos += step;
@@ -45,6 +46,7 @@ public class PatientServiceImpl implements PatientService {
     }
 
     @Override
+    @Transactional
     public List<Patient> getPreviousPartOfPatients() {
         List<Patient> patients;
         if (currentPos - step >= 0) {
