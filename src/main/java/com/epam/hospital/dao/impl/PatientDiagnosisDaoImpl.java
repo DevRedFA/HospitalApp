@@ -7,6 +7,7 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,12 +15,14 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository
 public class PatientDiagnosisDaoImpl implements PatientDiagnosisDao {
 
-    private SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+    @Autowired
+    private SessionFactory sessionFactory;
 
-    @Transactional
     public PatientDiagnosis getPatientDiagnosisById(int id) {
         PatientDiagnosis patientDiagnosis = null;
-        try (Session session = sessionFactory.openSession()) {
+        Session session = null;
+        try {
+            session = sessionFactory.getCurrentSession();
             patientDiagnosis = session.get(PatientDiagnosis.class, id);
         } catch (HibernateException hibEx) {
             throw new RuntimeException(hibEx);
@@ -28,31 +31,24 @@ public class PatientDiagnosisDaoImpl implements PatientDiagnosisDao {
     }
 
 
-    @Transactional
     public boolean saveOrUpdatePatientDiagnosis(PatientDiagnosis patientDiagnosis) {
-
-        Transaction transaction = null;
-        try (Session session = sessionFactory.openSession()) {
-            transaction = session.beginTransaction();
+        Session session = null;
+        try {
+            session = sessionFactory.getCurrentSession();
             session.saveOrUpdate(patientDiagnosis);
-            transaction.commit();
-
         } catch (HibernateException hibEx) {
-            transaction.rollback();
             throw new RuntimeException(hibEx);
         }
         return true;
     }
 
-    @Transactional
+
     public boolean deletePatientDiagnosis(PatientDiagnosis patientDiagnosis) {
-        Transaction transaction = null;
-        try (Session session = sessionFactory.openSession()) {
-            transaction = session.beginTransaction();
+        Session session = null;
+        try {
+            session = sessionFactory.getCurrentSession();
             session.delete(patientDiagnosis);
-            transaction.commit();
         } catch (HibernateException hibEx) {
-            transaction.rollback();
             throw new RuntimeException(hibEx);
         }
         return true;

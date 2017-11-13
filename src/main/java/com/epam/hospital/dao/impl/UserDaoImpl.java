@@ -2,6 +2,8 @@ package com.epam.hospital.dao.impl;
 
 import com.epam.hospital.dao.api.UserDao;
 import com.epam.hospital.model.User;
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -15,24 +17,40 @@ public class UserDaoImpl implements UserDao {
     SessionFactory sessionFactory;
 
     public User getUserById(int id) {
-
-        return sessionFactory.getCurrentSession().get(User.class, id);
+        User user = null;
+        Session session = null;
+        try {
+            user = session.get(User.class, id);
+        } catch (HibernateException hibEx) {
+            throw new RuntimeException(hibEx);
+        }
+        return user;
 
     }
 
-     public User getUserByName(String username) {
-
-        return (User) sessionFactory.getCurrentSession().createQuery("FROM User WHERE username=:username")
-                .setParameter("username", username)
-                .uniqueResult();
+    public User getUserByName(String username) {
+        User user = null;
+        Session session = null;
+        try {
+            user = (User) sessionFactory.getCurrentSession().createQuery("FROM User WHERE username=:username")
+                    .setParameter("username", username)
+                    .uniqueResult();
+        } catch (HibernateException hibEx) {
+            throw new RuntimeException(hibEx);
+        }
+        return user;
 
     }
 
     public boolean saveOrUpdateUser(User user) {
-
-        sessionFactory.getCurrentSession().saveOrUpdate(user);
+        Session session = null;
+        try {
+            session = sessionFactory.getCurrentSession();
+            session.saveOrUpdate(user);
+        } catch (HibernateException hibEx) {
+            throw new RuntimeException(hibEx);
+        }
         return true;
-
     }
 
 }

@@ -8,6 +8,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,21 +20,18 @@ import java.util.List;
 @Repository
 public class PatientDaoImpl implements PatientDao {
 
-    private SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+    @Autowired
+    private SessionFactory sessionFactory;
 
-    @Transactional
+
     public Patient getPatientById(int id) {
         Patient patient = null;
         Session session = null;
         try {
-            session = sessionFactory.openSession();
+            session = sessionFactory.getCurrentSession();
             patient = session.get(Patient.class, id);
         } catch (HibernateException hibEx) {
             throw new RuntimeException(hibEx);
-        } finally {
-            if (session != null && session.isOpen()) {
-                session.close();
-            }
         }
         return patient;
     }
@@ -58,17 +56,14 @@ public class PatientDaoImpl implements PatientDao {
         throw new UnsupportedOperationException();
     }
 
-    @Transactional
+
     public boolean saveOrUpdatePatient(Patient patient) {
 
-        Transaction transaction = null;
-        try (Session session = sessionFactory.openSession()) {
-            transaction = session.beginTransaction();
+        Session session = null;
+        try {
+            session = sessionFactory.getCurrentSession();
             session.saveOrUpdate(patient);
-            transaction.commit();
-
         } catch (HibernateException hibEx) {
-            transaction.rollback();
             throw new RuntimeException(hibEx);
         }
         return true;
@@ -80,10 +75,12 @@ public class PatientDaoImpl implements PatientDao {
         throw new UnsupportedOperationException();
     }
 
-    @Transactional
+
     public List<Patient> getAllPatients() {
         List<Patient> patients = null;
-        try (Session session = sessionFactory.openSession()) {
+        Session session = null;
+        try {
+            session = sessionFactory.getCurrentSession();
             Query query = session.createQuery("FROM Patient");
             patients = (List<Patient>) query.list();
         } catch (HibernateException hibEx) {
@@ -92,8 +89,18 @@ public class PatientDaoImpl implements PatientDao {
         return patients;
     }
 
-    @Transactional
     public List<Patient> getPatientsByRange(int from, int offset) {
-        return null;
+        List<Patient> patients = null;
+        Session session = null;
+        try {
+            session = sessionFactory.getCurrentSession();
+            Query limitPatients = session.createQuery("FROM Patient ORDER BY id");
+            limitPatients.setFirstResult(from);
+            limitPatients.setMaxResults(offset);
+            patients = (List<Patient>) limitPatients.list();
+        } catch (HibernateException hibEx) {
+            throw new RuntimeException(hibEx);
+        }
+        return patients;
     }
 }

@@ -60,8 +60,6 @@ public class PatientsView extends VerticalLayout implements View {
                 getUI().getNavigator().navigateTo("card/");
             }
         });
-
-
         addComponent(new Menu());
         addComponent(patientGrid);
         addComponent(components);

@@ -15,7 +15,7 @@ import java.util.List;
 public class PatientServiceImpl implements PatientService {
 
     @Autowired
-    PatientDao patientDao = new PatientDaoImpl();
+    PatientDao patientDao;
 
     List<Patient> allPatients;
     int currentPos = 0;
