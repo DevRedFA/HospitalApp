@@ -12,7 +12,7 @@ public class Menu extends CustomComponent {
         Label label = new Label("Singed in: ");
         Button buttonLogout = new Button("sign out",
                 new ExternalResource("/login?logout"));
-//        menu.setSizeFull();
+        menu.setSizeFull();
         menu.addComponent(label);
         menu.addComponent(buttonLogout);
         layout.addComponent(menu);

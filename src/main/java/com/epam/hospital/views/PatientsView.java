@@ -36,14 +36,21 @@ public class PatientsView extends VerticalLayout implements View {
         components.addComponent(previousPage);
         components.addComponent(patientDetails);
         components.addComponent(nextPage);
+        previousPage.setEnabled(false);
         patientGrid.setColumns("name", "surname", "birthdate");
         patientGrid.setSizeFull();
         List<Patient> firstPartOfPatients = patientService.getFirstPartOfPatients();
         patientGrid.setItems(firstPartOfPatients);
-        previousPage.addClickListener(clickEvent ->
-                patientGrid.setItems(patientService.getPreviousPartOfPatients()));
-        nextPage.addClickListener(clickEvent ->
-                patientGrid.setItems(patientService.getNextPartOfPatients()));
+        previousPage.addClickListener(clickEvent -> {
+            patientGrid.setItems(patientService.getPreviousPartOfPatients());
+            nextPage.setEnabled(true);
+            previousPage.setEnabled(patientService.isPreviousPageAvailable());
+        });
+        nextPage.addClickListener(clickEvent -> {
+            patientGrid.setItems(patientService.getNextPartOfPatients());
+            previousPage.setEnabled(true);
+            nextPage.setEnabled(patientService.isNextPageAvailable());
+        });
         patientDetails.addClickListener(clickEvent -> {
             Set selectedItems = patientGrid.getSelectedItems();
             if (selectedItems.size() == 1) {
@@ -53,9 +60,17 @@ public class PatientsView extends VerticalLayout implements View {
                 getUI().getNavigator().navigateTo(s);
             }
         });
+
         addComponent(new Menu());
+
         addComponent(patientGrid);
+
         addComponent(components);
+
+        setWidth("100%");
+
+        setHeight("100%");
+
     }
 
 
