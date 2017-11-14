@@ -17,4 +17,5 @@ public interface PatientService {
     boolean isPreviousPageAvailable();
 
     boolean isNextPageAvailable();
+
 }

@@ -1,22 +1,28 @@
 package com.epam.hospital.ui;
 
+import com.epam.hospital.model.User;
 import com.vaadin.server.ExternalResource;
 import com.vaadin.ui.*;
 
-public class Menu extends CustomComponent {
+public class Menu extends HorizontalLayout {
 
-    public Menu() {
-        final VerticalLayout layout = new VerticalLayout();
-        final HorizontalLayout menu = new HorizontalLayout();
-//        final String userName = vaadinRequest.getRemoteUser();
-        Label label = new Label("Singed in: ");
+    public Menu(User user) {
+        Label label = new Label("Singed in: " + user.getUsername());
         Button buttonLogout = new Button("sign out",
                 new ExternalResource("/login?logout"));
-        menu.setSizeFull();
-        menu.addComponent(label);
-        menu.addComponent(buttonLogout);
-        layout.addComponent(menu);
-        layout.setWidth("95%");
-        layout.setComponentAlignment(menu, Alignment.MIDDLE_RIGHT);
+        NativeSelect<String> select = new NativeSelect<>();
+        select.setItems("Russian", "English");
+        select.setSelectedItem("English");
+        setSizeFull();
+        addComponent(label);
+        addComponent(select);
+        addComponent(buttonLogout);
+        setWidth("100%");
+        setComponentAlignment(label, Alignment.TOP_LEFT);
+        setComponentAlignment(select, Alignment.TOP_RIGHT);
+        setComponentAlignment(buttonLogout, Alignment.TOP_RIGHT);
+        select.addValueChangeListener(event -> // Java 8
+                Notification.show("Selected " +
+                        event.getValue()));
     }
 }

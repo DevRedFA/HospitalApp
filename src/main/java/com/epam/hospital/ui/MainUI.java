@@ -57,18 +57,6 @@ public class MainUI extends UI {
         final VerticalLayout layout = new VerticalLayout();
         layout.setMargin(true);
         layout.setSpacing(true);
-// Single menu for all views. Doesn't show in pages.
-//        final HorizontalLayout menu = new HorizontalLayout();
-//        Label label = new Label("Singed in: " + userName);
-//        Button buttonLogout = new Button("sign out",
-//                new ExternalResource("/login?logout"));
-//        menu.setSizeFull();
-//        menu.addComponent(label);
-//        menu.addComponent(buttonLogout);
-//        layout.addComponent(menu);
-//        layout.addComponent(buttonLogout);
-//        layout.setComponentAlignment(menu, Alignment.MIDDLE_RIGHT);
-//
         final String userName = vaadinRequest.getRemoteUser();
         User user = userService.findByUsername(userName);
         Set<Role> roles = user.getRoles();
@@ -82,6 +70,8 @@ public class MainUI extends UI {
         setContent(layout);
         ComponentContainerViewDisplay viewDisplay = new ComponentContainerViewDisplay(layout);
         navigator = new Navigator(UI.getCurrent(), viewDisplay);
+        patientsView.setUser(user);
+        patientCardView.setUser(user);
         switch (userRole) {
             case "ROLE_PATIENT":
                 //don't work
