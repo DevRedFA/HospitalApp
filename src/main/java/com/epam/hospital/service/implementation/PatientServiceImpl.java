@@ -89,4 +89,10 @@ public class PatientServiceImpl implements PatientService {
     public boolean isNextPageAvailable() {
         return nextPageAvailable;
     }
+
+    @Override
+    @Transactional
+    public boolean saveOrUpdatePatient(Patient patient) {
+        return patientDao.saveOrUpdatePatient(patient);
+    }
 }

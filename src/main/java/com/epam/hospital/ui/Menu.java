@@ -2,6 +2,7 @@ package com.epam.hospital.ui;
 
 import com.epam.hospital.model.User;
 import com.vaadin.server.ExternalResource;
+import com.vaadin.server.Page;
 import com.vaadin.ui.*;
 
 public class Menu extends HorizontalLayout {
@@ -21,8 +22,8 @@ public class Menu extends HorizontalLayout {
         setComponentAlignment(label, Alignment.TOP_LEFT);
         setComponentAlignment(select, Alignment.TOP_RIGHT);
         setComponentAlignment(buttonLogout, Alignment.TOP_RIGHT);
-        select.addValueChangeListener(event -> // Java 8
-                Notification.show("Selected " +
-                        event.getValue()));
+        select.addValueChangeListener(event -> {
+            Page.getCurrent().reload();
+        });
     }
 }

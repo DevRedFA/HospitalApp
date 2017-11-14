@@ -18,4 +18,6 @@ public interface PatientService {
 
     boolean isNextPageAvailable();
 
+    boolean saveOrUpdatePatient(Patient patient);
+
 }

@@ -1,11 +1,11 @@
 package com.epam.hospital.views;
 
 import com.epam.hospital.model.Patient;
+import com.epam.hospital.model.Role;
 import com.epam.hospital.model.User;
 import com.epam.hospital.service.api.PatientService;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
-import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.spring.annotation.UIScope;
 import com.vaadin.ui.*;
@@ -20,7 +20,6 @@ import java.util.Set;
 @SuppressWarnings("serial")
 @UIScope
 @SpringView
-@SpringComponent
 public class PatientsView extends VerticalLayout implements View {
 
     @Autowired
@@ -30,9 +29,10 @@ public class PatientsView extends VerticalLayout implements View {
     User user;
 
     private Grid patientGrid = new Grid<>(Patient.class);
-    private Button previousPage = new Button("Previous");
+    private Button previousPage = new Button("previous");
     private Button patientDetails = new Button("patientDetails");
-    private Button nextPage = new Button("Next");
+    private Button nextPage = new Button("next");
+    private Button createPatient = new Button("createPatient");
     HorizontalLayout components = new HorizontalLayout();
     Menu menu;
 
@@ -42,7 +42,9 @@ public class PatientsView extends VerticalLayout implements View {
         components.addComponent(previousPage);
         components.addComponent(patientDetails);
         components.addComponent(nextPage);
+        components.addComponent(createPatient);
         previousPage.setEnabled(false);
+        patientGrid.setSelectionMode(Grid.SelectionMode.SINGLE);
         patientGrid.setColumns("name", "surname", "birthdate");
         patientGrid.setSizeFull();
         List<Patient> firstPartOfPatients = patientService.getFirstPartOfPatients();
@@ -67,7 +69,10 @@ public class PatientsView extends VerticalLayout implements View {
             }
         });
 
-
+        createPatient.addClickListener(clickEvent -> {
+            String s = MainUI.CARD + "/" + "new";
+            getUI().getNavigator().navigateTo(s);
+        });
     }
 
 
@@ -86,11 +91,15 @@ public class PatientsView extends VerticalLayout implements View {
 
         setHeight("100%");
 
+
+        Set<Role> roles = user.getRoles();
+        String userRole = null;
+        for (Role role : roles) {
+            userRole = role.getName();
+        }
+        assert userRole != null;
+        if (userRole.equals("ROLE_NURSE")) {
+            createPatient.setEnabled(false);
+        }
     }
-
-    private Label headingLabel() {
-        return new Label("Main");
-    }
-
-
 }

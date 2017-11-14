@@ -7,6 +7,8 @@ import com.epam.hospital.model.Role;
 import com.epam.hospital.model.User;
 import com.epam.hospital.service.api.PatientService;
 import com.epam.hospital.service.api.UserService;
+import com.epam.hospital.views.AppointmentView;
+import com.epam.hospital.views.DiagnosisView;
 import com.epam.hospital.views.PatientCardView;
 import com.epam.hospital.views.PatientsView;
 import com.vaadin.annotations.Theme;
@@ -39,9 +41,10 @@ import java.util.Set;
 @SpringUI
 public class MainUI extends UI {
 
-    public static final String VAADINVIEW = "vaadin";
-    public static final String PATIENTVIEW = "patients";
     public static final String CARD = "card";
+    public static final String DIAGNOSIS = "diagnosis";
+    public static final String APPOINTMENT = "appointment";
+
     public Navigator navigator;
 
     @Autowired
@@ -52,6 +55,12 @@ public class MainUI extends UI {
 
     @Autowired
     PatientCardView patientCardView;
+
+    @Autowired
+    DiagnosisView diagnosisView;
+
+    @Autowired
+    AppointmentView appointmentView;
 
     @Override
     protected void init(VaadinRequest vaadinRequest) {
@@ -73,15 +82,20 @@ public class MainUI extends UI {
         navigator = new Navigator(UI.getCurrent(), viewDisplay);
         patientsView.setUser(user);
         patientCardView.setUser(user);
+        diagnosisView.setUser(user);
+        appointmentView.setUser(user);
         switch (userRole) {
             case "ROLE_PATIENT":
                 Integer id = user.getPatient().getId();
                 navigator.addView(CARD, patientCardView);
+                navigator.addView(APPOINTMENT, appointmentView);
                 getUI().getNavigator().navigateTo(CARD + "/" + String.valueOf(id));
                 break;
             case "ROLE_DOCTOR":
                 navigator.addView(CARD, patientCardView);
                 navigator.addView("", patientsView);
+                navigator.addView(DIAGNOSIS, diagnosisView);
+                navigator.addView(APPOINTMENT, appointmentView);
                 break;
             case "ROLE_NURSE":
                 navigator.addView(CARD, patientCardView);
