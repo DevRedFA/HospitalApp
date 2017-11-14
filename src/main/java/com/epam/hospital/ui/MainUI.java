@@ -13,6 +13,7 @@ import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.Navigator.ComponentContainerViewDisplay;
+import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.ExternalResource;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
@@ -74,9 +75,9 @@ public class MainUI extends UI {
         patientCardView.setUser(user);
         switch (userRole) {
             case "ROLE_PATIENT":
-                //don't work
                 Integer id = user.getPatient().getId();
-                navigator.addView("/" + String.valueOf(id), patientCardView);
+                navigator.addView(CARD, patientCardView);
+                getUI().getNavigator().navigateTo(CARD + "/" + String.valueOf(id));
                 break;
             case "ROLE_DOCTOR":
                 navigator.addView(CARD, patientCardView);
