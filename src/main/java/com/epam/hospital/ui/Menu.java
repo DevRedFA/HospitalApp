@@ -24,7 +24,6 @@ public class Menu extends HorizontalLayout {
 
     public Menu(User user) {
         locale = VaadinSession.getCurrent().getLocale();
-        System.out.println("____________________" + locale);
         resourceBundle = ResourceBundle.getBundle("components", locale);
         RU = resourceBundle.getString("menu.select.russian");
         EN = resourceBundle.getString("menu.select.english");
@@ -46,17 +45,20 @@ public class Menu extends HorizontalLayout {
         setComponentAlignment(label, Alignment.TOP_LEFT);
         setComponentAlignment(select, Alignment.TOP_RIGHT);
         setComponentAlignment(buttonLogout, Alignment.TOP_RIGHT);
+
         select.addValueChangeListener(event -> {// Java 8
             Notification.show("Selected " +
                     event.getValue());
             String lan = event.getValue();
-            System.out.println("____________" + lan);
-            if (lan.equals("English") || lan.equals("Английcкий")) {
+
+            if (lan.equals("English") || lan.equals("Английский")) {
                 VaadinSession.getCurrent().setLocale(new Locale("en_US"));
-                SELECTED_LANG = select.getSelectedItem().get();
+                ResourceBundle rb =ResourceBundle.getBundle("components", VaadinSession.getCurrent().getLocale());
+                SELECTED_LANG = rb.getString("menu.select.english");
             } else if (lan.equals("Russian") || lan.equals("Русский")) {
                 VaadinSession.getCurrent().setLocale(new Locale("ru"));
-                SELECTED_LANG = select.getSelectedItem().get();
+                ResourceBundle rb =ResourceBundle.getBundle("components", VaadinSession.getCurrent().getLocale());
+                SELECTED_LANG = rb.getString("menu.select.russian");
             }
             Page.getCurrent().reload();
         });
