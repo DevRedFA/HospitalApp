@@ -8,6 +8,7 @@ import com.epam.hospital.ui.MainUI;
 import com.epam.hospital.ui.Menu;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
+import com.vaadin.server.VaadinSession;
 import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.spring.annotation.UIScope;
@@ -22,22 +23,26 @@ import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+import java.util.ResourceBundle;
 import java.util.stream.Collectors;
+
 
 @UIScope
 @SpringView
-@SpringComponent
 public class DiagnosisView extends VerticalLayout implements View {
 
     private PatientDiagnosis patientDiagnosis;
-
-    private TextField details = new TextField("Details");
-    private Label diagnosis = new Label("Diagnosis:");
-    private NativeSelect<String> diagnosisSel = new NativeSelect<>();
-    private Label diagnosedBy = new Label("Diagnosed By");
     private Logger logger = Logger.getLogger(DiagnosisView.class);
-    private DateTimeField diagnosedDate = new DateTimeField("Diagnosed Date");
+
+
+    private TextField details;
+    private Label diagnosis;
+    private NativeSelect<String> diagnosisSel = new NativeSelect<>();
+    private Label diagnosedBy;
+    private DateTimeField diagnosedDate;
+
     @Autowired
     PatientService patientService;
     @Autowired
@@ -47,6 +52,12 @@ public class DiagnosisView extends VerticalLayout implements View {
     @Autowired
     DiagnosisService diagnosisService;
 
+    private String DETAILS;
+    private String DIAGNOSIS;
+    private String DIAGNISEDBY;
+    private String DIAGNOSEDDATE;
+    private String BACKTOTHEPATIENT;
+    private String SAVE;
 
     private Button backToPatient = new Button("Back to patient");
     private Button save = new Button("Save");
@@ -62,6 +73,17 @@ public class DiagnosisView extends VerticalLayout implements View {
 
     @PostConstruct
     void init() {
+        initStrings();
+
+        details = new TextField(DETAILS);
+        diagnosis = new Label(DIAGNOSIS);
+        diagnosedBy = new Label(DIAGNISEDBY);
+        diagnosedDate = new DateTimeField(DIAGNOSEDDATE);
+
+        backToPatient = new Button(BACKTOTHEPATIENT);
+        save = new Button(SAVE);
+
+
         setSpacing(true);
         components.addComponent(diagnosisData);
         components.addComponent(buttons);
@@ -110,7 +132,7 @@ public class DiagnosisView extends VerticalLayout implements View {
                 details.setValue(patientDiagnosis.getDetails());
             }
             if (patientDiagnosis.getDiagnosedBy() != null) {
-                diagnosedBy.setValue("Diagnosed By: " + patientDiagnosis.getDiagnosedBy().getUsername());
+                diagnosedBy.setValue(DIAGNISEDBY + " " + patientDiagnosis.getDiagnosedBy().getUsername());
             }
             if (patientDiagnosis.getDiagnosedDate() != null) {
                 diagnosedDate.setValue((patientDiagnosis.getDiagnosedDate().toLocalDateTime()));
@@ -142,6 +164,18 @@ public class DiagnosisView extends VerticalLayout implements View {
             });
         }
     }
+
+    private void initStrings() {
+        Locale locale = VaadinSession.getCurrent().getLocale();
+        ResourceBundle resourceBundle = ResourceBundle.getBundle("components", locale);
+        DETAILS = resourceBundle.getString("card.grid.details");
+        DIAGNOSIS = resourceBundle.getString("card.grid.diagnosis");
+        DIAGNISEDBY = resourceBundle.getString("card.grid.diagnosisby");
+        DIAGNOSEDDATE = resourceBundle.getString("card.grid.diagnosisdate");
+        BACKTOTHEPATIENT = resourceBundle.getString("appview.backtopatient");
+        SAVE = resourceBundle.getString("appview.save");
+    }
+
 }
 
 
