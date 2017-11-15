@@ -32,6 +32,8 @@ import org.springframework.web.context.ContextLoaderListener;
 import java.util.Locale;
 import java.util.Set;
 
+import static com.epam.hospital.util.Utils.getRole;
+
 /**
  * This UI is the application entry point. A UI may either represent a browser window
  * (or tab) or some part of an HTML page where a Vaadin application is embedded.
@@ -71,14 +73,7 @@ public class MainUI extends UI {
         layout.setSpacing(true);
         final String userName = vaadinRequest.getRemoteUser();
         User user = userService.findByUsername(userName);
-        Set<Role> roles = user.getRoles();
-        if (roles.size() > 1) {
-            throw new RuntimeException("User has more then one role");
-        }
-        String userRole = null;
-        for (Role role : roles) {
-            userRole = role.getName();
-        }
+        String userRole = getRole(user);
         setContent(layout);
         ComponentContainerViewDisplay viewDisplay = new ComponentContainerViewDisplay(layout);
         navigator = new Navigator(UI.getCurrent(), viewDisplay);
@@ -88,10 +83,14 @@ public class MainUI extends UI {
         appointmentView.setUser(user);
         switch (userRole) {
             case "ROLE_PATIENT":
-                Integer id = user.getPatient().getId();
                 navigator.addView(CARD, patientCardView);
                 navigator.addView(APPOINTMENT, appointmentView);
-                getUI().getNavigator().navigateTo(CARD + "/" + String.valueOf(id));
+                if (user.getPatient() == null) {
+                    getUI().getNavigator().navigateTo(CARD + "/" + "new");
+                } else {
+                    Integer id = user.getPatient().getId();
+                    getUI().getNavigator().navigateTo(CARD + "/" + String.valueOf(id));
+                }
                 break;
             case "ROLE_DOCTOR":
                 navigator.addView(CARD, patientCardView);

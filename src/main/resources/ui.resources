@@ -1,7 +1,0 @@
-patients.grid.column.id = id;
-patients.grid.column.name = name;
-patients.grid.column.surname = surname;
-patients.grid.column.birthday = birthday;
-patients.button.previous = previous;
-patients.button.next = next;
-patients.button.patientDetails = patientDetails;

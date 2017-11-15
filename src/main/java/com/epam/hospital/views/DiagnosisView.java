@@ -13,6 +13,7 @@ import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.spring.annotation.UIScope;
 import com.vaadin.ui.*;
 import lombok.Setter;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.PostConstruct;
@@ -35,6 +36,7 @@ public class DiagnosisView extends VerticalLayout implements View {
     private Label diagnosis = new Label("Diagnosis:");
     private NativeSelect<String> diagnosisSel = new NativeSelect<>();
     private Label diagnosedBy = new Label("Diagnosed By");
+    private Logger logger = Logger.getLogger(DiagnosisView.class);
     private DateTimeField diagnosedDate = new DateTimeField("Diagnosed Date");
     @Autowired
     PatientService patientService;
@@ -71,6 +73,7 @@ public class DiagnosisView extends VerticalLayout implements View {
         buttons.addComponent(save);
         buttons.addComponent(backToPatient);
         diagnosisSel.setEmptySelectionAllowed(false);
+        diagnosedDate.setDateFormat("MM/dd/yyyy HH:mm:ss");
     }
 
 
@@ -123,7 +126,11 @@ public class DiagnosisView extends VerticalLayout implements View {
             });
 
             backToPatient.addClickListener(clickEvent -> {
-                getUI().getNavigator().navigateTo(MainUI.CARD + "/" + patientDiagnosis.getPatient().getId());
+                try {
+                    getUI().getNavigator().navigateTo(MainUI.CARD + "/" + patientDiagnosis.getPatient().getId());
+                } catch (Exception e) {
+                    logger.error(e);
+                }
             });
 
             diagnosisSel.addValueChangeListener(valueChangeEvent -> {

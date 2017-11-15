@@ -1,7 +1,6 @@
 package com.epam.hospital.ui;
 
 import com.epam.hospital.model.User;
-import com.vaadin.server.ExternalResource;
 import com.vaadin.server.Page;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.*;

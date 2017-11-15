@@ -20,6 +20,8 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.Set;
 
+import static com.epam.hospital.util.Utils.getRole;
+
 @SuppressWarnings("serial")
 @UIScope
 @SpringView
@@ -124,12 +126,7 @@ public class PatientsView extends VerticalLayout implements View {
         setHeight("100%");
 
 
-        Set<Role> roles = user.getRoles();
-        String userRole = null;
-        for (Role role : roles) {
-            userRole = role.getName();
-        }
-        assert userRole != null;
+        String userRole = getRole(user);
         if (userRole.equals("ROLE_NURSE")) {
             createPatient.setEnabled(false);
         }
