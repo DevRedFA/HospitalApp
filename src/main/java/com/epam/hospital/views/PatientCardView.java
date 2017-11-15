@@ -73,6 +73,7 @@ public class PatientCardView extends VerticalLayout implements View {
         patientData.addComponent(surname);
         patientData.addComponent(birthday);
         patientData.addComponent(savePatientData);
+        patientData.setComponentAlignment(savePatientData, Alignment.BOTTOM_RIGHT);
         savePatientData.setWidth("100%");
         components.addComponent(patientData);
         components.addComponent(diagnoses);
