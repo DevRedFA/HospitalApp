@@ -16,7 +16,6 @@ public class Menu extends HorizontalLayout {
     private String EN;
     private String SIGNED;
     private String SIGNOUT;
-    private static String SELECTED_LANG;
     private Locale locale;
     private ResourceBundle resourceBundle;
     NativeSelect<String> select;
@@ -29,7 +28,7 @@ public class Menu extends HorizontalLayout {
         EN = resourceBundle.getString("menu.select.english");
         SIGNED = resourceBundle.getString("menu.signed.caption");
         SIGNOUT = resourceBundle.getString("menu.signout.button");
-        String sel = SELECTED_LANG == null ? EN : SELECTED_LANG;
+        String sel = "en".equalsIgnoreCase(locale.getLanguage()) ? EN : RU;
         label = new Label();
         label.setCaption(SIGNED + user.getUsername());
         Button buttonLogout = new Button(SIGNOUT);
@@ -37,6 +36,7 @@ public class Menu extends HorizontalLayout {
             getUI().getPage().setLocation("/logout");
         });
         select = new NativeSelect<>();
+        select.setEmptySelectionAllowed(false);
         select.setItems(RU, EN);
         select.setSelectedItem(sel);
         setSizeFull();
@@ -54,13 +54,9 @@ public class Menu extends HorizontalLayout {
             String lan = event.getValue();
 
             if (lan.equals("English") || lan.equals("Английский")) {
-                VaadinSession.getCurrent().setLocale(new Locale("en_US"));
-                ResourceBundle rb =ResourceBundle.getBundle("components", VaadinSession.getCurrent().getLocale());
-                SELECTED_LANG = rb.getString("menu.select.english");
+                VaadinSession.getCurrent().setLocale(new Locale("en"));
             } else if (lan.equals("Russian") || lan.equals("Русский")) {
                 VaadinSession.getCurrent().setLocale(new Locale("ru"));
-                ResourceBundle rb =ResourceBundle.getBundle("components", VaadinSession.getCurrent().getLocale());
-                SELECTED_LANG = rb.getString("menu.select.russian");
             }
             Page.getCurrent().reload();
         });

@@ -2,6 +2,7 @@ package com.epam.hospital.service.implementation;
 
 import com.epam.hospital.dao.api.PatientDiagnosisDao;
 import com.epam.hospital.model.PatientDiagnosis;
+import com.epam.hospital.model.User;
 import com.epam.hospital.service.api.PatientDiagnosesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,5 +24,11 @@ public class PatientDiagnosesServiceImpl implements PatientDiagnosesService {
     @Transactional
     public PatientDiagnosis getPatientDiagnosisById(int id) {
         return patientDiagnosisDao.getPatientDiagnosisById(id);
+    }
+
+    @Override
+    public boolean discharge(PatientDiagnosis patientDiagnosis) {
+        patientDiagnosis.setDischarge(true);
+        return patientDiagnosisDao.saveOrUpdatePatientDiagnosis(patientDiagnosis);
     }
 }

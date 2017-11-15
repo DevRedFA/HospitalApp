@@ -48,8 +48,6 @@ public class PatientsView extends VerticalLayout implements View {
     private String ADD_P;
 
 
-
-
     @PostConstruct
     void init() {
         Locale locale = VaadinSession.getCurrent().getLocale();
@@ -98,6 +96,8 @@ public class PatientsView extends VerticalLayout implements View {
                 Patient selectedPatient = (Patient) objects[0];
                 String s = MainUI.CARD + "/" + selectedPatient.getId();
                 getUI().getNavigator().navigateTo(s);
+            } else {
+                Notification.show("Please select one patient");
             }
         });
 

@@ -1,5 +1,6 @@
 package com.epam.hospital.views;
 
+import com.epam.hospital.model.Diagnosis;
 import com.epam.hospital.model.PatientDiagnosis;
 import com.epam.hospital.model.User;
 import com.epam.hospital.service.api.*;
@@ -15,7 +16,13 @@ import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.PostConstruct;
+import java.lang.reflect.Array;
 import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @UIScope
 @SpringView
@@ -24,10 +31,10 @@ public class DiagnosisView extends VerticalLayout implements View {
 
     private PatientDiagnosis patientDiagnosis;
 
-    private TextField id = new TextField("id");
     private TextField details = new TextField("Details");
-    private TextField diagnosis = new TextField("Diagnosis");
-    private TextField diagnosedBy = new TextField("Diagnosed By");
+    private Label diagnosis = new Label("Diagnosis:");
+    private NativeSelect<String> diagnosisSel = new NativeSelect<>();
+    private Label diagnosedBy = new Label("Diagnosed By");
     private DateTimeField diagnosedDate = new DateTimeField("Diagnosed Date");
     @Autowired
     PatientService patientService;
@@ -56,13 +63,14 @@ public class DiagnosisView extends VerticalLayout implements View {
         setSpacing(true);
         components.addComponent(diagnosisData);
         components.addComponent(buttons);
-        diagnosisData.addComponent(id);
         diagnosisData.addComponent(diagnosis);
+        diagnosisData.addComponent(diagnosisSel);
         diagnosisData.addComponent(details);
         diagnosisData.addComponent(diagnosedBy);
         diagnosisData.addComponent(diagnosedDate);
         buttons.addComponent(save);
         buttons.addComponent(backToPatient);
+        diagnosisSel.setEmptySelectionAllowed(false);
     }
 
 
@@ -75,60 +83,51 @@ public class DiagnosisView extends VerticalLayout implements View {
             addComponent(menu);
             addComponent(components);
 
+            List<Diagnosis> allDiagnosis = diagnosisService.getAllDiagnosis();
+            Map<String, Diagnosis> map = allDiagnosis.stream().collect(Collectors.toMap(Diagnosis::getName, diagnosis1 -> diagnosis1));
+            diagnosisSel.setItems(map.keySet());
+
+
             if (event.getParameters().contains("new")) {
                 String[] split = event.getParameters().split("/");
                 patientDiagnosis = new PatientDiagnosis();
                 patientDiagnosis.setPatient(patientService
                         .getPatientById(Integer.valueOf(split[1])));
+                patientDiagnosis.setDiagnosedBy(user);
+                patientDiagnosis.setDiagnosedDate(Timestamp.valueOf(LocalDateTime.now()));
+                patientDiagnosis.setDischarge(false);
             } else {
                 int idDiagnosis = Integer.parseInt(event.getParameters());
                 patientDiagnosis = patientDiagnosesService.getPatientDiagnosisById(idDiagnosis);
-                id.setValue(String.valueOf(patientDiagnosis.getId()));
-                diagnosis.setValue(patientDiagnosis.getDiagnosis().getName());
-                if (patientDiagnosis.getDetails() != null) {
-                    details.setValue(patientDiagnosis.getDetails());
-                }
-                if (patientDiagnosis.getDiagnosedBy() != null) {
-                    diagnosedBy.setValue(patientDiagnosis.getDiagnosedBy().getUsername());
-                }
-                if (patientDiagnosis.getDiagnosedDate() != null) {
-                    diagnosedDate.setValue((patientDiagnosis.getDiagnosedDate().toLocalDateTime()));
-                }
+                diagnosisSel.setValue(patientDiagnosis.getDiagnosis().getName());
+
             }
-            id.addValueChangeListener(valueChangeEvent -> {
-                try {
-                    patientDiagnosis.setId(Integer.parseInt(valueChangeEvent.getValue()));
-//                    patientDiagnosesService.saveOrUpdate(patientDiagnosis);
-                } catch (NumberFormatException e) {
-                    Notification.show("Enter correct number");
-                }
 
-            });
-
-            diagnosis.addValueChangeListener(changeEvent -> {
-                patientDiagnosis.setDiagnosis(diagnosisService.getDiagnosisById(1));
-//                patientDiagnosesService.saveOrUpdate(patientDiagnosis);
-            });
-
-            diagnosedBy.addValueChangeListener(changeEvent -> {
-                User byUsername = userService.findByUsername(changeEvent.getValue());
-                patientDiagnosis.setDiagnosedBy(byUsername);
-//                patientDiagnosesService.saveOrUpdate(patientDiagnosis);
-            });
+            if (patientDiagnosis.getDetails() != null) {
+                details.setValue(patientDiagnosis.getDetails());
+            }
+            if (patientDiagnosis.getDiagnosedBy() != null) {
+                diagnosedBy.setValue("Diagnosed By: " + patientDiagnosis.getDiagnosedBy().getUsername());
+            }
+            if (patientDiagnosis.getDiagnosedDate() != null) {
+                diagnosedDate.setValue((patientDiagnosis.getDiagnosedDate().toLocalDateTime()));
+            }
 
             details.addValueChangeListener(valueChangeEvent -> {
                 patientDiagnosis.setDetails(valueChangeEvent.getValue());
-//                patientDiagnosesService.saveOrUpdate(patientDiagnosis);
             });
 
 
             diagnosedDate.addValueChangeListener(changeEvent -> {
                 patientDiagnosis.setDiagnosedDate(Timestamp.valueOf(changeEvent.getValue()));
-//                patientDiagnosesService.saveOrUpdate(patientDiagnosis);
             });
 
             backToPatient.addClickListener(clickEvent -> {
                 getUI().getNavigator().navigateTo(MainUI.CARD + "/" + patientDiagnosis.getPatient().getId());
+            });
+
+            diagnosisSel.addValueChangeListener(valueChangeEvent -> {
+                patientDiagnosis.setDiagnosis(map.get(valueChangeEvent.getValue()));
             });
 
             save.addClickListener(clickEvent -> {
