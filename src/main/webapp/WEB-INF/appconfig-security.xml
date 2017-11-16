@@ -9,14 +9,14 @@
 
     <http auto-config="true">
         <intercept-url pattern="/" access="hasAnyRole('ROLE_NURSE', 'ROLE_DOCTOR')"/>
-        <intercept-url pattern="/vaadin" access="hasAnyRole('ROLE_NURSE', 'ROLE_DOCTOR', 'ROLE_PATIENT')"/>
+        <intercept-url pattern="/hospitalApp" access="hasAnyRole('ROLE_NURSE', 'ROLE_DOCTOR', 'ROLE_PATIENT')"/>
         <intercept-url pattern="/patients" access="hasAnyRole('ROLE_NURSE', 'ROLE_DOCTOR')"/>
         <intercept-url pattern="/card" access="hasAnyRole('ROLE_NURSE', 'ROLE_DOCTOR', 'ROLE_PATIENT')"/>
         <intercept-url pattern="/welcome" access="hasAnyRole('ROLE_NURSE', 'ROLE_DOCTOR', 'ROLE_PATIENT')"/>
         <intercept-url pattern="/admin" access="hasRole('ROLE_ADMIN')"/>
         <csrf disabled="true"/>
 
-        <form-login login-page="/login" default-target-url="/vaadin" authentication-failure-url="/login?error"
+        <form-login login-page="/login" default-target-url="/hospitalApp" authentication-failure-url="/login?error"
                     username-parameter="username" password-parameter="password"
                     always-use-default-target="true"/>
 
