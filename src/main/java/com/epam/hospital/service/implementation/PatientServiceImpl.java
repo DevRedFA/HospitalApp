@@ -23,7 +23,7 @@ public class PatientServiceImpl implements PatientService {
     List<Patient> allPatients;
     // Always show last id of shown patients
     int currentPos = 0;
-    int step = 10;
+    int step = 16;
     int size = 0;
 
     @Override

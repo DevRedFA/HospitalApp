@@ -150,6 +150,7 @@ public class PatientCardView extends VerticalLayout implements View {
         components.addComponent(diagnosesGrid);
         components.addComponent(appointmentsButtons);
         components.addComponent(appointmentsGrid);
+
     }
 
 
@@ -183,7 +184,7 @@ public class PatientCardView extends VerticalLayout implements View {
             return details != null ? details : "";
         }).setCaption(DETAILS);
         diagnosesGrid.addColumn(s -> getDischargeInText(s.getDischarge())).setCaption(DISCHARGE);
-        diagnosesGrid.setSizeFull();
+
 
         appointmentsGrid.setSelectionMode(Grid.SelectionMode.SINGLE);
         appointmentsGrid.removeAllColumns();
@@ -202,9 +203,8 @@ public class PatientCardView extends VerticalLayout implements View {
                     return appointedBy != null ? appointedBy.getUsername() : "";
                 }
         ).setCaption(FULFILLBY);
-        appointmentsGrid.setSizeFull();
 
-        appointmentsGrid.setWidth("100%");
+
 
         String userRole = getRole(user);
         switch (userRole) {
@@ -231,7 +231,10 @@ public class PatientCardView extends VerticalLayout implements View {
         addComponent(menu);
 
         addComponent(components);
-
+        appointmentsGrid.setWidth("100%");
+        diagnosesGrid.setWidth("100%");
+        appointmentsGrid.setHeightByRows(5);
+        diagnosesGrid.setHeightByRows(5);
         if (patient.getUser() != null) {
             username.setValue(patient.getUser().getUsername());
         } else {

@@ -78,7 +78,7 @@ public class PatientsView extends VerticalLayout implements View {
         patientGrid.getColumn("name").setCaption(NAME);
         patientGrid.getColumn("surname").setCaption(SURNAME);
         patientGrid.getColumn("birthdate").setCaption(DOB);
-        patientGrid.setSizeFull();
+        patientGrid.setDescription("Patients");
         List<Patient> firstPartOfPatients = patientService.getFirstPartOfPatients();
         patientGrid.setItems(firstPartOfPatients);
         previousPage.addClickListener(clickEvent -> {
@@ -115,17 +115,13 @@ public class PatientsView extends VerticalLayout implements View {
         if (menu == null) {
             menu = new Menu(user);
         }
+
         addComponent(menu);
-
         addComponent(patientGrid);
-
-        addComponent(this.components);
-
-        setWidth("100%");
-
-        setHeight("100%");
-
-
+        patientGrid.setWidth("100%");
+        patientGrid.setHeightByRows(16);
+        addComponent(components);
+        setSizeFull();
         String userRole = getRole(user);
         if (userRole.equals("ROLE_NURSE")) {
             createPatient.setEnabled(false);

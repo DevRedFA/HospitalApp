@@ -59,8 +59,8 @@ public class DiagnosisView extends VerticalLayout implements View {
     private String BACKTOTHEPATIENT;
     private String SAVE;
 
-    private Button backToPatient = new Button("Back to patient");
-    private Button save = new Button("Save");
+    private Button backToPatient;
+    private Button save;
     private VerticalLayout diagnosisData = new VerticalLayout();
     private HorizontalLayout buttons = new HorizontalLayout();
 
