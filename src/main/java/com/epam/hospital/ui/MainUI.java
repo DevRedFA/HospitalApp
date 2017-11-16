@@ -106,7 +106,7 @@ public class MainUI extends UI {
     }
 
 
-    @WebServlet(value = {"/vaadin/*", "/VAADIN/*", "/card/*", "/CARD/*", "/patients/*", "/PATIENTS/*", "/help/*", "/HELP/*"}, name = "MyUIServlet", asyncSupported = true)
+    @WebServlet(value = {"/hospitalApp/*", "/VAADIN/*"}, name = "MyUIServlet", asyncSupported = true)
     public static class MyUIServlet extends SpringVaadinServlet {
     }
 
