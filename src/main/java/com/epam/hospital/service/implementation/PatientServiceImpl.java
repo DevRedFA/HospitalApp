@@ -5,6 +5,7 @@ import com.epam.hospital.dao.impl.PatientDaoImpl;
 import com.epam.hospital.model.Patient;
 import com.epam.hospital.service.api.PatientService;
 import lombok.Setter;
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,7 +30,11 @@ public class PatientServiceImpl implements PatientService {
     @Override
     @Transactional
     public Patient getPatientById(int id) {
-        return patientDao.getPatientById(id);
+        Patient patient = patientDao.getPatientById(id);
+        Hibernate.initialize(patient.getUser());
+        Hibernate.initialize(patient.getPatientAppointments());
+        Hibernate.initialize(patient.getPatientDiagnoses());
+        return patient;
     }
 
     @Override

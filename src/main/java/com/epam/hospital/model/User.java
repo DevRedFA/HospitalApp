@@ -38,16 +38,7 @@ public class User {
     @OneToOne(mappedBy = "user", fetch = FetchType.EAGER)
     private Patient patient;
 
-    @OneToMany(mappedBy = "appointedBy", fetch = FetchType.EAGER)
-    private Set<PatientAppointment> prescribedPatientAppointments;
-
-    @OneToMany(mappedBy = "fulfilledBy", fetch = FetchType.EAGER)
-    private Set<PatientAppointment> fulfilledPatientAppointments;
-
-    @OneToMany(mappedBy = "diagnosedBy", fetch = FetchType.EAGER)
-    private Set<PatientDiagnosis> madePatientDiagnoses;
-
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "users_roles",
             schema = "public",
             joinColumns = @JoinColumn(

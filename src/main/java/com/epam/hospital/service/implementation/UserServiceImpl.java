@@ -5,6 +5,7 @@ import com.epam.hospital.dao.api.UserDao;
 import com.epam.hospital.model.Role;
 import com.epam.hospital.model.User;
 import com.epam.hospital.service.api.UserService;
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -39,6 +40,10 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional(readOnly = true)
     public User findByUsername(String username) {
-        return userDao.getUserByName(username);
+        User user = userDao.getUserByName(username);
+        if (user != null) {
+            Hibernate.initialize(user.getRoles());
+        }
+        return user;
     }
 }

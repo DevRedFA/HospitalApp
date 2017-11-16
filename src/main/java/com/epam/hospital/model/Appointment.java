@@ -30,6 +30,4 @@ public class Appointment {
             nullable = false)
     private AppointmentType appointmentType;
 
-    @OneToMany(mappedBy = "appointment", fetch = FetchType.EAGER)
-    private Set<PatientAppointment> patientAppointments;
 }
