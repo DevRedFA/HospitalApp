@@ -26,32 +26,4 @@ public class Role {
             length = -1)
     private String name;
 
-    @ManyToMany(mappedBy = "roles", fetch = FetchType.EAGER)
-    private Set<User> users;
-
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "roles_executable_appointments_types",
-            schema = "public",
-            joinColumns = @JoinColumn(
-                    name = "role_id",
-                    referencedColumnName = "id",
-                    nullable = false),
-            inverseJoinColumns = @JoinColumn(
-                    name = "appointment_type_id",
-                    referencedColumnName = "id",
-                    nullable = false))
-    private Set<AppointmentType> executableAppointmentTypes;
-
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "roles_prescribable_appointments_types",
-            schema = "public",
-            joinColumns = @JoinColumn(
-                    name = "role_id",
-                    referencedColumnName = "id",
-                    nullable = false),
-            inverseJoinColumns = @JoinColumn(
-                    name = "appointment_type_id",
-                    referencedColumnName = "id",
-                    nullable = false))
-    private Set<AppointmentType> prescribableAppointmentTypes;
 }

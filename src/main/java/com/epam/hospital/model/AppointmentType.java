@@ -24,12 +24,4 @@ public class AppointmentType {
             length = -1)
     private String name;
 
-    @OneToMany(mappedBy = "appointmentType", fetch = FetchType.EAGER)
-    private Set<Appointment> appointments;
-
-    @ManyToMany(mappedBy = "executableAppointmentTypes", fetch = FetchType.EAGER)
-    private Set<Role> executorRoles;
-
-    @ManyToMany(mappedBy = "prescribableAppointmentTypes", fetch = FetchType.EAGER)
-    private Set<Role> prescriberRoles;
 }

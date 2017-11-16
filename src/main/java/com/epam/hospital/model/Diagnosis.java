@@ -24,7 +24,4 @@ public class Diagnosis {
             length = -1)
     private String name;
 
-    @OneToMany(mappedBy = "diagnosis", fetch = FetchType.EAGER)
-    private Set<PatientDiagnosis> patientDiagnoses;
-
 }

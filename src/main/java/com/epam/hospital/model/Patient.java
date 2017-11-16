@@ -35,15 +35,15 @@ public class Patient {
             nullable = false)
     private Date birthdate;
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id",
             referencedColumnName = "id")
     private User user;
 
-    @OneToMany(mappedBy = "patient", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "patient", fetch = FetchType.LAZY)
     private Set<PatientAppointment> patientAppointments;
 
-    @OneToMany(mappedBy = "patient", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "patient", fetch = FetchType.LAZY)
     private Set<PatientDiagnosis> patientDiagnoses;
 
 }
