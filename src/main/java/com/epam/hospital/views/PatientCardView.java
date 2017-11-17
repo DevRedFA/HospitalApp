@@ -7,6 +7,7 @@ import com.epam.hospital.service.api.PatientService;
 import com.epam.hospital.service.api.UserService;
 import com.epam.hospital.ui.MainUI;
 import com.epam.hospital.ui.Menu;
+import com.epam.hospital.util.LabelsHolder;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.Page;
@@ -22,12 +23,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import javax.annotation.PostConstruct;
 import java.sql.Date;
 import java.util.Collections;
-import java.util.Locale;
-import java.util.ResourceBundle;
 import java.util.Set;
 
 import static com.epam.hospital.util.Utils.formatTime;
 import static com.epam.hospital.util.Utils.getRole;
+import static com.epam.hospital.util.LabelsHolder.*;
 
 @UIScope
 @SpringView
@@ -61,41 +61,6 @@ public class PatientCardView extends VerticalLayout implements View {
     private Button changeDiagnosis;
     private Button changeAppointment;
 
-
-    private String DIAGNOSES;
-    private String APPOINTMENTS;
-    private String USERNAME;
-    private String NAME;
-    private String SURNAME;
-    private String BIRTHDATE;
-    private String NEWDIAGNOSIS;
-    private String SAVEPATIENT;
-    private String NEWAPPOINT;
-    private String DISCHARGE;
-    private String FULFILL;
-    private String CHANGEDIAGNOSIS;
-    private String CHANGEAPPOINT;
-    private String USERNOTFOUND;
-    private String APPTOCHANGE;
-    private String APPTOFULFILL;
-    private String DIAGNOSISTODISCHARGE;
-    private String ID;
-    private String DIAGNOSISDEATE;
-    private String DIAGNOSIS;
-    private String DIAGNOSEDBY;
-    private String APPOINTMENT;
-    private String APPOINTMENTTYPE;
-    private String APPOINTMENTDATE;
-    private String FULFILLDATE;
-    private String FULFILLBY;
-    private String DETAILS;
-    private String APPOINTEDBY;
-    private String INTREATMENT;
-    private String PATIENTNOTFOUND;
-    private String STATUS;
-    private String PATIENTSTAT;
-
-
     private Logger logger = Logger.getLogger(PatientCardView.class);
     private HorizontalLayout patientData = new HorizontalLayout();
     private HorizontalLayout diagnosisButtons = new HorizontalLayout();
@@ -109,8 +74,7 @@ public class PatientCardView extends VerticalLayout implements View {
 
     @PostConstruct
     void init() {
-        initStrings();
-
+        LabelsHolder.chageLocale(VaadinSession.getCurrent().getLocale());
         appointments = new Label(APPOINTMENTS);
         username = new TextField(USERNAME);
         name = new TextField(NAME);
@@ -372,44 +336,6 @@ public class PatientCardView extends VerticalLayout implements View {
 
     private String getDischargeInText(boolean discharge) {
         return discharge ? PATIENTSTAT : INTREATMENT;
-    }
-
-
-    private void initStrings() {
-        Locale locale = VaadinSession.getCurrent().getLocale();
-        ResourceBundle resourceBundle = ResourceBundle.getBundle("components", locale);
-        DIAGNOSES = resourceBundle.getString("card.diagnoses");
-        DIAGNOSIS = resourceBundle.getString("card.grid.diagnosis");
-        APPOINTMENTS = resourceBundle.getString("card.appointments");
-        USERNAME = resourceBundle.getString("card.username");
-        NAME = resourceBundle.getString("patient.list.table.name");
-        SURNAME = resourceBundle.getString("patient.list.table.surname");
-        BIRTHDATE = resourceBundle.getString("patient.list.table.birthdate");
-        NEWDIAGNOSIS = resourceBundle.getString("card.diagnosis.add.button");
-        SAVEPATIENT = resourceBundle.getString("card.patient.save.button");
-        NEWAPPOINT = resourceBundle.getString("card.appointment.new.button");
-        DISCHARGE = resourceBundle.getString("card.discharge.button");
-        FULFILL = resourceBundle.getString("card.fulfill.button");
-        CHANGEDIAGNOSIS = resourceBundle.getString("card.diagnosis.change.button");
-        CHANGEAPPOINT = resourceBundle.getString("card.appointment.change.button");
-        USERNOTFOUND = resourceBundle.getString("card.usernotfound");
-        APPTOCHANGE = resourceBundle.getString("card.appointment.tochange");
-        APPTOFULFILL = resourceBundle.getString("card.appointment.tofulfill");
-        DIAGNOSISTODISCHARGE = resourceBundle.getString("card.diagnosis.todischarge");
-        ID = resourceBundle.getString("card.grid.id");
-        DIAGNOSISDEATE = resourceBundle.getString("card.grid.diagnosisdate");
-        DIAGNOSEDBY = resourceBundle.getString("card.grid.diagnosisby");
-        APPOINTMENT = resourceBundle.getString("card.grid.appointment");
-        APPOINTMENTTYPE = resourceBundle.getString("card.grid.appointmenttype");
-        APPOINTMENTDATE = resourceBundle.getString("card.grid.appointmentdate");
-        FULFILLDATE = resourceBundle.getString("card.grid.fulfilldate");
-        FULFILLBY = resourceBundle.getString("card.grid.fulfilledby");
-        DETAILS = resourceBundle.getString("card.grid.details");
-        APPOINTEDBY = resourceBundle.getString("card.grid.appointedby");
-        INTREATMENT = resourceBundle.getString("card.intreatment.lable");
-        PATIENTNOTFOUND = resourceBundle.getString("card.patient.notfound");
-        STATUS = resourceBundle.getString("grid.diagnosis.status");
-        PATIENTSTAT = resourceBundle.getString("card.patient.status");
     }
 
 }

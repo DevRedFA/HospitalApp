@@ -5,27 +5,24 @@ import com.epam.hospital.model.*;
 import com.epam.hospital.service.api.*;
 import com.epam.hospital.ui.MainUI;
 import com.epam.hospital.ui.Menu;
+import com.epam.hospital.util.LabelsHolder;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
-import com.vaadin.server.Page;
 import com.vaadin.server.VaadinSession;
-import com.vaadin.shared.ui.ContentMode;
-import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.spring.annotation.UIScope;
 import com.vaadin.ui.*;
-import com.vaadin.ui.components.grid.Editor;
 import lombok.Setter;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.PostConstruct;
-import java.sql.Date;
 import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
+
+import static com.epam.hospital.util.LabelsHolder.*;
 
 
 import static com.epam.hospital.util.Utils.getRole;
@@ -62,18 +59,6 @@ public class AppointmentView extends VerticalLayout implements View {
     private VerticalLayout appointmentData = new VerticalLayout();
     private HorizontalLayout buttons = new HorizontalLayout();
 
-
-    private String APPOINTEDBY;
-    private String FULFILLEDBY;
-    private String APPOINTMENT;
-    private String PATIENT;
-    private String APPDATE;
-    private String FULFULLDATE;
-    private String BACKTOPATIENT;
-    private String SAVE;
-    private String NOTFOUND;
-
-
     @Setter
     User user;
 
@@ -83,7 +68,7 @@ public class AppointmentView extends VerticalLayout implements View {
 
     @PostConstruct
     void init() {
-        initString();
+        LabelsHolder.chageLocale(VaadinSession.getCurrent().getLocale());
 
         appointedBy = new Label(APPOINTEDBY);
         fulfilledBy = new TextField(FULFILLEDBY);
@@ -157,10 +142,10 @@ public class AppointmentView extends VerticalLayout implements View {
                 appointedDate.setValue(patientAppointment.getAppointedDate().toLocalDateTime());
             }
             if (patientAppointment.getAppointedBy() != null) {
-                appointedBy.setValue(APPOINTEDBY + " "+ patientAppointment.getAppointedBy().getUsername());
+                appointedBy.setValue(APPOINTEDBY + " " + patientAppointment.getAppointedBy().getUsername());
             }
             if (patientAppointment.getFulfilledBy() != null) {
-                fulfilledBy.setValue(FULFILLEDBY +" "+ (patientAppointment.getFulfilledBy().getUsername()));
+                fulfilledBy.setValue(FULFILLEDBY + " " + (patientAppointment.getFulfilledBy().getUsername()));
             }
 
 
@@ -198,22 +183,6 @@ public class AppointmentView extends VerticalLayout implements View {
             });
         }
     }
-
-    private void initString() {
-        Locale locale = VaadinSession.getCurrent().getLocale();
-        ResourceBundle resourceBundle = ResourceBundle.getBundle("components", locale);
-
-        APPOINTEDBY = resourceBundle.getString("card.grid.appointedby");
-        FULFILLEDBY = resourceBundle.getString("card.grid.fulfilledby");
-        APPOINTMENT = resourceBundle.getString("card.grid.appointment");
-        PATIENT = resourceBundle.getString("appview.patient");
-        APPDATE = resourceBundle.getString("card.grid.appointmentdate");
-        FULFULLDATE = resourceBundle.getString("card.grid.fulfilldate");
-        BACKTOPATIENT = resourceBundle.getString("appview.backtopatient");
-        SAVE = resourceBundle.getString("appview.save");
-        NOTFOUND = resourceBundle.getString("card.usernotfound");
-    }
-
 }
 
 

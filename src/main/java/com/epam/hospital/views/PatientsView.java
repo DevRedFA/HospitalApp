@@ -1,9 +1,9 @@
 package com.epam.hospital.views;
 
 import com.epam.hospital.model.Patient;
-import com.epam.hospital.model.Role;
 import com.epam.hospital.model.User;
 import com.epam.hospital.service.api.PatientService;
+import com.epam.hospital.util.LabelsHolder;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.VaadinSession;
@@ -11,16 +11,14 @@ import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.spring.annotation.UIScope;
 import com.vaadin.ui.*;
 import com.epam.hospital.ui.*;
-import com.vaadin.ui.components.grid.ItemClickListener;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.PostConstruct;
 import java.util.List;
-import java.util.Locale;
-import java.util.ResourceBundle;
 import java.util.Set;
 
+import static com.epam.hospital.util.LabelsHolder.*;
 import static com.epam.hospital.util.Utils.getRole;
 
 @SuppressWarnings("serial")
@@ -42,29 +40,10 @@ public class PatientsView extends VerticalLayout implements View {
     HorizontalLayout components = new HorizontalLayout();
     Menu menu;
 
-    private String NAME;
-    private String SURNAME;
-    private String DOB;
-    private String PREV;
-    private String P_CARD;
-    private String NEXT;
-    private String ADD_P;
-    private String SELECTPATIENT;
-
 
     @PostConstruct
     void init() {
-        Locale locale = VaadinSession.getCurrent().getLocale();
-        ResourceBundle resourceBundle = ResourceBundle.getBundle("components", locale);
-        NAME = resourceBundle.getString("patient.list.table.name");
-        SURNAME = resourceBundle.getString("patient.list.table.surname");
-        DOB = resourceBundle.getString("patient.list.table.birthdate");
-        PREV = resourceBundle.getString("patient.list.button.previous");
-        P_CARD = resourceBundle.getString("patient.list.button.patientDetails");
-        NEXT = resourceBundle.getString("patient.list.button.next");
-        ADD_P = resourceBundle.getString("patient.list.button.add");
-        SELECTPATIENT = resourceBundle.getString("card.patient.select");
-
+        LabelsHolder.chageLocale(VaadinSession.getCurrent().getLocale());
         previousPage = new Button(PREV);
         patientDetails = new Button(P_CARD);
         nextPage = new Button(NEXT);

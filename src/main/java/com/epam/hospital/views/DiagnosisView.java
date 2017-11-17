@@ -6,10 +6,10 @@ import com.epam.hospital.model.User;
 import com.epam.hospital.service.api.*;
 import com.epam.hospital.ui.MainUI;
 import com.epam.hospital.ui.Menu;
+import com.epam.hospital.util.LabelsHolder;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.VaadinSession;
-import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.spring.annotation.UIScope;
 import com.vaadin.ui.*;
@@ -18,16 +18,13 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.PostConstruct;
-import java.lang.reflect.Array;
 import java.sql.Timestamp;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
-import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
+import static com.epam.hospital.util.LabelsHolder.*;
 
 @UIScope
 @SpringView
@@ -42,6 +39,10 @@ public class DiagnosisView extends VerticalLayout implements View {
     private NativeSelect<String> diagnosisSel = new NativeSelect<>();
     private Label diagnosedBy;
     private DateTimeField diagnosedDate;
+    private Button backToPatient;
+    private Button save;
+    private VerticalLayout diagnosisData = new VerticalLayout();
+    private HorizontalLayout buttons = new HorizontalLayout();
 
     @Autowired
     PatientService patientService;
@@ -52,17 +53,6 @@ public class DiagnosisView extends VerticalLayout implements View {
     @Autowired
     DiagnosisService diagnosisService;
 
-    private String DETAILS;
-    private String DIAGNOSIS;
-    private String DIAGNISEDBY;
-    private String DIAGNOSEDDATE;
-    private String BACKTOTHEPATIENT;
-    private String SAVE;
-
-    private Button backToPatient;
-    private Button save;
-    private VerticalLayout diagnosisData = new VerticalLayout();
-    private HorizontalLayout buttons = new HorizontalLayout();
 
     @Setter
     User user;
@@ -73,7 +63,7 @@ public class DiagnosisView extends VerticalLayout implements View {
 
     @PostConstruct
     void init() {
-        initStrings();
+        LabelsHolder.chageLocale(VaadinSession.getCurrent().getLocale());
 
         details = new TextArea(DETAILS);
         details.setWidth(500, Unit.PIXELS);
@@ -165,17 +155,6 @@ public class DiagnosisView extends VerticalLayout implements View {
                 patientDiagnosesService.saveOrUpdate(patientDiagnosis);
             });
         }
-    }
-
-    private void initStrings() {
-        Locale locale = VaadinSession.getCurrent().getLocale();
-        ResourceBundle resourceBundle = ResourceBundle.getBundle("components", locale);
-        DETAILS = resourceBundle.getString("card.grid.details");
-        DIAGNOSIS = resourceBundle.getString("card.grid.diagnosis");
-        DIAGNISEDBY = resourceBundle.getString("card.grid.diagnosisby");
-        DIAGNOSEDDATE = resourceBundle.getString("card.grid.diagnosisdate");
-        BACKTOTHEPATIENT = resourceBundle.getString("appview.backtopatient");
-        SAVE = resourceBundle.getString("appview.save");
     }
 
 }

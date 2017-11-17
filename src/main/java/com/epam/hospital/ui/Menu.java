@@ -1,10 +1,12 @@
 package com.epam.hospital.ui;
 
 import com.epam.hospital.model.User;
+import com.epam.hospital.util.LabelsHolder;
 import com.vaadin.server.Page;
 import com.vaadin.server.VaadinSession;
-import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
+
+import static com.epam.hospital.util.LabelsHolder.*;
 
 
 import java.util.Locale;
@@ -12,21 +14,14 @@ import java.util.ResourceBundle;
 
 public class Menu extends HorizontalLayout {
 
-    private String RU = "Русский";
-    private String EN = "English";
-    private String SIGNED;
-    private String SIGNOUT;
-    private Locale locale;
+
     private ResourceBundle resourceBundle;
     NativeSelect<String> select;
     Label label;
 
     public Menu(User user) {
-        locale = VaadinSession.getCurrent().getLocale();
-        resourceBundle = ResourceBundle.getBundle("components", locale);
-        SIGNED = resourceBundle.getString("menu.signed.caption");
-        SIGNOUT = resourceBundle.getString("menu.signout.button");
-        String sel = "en".equalsIgnoreCase(locale.getLanguage()) ? EN : RU;
+        LabelsHolder.chageLocale(VaadinSession.getCurrent().getLocale());
+        String sel = "en".equalsIgnoreCase(VaadinSession.getCurrent().getLocale().getLanguage()) ? EN : RU;
         label = new Label();
         label.setCaption(SIGNED + user.getUsername());
         Button buttonLogout = new Button(SIGNOUT);
