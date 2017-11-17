@@ -173,7 +173,7 @@ public class AppointmentView extends VerticalLayout implements View {
                     User byUsername = userService.findByUsername(changeEvent.getValue());
                     patientAppointment.setFulfilledBy(byUsername);
                 } catch (Exception e) {
-                    Notification.show("Can't find user with username: " + changeEvent.getValue());
+                    Notification.show(NOTFOUND + changeEvent.getValue());
                 }
             });
 

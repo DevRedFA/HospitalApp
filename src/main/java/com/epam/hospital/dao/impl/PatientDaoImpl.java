@@ -23,17 +23,40 @@ public class PatientDaoImpl implements PatientDao {
     @Autowired
     private SessionFactory sessionFactory;
 
-
     public Patient getPatientById(int id) {
-        Patient patient = null;
-        Session session = null;
-        try {
-            session = sessionFactory.getCurrentSession();
-            patient = session.get(Patient.class, id);
-        } catch (HibernateException hibEx) {
-            throw new RuntimeException(hibEx);
-        }
+        Session session = sessionFactory.getCurrentSession();
+        Patient patient = session.get(Patient.class, id);
         return patient;
+    }
+
+    public boolean saveOrUpdatePatient(Patient patient) {
+        Session session = sessionFactory.getCurrentSession();
+        session.saveOrUpdate(patient);
+        return true;
+    }
+
+    public boolean deletePatient(Patient patient) {
+        Session session = sessionFactory.getCurrentSession();
+        session.delete(patient);
+        return true;
+    }
+
+    public List<Patient> getAllPatients() {
+        List<Patient> patients;
+        Session session = sessionFactory.getCurrentSession();
+        Query query = session.createQuery("FROM Patient");
+        patients = (List<Patient>) query.list();
+        return patients;
+    }
+
+    public List<Patient> getPatientsByRange(int from, int offset) {
+        List<Patient> patients;
+        Session session = sessionFactory.getCurrentSession();
+        Query limitPatients = session.createQuery("FROM Patient ORDER BY id");
+        limitPatients.setFirstResult(from);
+        limitPatients.setMaxResults(offset);
+        patients = (List<Patient>) limitPatients.list();
+        return patients;
     }
 
     @Override
@@ -54,53 +77,5 @@ public class PatientDaoImpl implements PatientDao {
     @Override
     public Patient getByBirthDate(Date date) throws UnsupportedOperationException {
         throw new UnsupportedOperationException();
-    }
-
-
-    public boolean saveOrUpdatePatient(Patient patient) {
-
-        Session session = null;
-        try {
-            session = sessionFactory.getCurrentSession();
-            session.saveOrUpdate(patient);
-        } catch (HibernateException hibEx) {
-            throw new RuntimeException(hibEx);
-        }
-        return true;
-    }
-
-
-    @Override
-    public boolean deletePatient(Patient patient) {
-        throw new UnsupportedOperationException();
-    }
-
-
-    public List<Patient> getAllPatients() {
-        List<Patient> patients = null;
-        Session session = null;
-        try {
-            session = sessionFactory.getCurrentSession();
-            Query query = session.createQuery("FROM Patient");
-            patients = (List<Patient>) query.list();
-        } catch (HibernateException hibEx) {
-            throw new RuntimeException(hibEx);
-        }
-        return patients;
-    }
-
-    public List<Patient> getPatientsByRange(int from, int offset) {
-        List<Patient> patients = null;
-        Session session = null;
-        try {
-            session = sessionFactory.getCurrentSession();
-            Query limitPatients = session.createQuery("FROM Patient ORDER BY id");
-            limitPatients.setFirstResult(from);
-            limitPatients.setMaxResults(offset);
-            patients = (List<Patient>) limitPatients.list();
-        } catch (HibernateException hibEx) {
-            throw new RuntimeException(hibEx);
-        }
-        return patients;
     }
 }

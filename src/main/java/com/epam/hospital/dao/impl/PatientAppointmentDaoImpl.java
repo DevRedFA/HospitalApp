@@ -18,39 +18,21 @@ public class PatientAppointmentDaoImpl implements PatientAppointmentDao {
     @Autowired
     private SessionFactory sessionFactory;
 
-
     public PatientAppointment getPatientAppointmentById(int id) {
-        PatientAppointment patientAppointment = null;
-        Session session = null;
-        try {
-            session = sessionFactory.getCurrentSession();
-            patientAppointment = session.get(PatientAppointment.class, id);
-        } catch (HibernateException hibEx) {
-            throw new RuntimeException(hibEx);
-        }
+        Session session = sessionFactory.getCurrentSession();
+        PatientAppointment patientAppointment = session.get(PatientAppointment.class, id);
         return patientAppointment;
     }
 
     public boolean saveOrUpdatePatientAppointment(PatientAppointment patientAppointment) {
-        Session session = null;
-        try {
-            session = sessionFactory.getCurrentSession();
-            session.saveOrUpdate(patientAppointment);
-        } catch (HibernateException hibEx) {
-            throw new RuntimeException(hibEx);
-        }
+        Session session = sessionFactory.getCurrentSession();
+        session.saveOrUpdate(patientAppointment);
         return true;
     }
 
-    @Transactional
     public boolean deletePatientAppointment(PatientAppointment patientAppointment) {
-        Session session = null;
-        try {
-            session = sessionFactory.getCurrentSession();
-            session.delete(patientAppointment);
-        } catch (HibernateException hibEx) {
-            throw new RuntimeException(hibEx);
-        }
+        Session session = sessionFactory.getCurrentSession();
+        session.delete(patientAppointment);
         return true;
     }
 }

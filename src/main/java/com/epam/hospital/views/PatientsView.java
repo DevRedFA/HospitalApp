@@ -11,6 +11,7 @@ import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.spring.annotation.UIScope;
 import com.vaadin.ui.*;
 import com.epam.hospital.ui.*;
+import com.vaadin.ui.components.grid.ItemClickListener;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -48,6 +49,7 @@ public class PatientsView extends VerticalLayout implements View {
     private String P_CARD;
     private String NEXT;
     private String ADD_P;
+    private String SELECTPATIENT;
 
 
     @PostConstruct
@@ -61,6 +63,7 @@ public class PatientsView extends VerticalLayout implements View {
         P_CARD = resourceBundle.getString("patient.list.button.patientDetails");
         NEXT = resourceBundle.getString("patient.list.button.next");
         ADD_P = resourceBundle.getString("patient.list.button.add");
+        SELECTPATIENT = resourceBundle.getString("card.patient.select");
 
         previousPage = new Button(PREV);
         patientDetails = new Button(P_CARD);
@@ -86,6 +89,14 @@ public class PatientsView extends VerticalLayout implements View {
             nextPage.setEnabled(true);
             previousPage.setEnabled(patientService.isPreviousPageAvailable());
         });
+        patientGrid.addItemClickListener(item -> {
+
+            if (item.getMouseEventDetails().isDoubleClick()) {
+                Patient patient = (Patient) item.getItem();
+                String s = MainUI.CARD + "/" + patient.getId();
+                getUI().getNavigator().navigateTo(s);
+            }
+        });
         nextPage.addClickListener(clickEvent -> {
             patientGrid.setItems(patientService.getNextPartOfPatients());
             previousPage.setEnabled(true);
@@ -99,7 +110,7 @@ public class PatientsView extends VerticalLayout implements View {
                 String s = MainUI.CARD + "/" + selectedPatient.getId();
                 getUI().getNavigator().navigateTo(s);
             } else {
-                Notification.show("Please select one patient");
+                Notification.show(SELECTPATIENT);
             }
         });
 

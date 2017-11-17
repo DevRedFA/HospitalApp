@@ -78,7 +78,7 @@ public class PatientCardView extends VerticalLayout implements View {
     private String USERNOTFOUND;
     private String APPTOCHANGE;
     private String APPTOFULFILL;
-    private String APPTODISCHARGE;
+    private String DIAGNOSISTODISCHARGE;
     private String ID;
     private String DIAGNOSISDEATE;
     private String DIAGNOSIS;
@@ -91,6 +91,9 @@ public class PatientCardView extends VerticalLayout implements View {
     private String DETAILS;
     private String APPOINTEDBY;
     private String INTREATMENT;
+    private String PATIENTNOTFOUND;
+    private String STATUS;
+    private String PATIENTSTAT;
 
 
     private Logger logger = Logger.getLogger(PatientCardView.class);
@@ -168,7 +171,7 @@ public class PatientCardView extends VerticalLayout implements View {
                 try {
                     patient = patientService.getPatientById(idPatient);
                 } catch (Exception e) {
-                    Notification.show("Can not find patient");
+                    Notification.show(PATIENTNOTFOUND);
                 }
 
             }
@@ -183,7 +186,7 @@ public class PatientCardView extends VerticalLayout implements View {
             String details = s.getDetails();
             return details != null ? details : "";
         }).setCaption(DETAILS);
-        diagnosesGrid.addColumn(s -> getDischargeInText(s.getDischarge())).setCaption(DISCHARGE);
+        diagnosesGrid.addColumn(s -> getDischargeInText(s.getDischarge())).setCaption(STATUS);// HERE
 
 
         appointmentsGrid.setSelectionMode(Grid.SelectionMode.SINGLE);
@@ -203,7 +206,6 @@ public class PatientCardView extends VerticalLayout implements View {
                     return appointedBy != null ? appointedBy.getUsername() : "";
                 }
         ).setCaption(FULFILLBY);
-
 
 
         String userRole = getRole(user);
@@ -245,7 +247,7 @@ public class PatientCardView extends VerticalLayout implements View {
                 User newUser = userService.findByUsername(valueChangeEvent.getValue());
                 patient.setUser(newUser);
             } catch (Exception e) {
-                Notification.show("Can't find user with username: " + valueChangeEvent.getValue());
+                Notification.show(USERNOTFOUND + valueChangeEvent.getValue());
             }
         });
         if (patient.getName() != null) {
@@ -283,7 +285,7 @@ public class PatientCardView extends VerticalLayout implements View {
                 patientAppointmentService.fulfil(appointment, user);
                 Page.getCurrent().reload();
             } catch (Exception e) {
-                Notification.show("Select one appointment to fulfil");
+                Notification.show(APPTOFULFILL);
             }
         });
 
@@ -297,7 +299,7 @@ public class PatientCardView extends VerticalLayout implements View {
                 patientDiagnosesService.discharge(diagnosis);
                 Page.getCurrent().reload();
             } catch (Exception e) {
-                Notification.show("Select one appointment to discharge");
+                Notification.show(DIAGNOSISTODISCHARGE);
             }
         });
 
@@ -335,7 +337,7 @@ public class PatientCardView extends VerticalLayout implements View {
                 }
                 getUI().getNavigator().navigateTo(MainUI.DIAGNOSIS + "/" + diagnosis.getId());
             } catch (Exception e) {
-                Notification.show("Select one appointment to change");
+                Notification.show(APPTOCHANGE);
             }
         });
 
@@ -362,14 +364,14 @@ public class PatientCardView extends VerticalLayout implements View {
                     getUI().getNavigator().navigateTo(MainUI.APPOINTMENT + "/" + appointment.getId());
                 }
             } catch (Exception e) {
-                Notification.show("Select one appointment to change");
+                Notification.show(APPTOCHANGE);
             }
         });
     }
 
 
     private String getDischargeInText(boolean discharge) {
-        return discharge ? DISCHARGE : INTREATMENT;
+        return discharge ? PATIENTSTAT : INTREATMENT;
     }
 
 
@@ -393,7 +395,7 @@ public class PatientCardView extends VerticalLayout implements View {
         USERNOTFOUND = resourceBundle.getString("card.usernotfound");
         APPTOCHANGE = resourceBundle.getString("card.appointment.tochange");
         APPTOFULFILL = resourceBundle.getString("card.appointment.tofulfill");
-        APPTODISCHARGE = resourceBundle.getString("card.diagnosis.todischarge");
+        DIAGNOSISTODISCHARGE = resourceBundle.getString("card.diagnosis.todischarge");
         ID = resourceBundle.getString("card.grid.id");
         DIAGNOSISDEATE = resourceBundle.getString("card.grid.diagnosisdate");
         DIAGNOSEDBY = resourceBundle.getString("card.grid.diagnosisby");
@@ -405,6 +407,9 @@ public class PatientCardView extends VerticalLayout implements View {
         DETAILS = resourceBundle.getString("card.grid.details");
         APPOINTEDBY = resourceBundle.getString("card.grid.appointedby");
         INTREATMENT = resourceBundle.getString("card.intreatment.lable");
+        PATIENTNOTFOUND = resourceBundle.getString("card.patient.notfound");
+        STATUS = resourceBundle.getString("grid.diagnosis.status");
+        PATIENTSTAT = resourceBundle.getString("card.patient.status");
     }
 
 }

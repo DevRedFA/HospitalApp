@@ -21,32 +21,18 @@ public class AppointmentDaoImpl implements AppointmentDao {
     @Autowired
     private SessionFactory sessionFactory;
 
-
     public Appointment getAppointmentById(int id) {
-        Appointment appointment = null;
-        Session session = null;
-        try {
-            session = sessionFactory.getCurrentSession();
-            appointment = session.get(Appointment.class, id);
-        } catch (HibernateException hibEx) {
-            throw new RuntimeException(hibEx);
-        }
+        Session session = sessionFactory.getCurrentSession();
+        Appointment appointment = session.get(Appointment.class, id);
         return appointment;
     }
 
-
     public List<Appointment> getAllAppointments() {
         List<Appointment> appointments;
-        Session session = null;
-        try {
-            session = sessionFactory.getCurrentSession();
+        Session session = sessionFactory.getCurrentSession();
             Query query = session.createQuery("FROM Appointment ");
             appointments = (List<Appointment>) query.list();
-        } catch (HibernateException hibEx) {
-            throw new RuntimeException(hibEx);
-        }
         return appointments;
-
     }
 
     @Override

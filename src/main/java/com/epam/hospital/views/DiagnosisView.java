@@ -37,7 +37,7 @@ public class DiagnosisView extends VerticalLayout implements View {
     private Logger logger = Logger.getLogger(DiagnosisView.class);
 
 
-    private TextField details;
+    private TextArea details;
     private Label diagnosis;
     private NativeSelect<String> diagnosisSel = new NativeSelect<>();
     private Label diagnosedBy;
@@ -75,7 +75,9 @@ public class DiagnosisView extends VerticalLayout implements View {
     void init() {
         initStrings();
 
-        details = new TextField(DETAILS);
+        details = new TextArea(DETAILS);
+        details.setWidth(500, Unit.PIXELS);
+        details.setHeight(150, Unit.PIXELS);
         diagnosis = new Label(DIAGNOSIS);
         diagnosedBy = new Label(DIAGNISEDBY);
         diagnosedDate = new DateTimeField(DIAGNOSEDDATE);
