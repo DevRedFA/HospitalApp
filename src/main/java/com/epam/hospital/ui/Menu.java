@@ -3,6 +3,7 @@ package com.epam.hospital.ui;
 import com.epam.hospital.model.User;
 import com.vaadin.server.Page;
 import com.vaadin.server.VaadinSession;
+import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
 
 
@@ -11,8 +12,8 @@ import java.util.ResourceBundle;
 
 public class Menu extends HorizontalLayout {
 
-    private String RU;
-    private String EN;
+    private String RU = "Русский";
+    private String EN = "English";
     private String SIGNED;
     private String SIGNOUT;
     private Locale locale;
@@ -23,8 +24,6 @@ public class Menu extends HorizontalLayout {
     public Menu(User user) {
         locale = VaadinSession.getCurrent().getLocale();
         resourceBundle = ResourceBundle.getBundle("components", locale);
-        RU = resourceBundle.getString("menu.select.russian");
-        EN = resourceBundle.getString("menu.select.english");
         SIGNED = resourceBundle.getString("menu.signed.caption");
         SIGNOUT = resourceBundle.getString("menu.signout.button");
         String sel = "en".equalsIgnoreCase(locale.getLanguage()) ? EN : RU;
