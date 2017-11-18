@@ -6,11 +6,12 @@ import com.epam.hospital.model.*;
 import com.epam.hospital.service.api.PatientService;
 import com.epam.hospital.service.implementation.PatientServiceImpl;
 import com.epam.hospital.util.HibernateUtil;
+import lombok.extern.log4j.Log4j;
 
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.List;
-
+@Log4j
 public class TestMain {
     public static void main(String[] args) {
 

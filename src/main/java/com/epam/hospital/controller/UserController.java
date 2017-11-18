@@ -3,14 +3,18 @@ package com.epam.hospital.controller;
 import com.epam.hospital.model.User;
 import com.epam.hospital.service.api.SecurityService;
 import com.epam.hospital.service.api.UserService;
+import com.epam.hospital.ui.MainUI;
+import com.epam.hospital.ui.Menu;
+import com.epam.hospital.util.LabelsHolder;
 import com.epam.hospital.validator.UserValidator;
+import jdk.nashorn.internal.objects.annotations.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Locale;
 
 
 @Controller
@@ -24,6 +28,7 @@ public class UserController {
 
     @Autowired
     private UserValidator userValidator;
+
 
     @RequestMapping(value = "/registration", method = RequestMethod.GET)
     public String registration(Model model) {
@@ -51,11 +56,18 @@ public class UserController {
         if (error != null) {
             model.addAttribute("error", "Username or password is incorrect.");
         }
-
         if (logout != null) {
             model.addAttribute("message", "Logged out successfully.");
         }
 
+
+
+        return "login";
+    }
+
+    @RequestMapping(value = "/bla", method = RequestMethod.GET)
+    public String bla(@RequestParam(value = "lang") String locale){
+        LabelsHolder.chageLocale(new Locale(locale));
         return "login";
     }
 

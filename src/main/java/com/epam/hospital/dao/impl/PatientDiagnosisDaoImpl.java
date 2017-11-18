@@ -1,6 +1,7 @@
 package com.epam.hospital.dao.impl;
 
 import com.epam.hospital.dao.api.PatientDiagnosisDao;
+import com.epam.hospital.model.Patient;
 import com.epam.hospital.model.PatientDiagnosis;
 import com.epam.hospital.util.HibernateUtil;
 import org.hibernate.HibernateException;
@@ -19,38 +20,20 @@ public class PatientDiagnosisDaoImpl implements PatientDiagnosisDao {
     private SessionFactory sessionFactory;
 
     public PatientDiagnosis getPatientDiagnosisById(int id) {
-        PatientDiagnosis patientDiagnosis = null;
-        Session session = null;
-        try {
-            session = sessionFactory.getCurrentSession();
-            patientDiagnosis = session.get(PatientDiagnosis.class, id);
-        } catch (HibernateException hibEx) {
-            throw new RuntimeException(hibEx);
-        }
+        Session session = sessionFactory.getCurrentSession();
+        PatientDiagnosis patientDiagnosis = session.get(PatientDiagnosis.class, id);
         return patientDiagnosis;
     }
 
-
     public boolean saveOrUpdatePatientDiagnosis(PatientDiagnosis patientDiagnosis) {
-        Session session = null;
-        try {
-            session = sessionFactory.getCurrentSession();
-            session.saveOrUpdate(patientDiagnosis);
-        } catch (HibernateException hibEx) {
-            throw new RuntimeException(hibEx);
-        }
+        Session session = sessionFactory.getCurrentSession();
+        session.saveOrUpdate(patientDiagnosis);
         return true;
     }
 
-
     public boolean deletePatientDiagnosis(PatientDiagnosis patientDiagnosis) {
-        Session session = null;
-        try {
-            session = sessionFactory.getCurrentSession();
-            session.delete(patientDiagnosis);
-        } catch (HibernateException hibEx) {
-            throw new RuntimeException(hibEx);
-        }
+        Session session = sessionFactory.getCurrentSession();
+        session.delete(patientDiagnosis);
         return true;
     }
 }

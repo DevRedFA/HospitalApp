@@ -1,33 +1,30 @@
 package com.epam.hospital.ui;
 
 import com.epam.hospital.model.User;
+import com.epam.hospital.util.LabelsHolder;
 import com.vaadin.server.Page;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.*;
-
-
 import java.util.Locale;
-import java.util.ResourceBundle;
+
+import static com.epam.hospital.util.LabelsHolder.*;
+import static com.epam.hospital.util.Utils.getRole;
+
+
 
 public class Menu extends HorizontalLayout {
 
-    private String RU;
-    private String EN;
-    private String SIGNED;
-    private String SIGNOUT;
-    private Locale locale;
-    private ResourceBundle resourceBundle;
+    private Button backToPatientsList;
     NativeSelect<String> select;
     Label label;
 
     public Menu(User user) {
-        locale = VaadinSession.getCurrent().getLocale();
-        resourceBundle = ResourceBundle.getBundle("components", locale);
-        RU = resourceBundle.getString("menu.select.russian");
-        EN = resourceBundle.getString("menu.select.english");
-        SIGNED = resourceBundle.getString("menu.signed.caption");
-        SIGNOUT = resourceBundle.getString("menu.signout.button");
-        String sel = "en".equalsIgnoreCase(locale.getLanguage()) ? EN : RU;
+        if(LabelsHolder.globalLocale == null) {
+            LabelsHolder.chageLocale(VaadinSession.getCurrent().getLocale());
+        } else { VaadinSession.getCurrent().setLocale(globalLocale); }
+
+        String sel = "en".equalsIgnoreCase(VaadinSession.getCurrent().getLocale().getLanguage()) ? EN : RU;
+        backToPatientsList = new Button(BACKTOTHEPATIENT);
         label = new Label();
         label.setCaption(SIGNED + user.getUsername());
         Button buttonLogout = new Button(SIGNOUT);
@@ -40,6 +37,14 @@ public class Menu extends HorizontalLayout {
         select.setSelectedItem(sel);
         setSizeFull();
         addComponent(label);
+        String userRole = getRole(user);
+        if (!userRole.equals("ROLE_PATIENT")) {
+            addComponent(backToPatientsList);
+            setComponentAlignment(backToPatientsList, Alignment.TOP_RIGHT);
+            backToPatientsList.addClickListener(event -> {
+                getUI().getNavigator().navigateTo("");
+            });
+        }
         addComponent(select);
         addComponent(buttonLogout);
         setWidth("100%");
@@ -52,13 +57,18 @@ public class Menu extends HorizontalLayout {
                     event.getValue());
             String lan = event.getValue();
 
-            if (lan.equals("English") || lan.equals("Английский")) {
+            if (lan.equals("English")) {
                 VaadinSession.getCurrent().setLocale(new Locale("en"));
-            } else if (lan.equals("Russian") || lan.equals("Русский")) {
+                LabelsHolder.chageLocale(VaadinSession.getCurrent().getLocale());
+
+            } else if (lan.equals("Русский")) {
                 VaadinSession.getCurrent().setLocale(new Locale("ru"));
+                LabelsHolder.chageLocale(VaadinSession.getCurrent().getLocale());
             }
             Page.getCurrent().reload();
         });
 
+
     }
 }
+

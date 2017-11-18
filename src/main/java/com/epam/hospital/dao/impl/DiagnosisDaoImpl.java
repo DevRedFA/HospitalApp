@@ -22,27 +22,16 @@ public class DiagnosisDaoImpl implements DiagnosisDao {
     private SessionFactory sessionFactory;
 
     public Diagnosis getDiagnosisById(int id) {
-        Diagnosis diagnosis;
-        Session session = null;
-        try {
-            session = sessionFactory.getCurrentSession();
-            diagnosis = session.get(Diagnosis.class, id);
-        } catch (HibernateException hibEx) {
-            throw new RuntimeException(hibEx);
-        }
+        Session session = sessionFactory.getCurrentSession();
+        Diagnosis diagnosis = session.get(Diagnosis.class, id);
         return diagnosis;
     }
 
     public List<Diagnosis> getAllDiagnosis() {
         List<Diagnosis> diagnoses;
-        Session session = null;
-        try {
-            session = sessionFactory.getCurrentSession();
-            Query query = session.createQuery("FROM Diagnosis ");
-            diagnoses = (List<Diagnosis>) query.list();
-        } catch (HibernateException hibEx) {
-            throw new RuntimeException(hibEx);
-        }
+        Session session = sessionFactory.getCurrentSession();
+        Query query = session.createQuery("FROM Diagnosis ");
+        diagnoses = (List<Diagnosis>) query.list();
         return diagnoses;
     }
 }

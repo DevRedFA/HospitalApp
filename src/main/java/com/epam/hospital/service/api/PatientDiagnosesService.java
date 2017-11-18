@@ -9,4 +9,6 @@ public interface PatientDiagnosesService {
     PatientDiagnosis getPatientDiagnosisById(int id);
 
     boolean discharge(PatientDiagnosis patientDiagnosis);
+
+    boolean deletePatientDiagnosis(PatientDiagnosis patientDiagnosis);
 }

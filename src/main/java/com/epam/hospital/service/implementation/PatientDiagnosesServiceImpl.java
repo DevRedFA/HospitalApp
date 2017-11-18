@@ -22,11 +22,18 @@ public class PatientDiagnosesServiceImpl implements PatientDiagnosesService {
 
     @Override
     @Transactional
+    public boolean deletePatientDiagnosis(PatientDiagnosis diagnosis) {
+        return patientDiagnosisDao.deletePatientDiagnosis(diagnosis);
+    }
+
+    @Override
+    @Transactional
     public PatientDiagnosis getPatientDiagnosisById(int id) {
         return patientDiagnosisDao.getPatientDiagnosisById(id);
     }
 
     @Override
+    @Transactional
     public boolean discharge(PatientDiagnosis patientDiagnosis) {
         patientDiagnosis.setDischarge(true);
         return patientDiagnosisDao.saveOrUpdatePatientDiagnosis(patientDiagnosis);

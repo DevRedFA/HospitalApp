@@ -37,13 +37,50 @@ public class PatientServiceImpl implements PatientService {
         return patient;
     }
 
+
     @Override
     @Transactional
     public List<Patient> getFirstPartOfPatients() {
-        currentPos += step;
+        currentPos = step;
+        previousPageAvailable = false;
+        if (patientDao.getAllPatients().size() > step) {
+            nextPageAvailable = true;
+        }
         return patientDao.getPatientsByRange(0, step);
     }
 
+
+    @Override
+    @Transactional
+    public List<Patient> getAllPatients() {
+        allPatients = patientDao.getAllPatients();
+        return allPatients;
+    }
+
+    @Override
+    @Transactional
+    public List<Patient> updatePartOfPatients() {
+        List<Patient> patients;
+        allPatients = patientDao.getAllPatients();
+        if (currentPos == allPatients.size()) {
+            nextPageAvailable = false;
+        }
+        if (currentPos == 0) {
+            previousPageAvailable = false;
+        }
+        if (patientDao.getAllPatients().size() - currentPos >= step) {
+            patients = patientDao.getPatientsByRange(currentPos - step, step);
+        } else {
+            patients = patientDao.getPatientsByRange(currentPos - currentPos % step, patientDao.getAllPatients().size() - currentPos);
+        }
+        return patients;
+    }
+
+    @Override
+    @Transactional
+    public boolean deletePatient(Patient patient) {
+        return patientDao.deletePatient(patient);
+    }
 
     @Override
     @Transactional
@@ -58,6 +95,9 @@ public class PatientServiceImpl implements PatientService {
         } else {
             patients = patientDao.getPatientsByRange(currentPos, allPatients.size() - currentPos);
             currentPos = allPatients.size();
+
+        }
+        if (currentPos == allPatients.size()) {
             nextPageAvailable = false;
         }
         previousPageAvailable = true;
@@ -78,7 +118,9 @@ public class PatientServiceImpl implements PatientService {
             }
         } else {
             patients = patientDao.getPatientsByRange(0, currentPos);
-            currentPos = 10;
+            currentPos = step;
+        }
+        if (currentPos <= step) {
             previousPageAvailable = false;
         }
         nextPageAvailable = true;

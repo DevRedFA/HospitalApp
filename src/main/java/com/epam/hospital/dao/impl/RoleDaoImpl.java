@@ -18,30 +18,16 @@ public class RoleDaoImpl implements RoleDao {
     SessionFactory sessionFactory;
 
     public Role getRoleById(int id) {
-        Role role = null;
-        Session session = null;
-        try {
-            session = sessionFactory.getCurrentSession();
-            role = session.get(Role.class, id);
-
-        } catch (HibernateException hibEx) {
-            throw new RuntimeException(hibEx);
-        }
+        Session session = sessionFactory.getCurrentSession();
+        Role role = session.get(Role.class, id);
         return role;
     }
 
     public Role getRoleByName(String roleName) {
-        Role role = null;
-        Session session = null;
-        try {
-            session = sessionFactory.getCurrentSession();
-            role = (Role) session.createQuery("FROM Role WHERE name=:name")
-                    .setParameter("name", roleName)
-                    .uniqueResult();
-
-        } catch (HibernateException hibEx) {
-            throw new RuntimeException(hibEx);
-        }
+        Session session = sessionFactory.getCurrentSession();
+        Role role = (Role) session.createQuery("FROM Role WHERE name=:name")
+                .setParameter("name", roleName)
+                .uniqueResult();
         return role;
     }
 
