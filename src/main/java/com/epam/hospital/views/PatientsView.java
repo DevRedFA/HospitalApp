@@ -103,7 +103,8 @@ public class PatientsView extends VerticalLayout implements View {
                 Patient selectedPatient = (Patient) objects[0];
                 patientService.deletePatient(selectedPatient);
                 patientService.getAllPatients();
-                Page.getCurrent().reload();
+                patientGrid.setItems(patientService.updatePartOfPatients());
+//                Page.getCurrent().reload();
             } else {
                 Notification.show(SELECTPATIENT);
             }

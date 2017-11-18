@@ -91,7 +91,6 @@ public class DiagnosisView extends VerticalLayout implements View {
         buttons.addComponent(save);
         buttons.addComponent(backToPatient);
         diagnosisSel.setEmptySelectionAllowed(false);
-
         diagnosedDate.setDateFormat(DATETIMEFORMAT);
 
     }
@@ -158,8 +157,15 @@ public class DiagnosisView extends VerticalLayout implements View {
             });
 
             save.addClickListener(clickEvent -> {
-                patientDiagnosesService.saveOrUpdate(patientDiagnosis);
-                getUI().getNavigator().navigateTo(MainUI.CARD + "/" + patientDiagnosis.getPatient().getId());
+                boolean correctData = true;
+                if (patientDiagnosis.getDiagnosis() == null) {
+                    correctData = false;
+                    Notification.show("Choose diagnosis");
+                }
+                if (correctData) {
+                    patientDiagnosesService.saveOrUpdate(patientDiagnosis);
+                    getUI().getNavigator().navigateTo(MainUI.CARD + "/" + patientDiagnosis.getPatient().getId());
+                }
             });
         }
     }

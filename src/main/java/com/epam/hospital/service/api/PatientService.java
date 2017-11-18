@@ -16,6 +16,8 @@ public interface PatientService {
 
     List<Patient> getPreviousPartOfPatients();
 
+    List<Patient> updatePartOfPatients();
+
     boolean isPreviousPageAvailable();
 
     boolean isNextPageAvailable();
