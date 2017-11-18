@@ -9,6 +9,7 @@ import com.vaadin.ui.*;
 import static com.epam.hospital.util.LabelsHolder.*;
 
 
+
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -18,8 +19,18 @@ public class Menu extends HorizontalLayout {
     private ResourceBundle resourceBundle;
     NativeSelect<String> select;
     Label label;
+    public static Locale local;
+    public static void initLocale(String locale){
+        local = new Locale(locale);
+    }
+
 
     public Menu(User user) {
+//        if(!VaadinSession.getCurrent().getLocale().equals(local)) {
+//            VaadinSession.getCurrent().setLocale(local);
+//
+//        }
+
         LabelsHolder.chageLocale(VaadinSession.getCurrent().getLocale());
         String sel = "en".equalsIgnoreCase(VaadinSession.getCurrent().getLocale().getLanguage()) ? EN : RU;
         label = new Label();
@@ -46,9 +57,9 @@ public class Menu extends HorizontalLayout {
                     event.getValue());
             String lan = event.getValue();
 
-            if (lan.equals("English") || lan.equals("Английский")) {
+            if (lan.equals("English")){
                 VaadinSession.getCurrent().setLocale(new Locale("en"));
-            } else if (lan.equals("Russian") || lan.equals("Русский")) {
+            } else if (lan.equals("Русский")) {
                 VaadinSession.getCurrent().setLocale(new Locale("ru"));
             }
             Page.getCurrent().reload();
@@ -56,3 +67,4 @@ public class Menu extends HorizontalLayout {
 
     }
 }
+
