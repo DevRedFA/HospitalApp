@@ -46,4 +46,10 @@ public class PatientAppointmentServiceImpl implements PatientAppointmentService 
     public PatientAppointment getPatientAppointmentById(int id) {
         return patientAppointmentDao.getPatientAppointmentById(id);
     }
+
+    @Override
+    @Transactional
+    public boolean deletePatientAppointment(PatientAppointment patientAppointment) {
+        return patientAppointmentDao.deletePatientAppointment(patientAppointment);
+    }
 }

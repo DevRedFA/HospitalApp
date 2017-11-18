@@ -7,7 +7,7 @@ import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.*;
 
 import static com.epam.hospital.util.LabelsHolder.*;
-
+import static com.epam.hospital.util.Utils.getRole;
 
 
 import java.util.Locale;
@@ -15,7 +15,7 @@ import java.util.ResourceBundle;
 
 public class Menu extends HorizontalLayout {
 
-
+    private Button backToPatientsList;
     private ResourceBundle resourceBundle;
     NativeSelect<String> select;
     Label label;
@@ -23,6 +23,7 @@ public class Menu extends HorizontalLayout {
     public Menu(User user) {
         VaadinSession.getCurrent().setLocale(LabelsHolder.globalLocale);
         String sel = "en".equalsIgnoreCase(VaadinSession.getCurrent().getLocale().getLanguage()) ? EN : RU;
+        backToPatientsList = new Button("Back to patients");
         label = new Label();
         label.setCaption(SIGNED + user.getUsername());
         Button buttonLogout = new Button(SIGNOUT);
@@ -35,6 +36,14 @@ public class Menu extends HorizontalLayout {
         select.setSelectedItem(sel);
         setSizeFull();
         addComponent(label);
+        String userRole = getRole(user);
+        if (!userRole.equals("ROLE_PATIENT")) {
+            addComponent(backToPatientsList);
+            setComponentAlignment(backToPatientsList, Alignment.TOP_RIGHT);
+            backToPatientsList.addClickListener(event -> {
+                getUI().getNavigator().navigateTo("");
+            });
+        }
         addComponent(select);
         addComponent(buttonLogout);
         setWidth("100%");
@@ -47,7 +56,7 @@ public class Menu extends HorizontalLayout {
                     event.getValue());
             String lan = event.getValue();
 
-            if (lan.equals("English")){
+            if (lan.equals("English")) {
                 VaadinSession.getCurrent().setLocale(new Locale("en"));
                 LabelsHolder.chageLocale(VaadinSession.getCurrent().getLocale());
 
@@ -57,6 +66,7 @@ public class Menu extends HorizontalLayout {
             }
             Page.getCurrent().reload();
         });
+
 
     }
 }

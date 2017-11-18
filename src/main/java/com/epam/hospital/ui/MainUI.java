@@ -11,6 +11,7 @@ import com.epam.hospital.views.AppointmentView;
 import com.epam.hospital.views.DiagnosisView;
 import com.epam.hospital.views.PatientCardView;
 import com.epam.hospital.views.PatientsView;
+import com.vaadin.annotations.StyleSheet;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.navigator.Navigator;
@@ -42,6 +43,7 @@ import static com.epam.hospital.util.Utils.getRole;
  * overridden to add component to the user interface and initialize non-component functionality.
  */
 @Theme("mytheme")
+//@StyleSheet({"http://fonts.googleapis.com/css?family=Cabin+Sketch"})
 @SpringUI
 public class MainUI extends UI {
 

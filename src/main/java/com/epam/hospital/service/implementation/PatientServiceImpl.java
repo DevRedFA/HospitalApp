@@ -37,6 +37,7 @@ public class PatientServiceImpl implements PatientService {
         return patient;
     }
 
+
     @Override
     @Transactional
     public List<Patient> getFirstPartOfPatients() {
@@ -44,6 +45,20 @@ public class PatientServiceImpl implements PatientService {
         return patientDao.getPatientsByRange(0, step);
     }
 
+
+    @Override
+    @Transactional
+    public List<Patient> getAllPatients() {
+        allPatients = patientDao.getAllPatients();
+        return allPatients;
+    }
+
+
+    @Override
+    @Transactional
+    public boolean deletePatient(Patient patient) {
+        return patientDao.deletePatient(patient);
+    }
 
     @Override
     @Transactional
@@ -58,6 +73,9 @@ public class PatientServiceImpl implements PatientService {
         } else {
             patients = patientDao.getPatientsByRange(currentPos, allPatients.size() - currentPos);
             currentPos = allPatients.size();
+
+        }
+        if (currentPos == allPatients.size()) {
             nextPageAvailable = false;
         }
         previousPageAvailable = true;
@@ -78,7 +96,9 @@ public class PatientServiceImpl implements PatientService {
             }
         } else {
             patients = patientDao.getPatientsByRange(0, currentPos);
-            currentPos = 10;
+            currentPos = step;
+        }
+        if (currentPos <= step) {
             previousPageAvailable = false;
         }
         nextPageAvailable = true;
