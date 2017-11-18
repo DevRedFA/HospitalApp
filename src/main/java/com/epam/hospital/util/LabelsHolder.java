@@ -67,6 +67,13 @@ public class LabelsHolder {
     public static String DIAGNOSISTODELETE;
     public static String DATETIMEFORMAT;
     public static String DATEFORMAT;
+    public static String CHOOSEAPP;
+    public static String CHOOSEDIAGNOSIS;
+    public static String SETBIRTHDAY;
+    public static String SETUSERNAME;
+    public static String SETNAME;
+    public static String SETSURNAME;
+    public static String APPNODELETE;
 
 
     public static Locale globalLocale;
@@ -131,12 +138,19 @@ public class LabelsHolder {
         DELETEAPPOINTMENTS = resourceBundle.getString("card.appointment.del.button");
         APPTODELETE = resourceBundle.getString("card.appointment.todelete");
         DIAGNOSISTODELETE = resourceBundle.getString("card.diagnosis.todelete");
+        CHOOSEAPP = resourceBundle.getString("appview.app.choose");
+        CHOOSEDIAGNOSIS = resourceBundle.getString("diagnisis.choose");
+        SETBIRTHDAY = resourceBundle.getString("set.birthdate");
+        SETUSERNAME = resourceBundle.getString("set.username");
+        SETNAME = resourceBundle.getString("set.name");
+        SETSURNAME = resourceBundle.getString("set.surname");
+        APPNODELETE = resourceBundle.getString("app.delete");
 
         DateFormat dateTimeInstance = DateFormat.getDateTimeInstance(3, 2, locale);
         SimpleDateFormat simpleDateTimeFormat = (SimpleDateFormat) dateTimeInstance;
         DATETIMEFORMAT = simpleDateTimeFormat.toPattern();
 
-        DateFormat dateInstance = DateFormat.getDateInstance(3,  locale);
+        DateFormat dateInstance = DateFormat.getDateInstance(3, locale);
         SimpleDateFormat simpleDateFormat = (SimpleDateFormat) dateInstance;
         DATEFORMAT = simpleDateFormat.toPattern();
     }

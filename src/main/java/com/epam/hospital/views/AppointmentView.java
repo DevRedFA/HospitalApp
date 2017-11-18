@@ -54,8 +54,8 @@ public class AppointmentView extends VerticalLayout implements View {
     AppointmentService appointmentService;
 
 
-    private Button backToPatient = new Button("Back to patient");
-    private Button save = new Button("Save");
+    private Button backToPatient = new Button(BACKTOTHEPATIENT);
+    private Button save = new Button(SAVE);
     private VerticalLayout appointmentData = new VerticalLayout();
     private HorizontalLayout buttons = new HorizontalLayout();
 
@@ -68,6 +68,11 @@ public class AppointmentView extends VerticalLayout implements View {
 
     @PostConstruct
     void init() {
+        if (LabelsHolder.globalLocale == null) {
+            LabelsHolder.chageLocale(VaadinSession.getCurrent().getLocale());
+        } else {
+            VaadinSession.getCurrent().setLocale(globalLocale);
+        }
 
         appointedBy = new Label(APPOINTEDBY);
         fulfilledBy = new TextField(FULFILLEDBY);
@@ -191,7 +196,7 @@ public class AppointmentView extends VerticalLayout implements View {
                 boolean correctData = true;
                 if (patientAppointment.getAppointment() == null) {
                     correctData = false;
-                    Notification.show("Choose appointment");
+                    Notification.show(CHOOSEAPP);
                 }
                 if (correctData) {
                     patientAppointmentService.saveOrUpdate(patientAppointment);

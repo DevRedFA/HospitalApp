@@ -5,25 +5,26 @@ import com.epam.hospital.util.LabelsHolder;
 import com.vaadin.server.Page;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.*;
+import java.util.Locale;
 
 import static com.epam.hospital.util.LabelsHolder.*;
 import static com.epam.hospital.util.Utils.getRole;
 
 
-import java.util.Locale;
-import java.util.ResourceBundle;
 
 public class Menu extends HorizontalLayout {
 
     private Button backToPatientsList;
-    private ResourceBundle resourceBundle;
     NativeSelect<String> select;
     Label label;
 
     public Menu(User user) {
-        VaadinSession.getCurrent().setLocale(LabelsHolder.globalLocale);
+        if(LabelsHolder.globalLocale == null) {
+            LabelsHolder.chageLocale(VaadinSession.getCurrent().getLocale());
+        } else { VaadinSession.getCurrent().setLocale(globalLocale); }
+
         String sel = "en".equalsIgnoreCase(VaadinSession.getCurrent().getLocale().getLanguage()) ? EN : RU;
-        backToPatientsList = new Button("Back to patients");
+        backToPatientsList = new Button(BACKTOTHEPATIENT);
         label = new Label();
         label.setCaption(SIGNED + user.getUsername());
         Button buttonLogout = new Button(SIGNOUT);

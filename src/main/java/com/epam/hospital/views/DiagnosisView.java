@@ -68,7 +68,11 @@ public class DiagnosisView extends VerticalLayout implements View {
 
     @PostConstruct
     void init() {
-
+        if (LabelsHolder.globalLocale == null) {
+            LabelsHolder.chageLocale(VaadinSession.getCurrent().getLocale());
+        } else {
+            VaadinSession.getCurrent().setLocale(globalLocale);
+        }
         details = new TextArea(DETAILS);
         details.setWidth(500, Unit.PIXELS);
         details.setHeight(150, Unit.PIXELS);
@@ -160,7 +164,7 @@ public class DiagnosisView extends VerticalLayout implements View {
                 boolean correctData = true;
                 if (patientDiagnosis.getDiagnosis() == null) {
                     correctData = false;
-                    Notification.show("Choose diagnosis");
+                    Notification.show(CHANGEDIAGNOSIS);
                 }
                 if (correctData) {
                     patientDiagnosesService.saveOrUpdate(patientDiagnosis);

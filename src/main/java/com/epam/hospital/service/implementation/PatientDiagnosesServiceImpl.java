@@ -33,6 +33,7 @@ public class PatientDiagnosesServiceImpl implements PatientDiagnosesService {
     }
 
     @Override
+    @Transactional
     public boolean discharge(PatientDiagnosis patientDiagnosis) {
         patientDiagnosis.setDischarge(true);
         return patientDiagnosisDao.saveOrUpdatePatientDiagnosis(patientDiagnosis);

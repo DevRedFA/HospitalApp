@@ -46,6 +46,9 @@ public class PatientsView extends VerticalLayout implements View {
 
     @PostConstruct
     void init() {
+        if (LabelsHolder.globalLocale == null) {
+            LabelsHolder.chageLocale(VaadinSession.getCurrent().getLocale());
+        }  else { VaadinSession.getCurrent().setLocale(globalLocale); }
         previousPage = new Button(PREV);
         patientDetails = new Button(P_CARD);
         nextPage = new Button(NEXT);

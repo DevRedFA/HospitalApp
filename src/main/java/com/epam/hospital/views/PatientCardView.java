@@ -81,7 +81,11 @@ public class PatientCardView extends VerticalLayout implements View {
 
     @PostConstruct
     void init() {
-//        LabelsHolder.chageLocale(VaadinSession.getCurrent().getLocale());
+        if (LabelsHolder.globalLocale == null) {
+            LabelsHolder.chageLocale(VaadinSession.getCurrent().getLocale());
+        } else {
+            VaadinSession.getCurrent().setLocale(globalLocale);
+        }
         appointments = new Label(APPOINTMENTS);
         username = new TextField(USERNAME);
         name = new TextField(NAME);
@@ -248,19 +252,19 @@ public class PatientCardView extends VerticalLayout implements View {
         savePatientData.addClickListener(changeEvent -> {
             boolean correctData = true;
             if (patient.getBirthdate() == null) {
-                Notification.show("Set birth day");
+                Notification.show(SETBIRTHDAY);
                 correctData = false;
             }
             if (patient.getUser() == null) {
-                Notification.show("Set correct user name");
+                Notification.show(SETSURNAME);
                 correctData = false;
             }
             if (patient.getName() == null) {
-                Notification.show("Set name");
+                Notification.show(SETNAME);
                 correctData = false;
             }
             if (patient.getSurname() == null) {
-                Notification.show("Set surname");
+                Notification.show(SETUSERNAME);
                 correctData = false;
             }
             if (correctData) {
@@ -287,7 +291,7 @@ public class PatientCardView extends VerticalLayout implements View {
                 }
                 patientDiagnosesService.discharge(diagnosis);
                 diagnosesGrid.setItems(patient.getPatientDiagnoses());
-//                Page.getCurrent().reload();
+                Page.getCurrent().reload();
             } catch (Exception e) {
                 Notification.show(DIAGNOSISTODISCHARGE);
             }
@@ -371,7 +375,7 @@ public class PatientCardView extends VerticalLayout implements View {
                     patientAppointments1.remove(appointment);
                     appointmentsGrid.setItems(patientAppointments1);
                 } else {
-                    Notification.show("You can not delete appointments made by doctor");
+                    Notification.show(APPNODELETE);
                 }
             } catch (Exception e) {
                 Notification.show(APPTODELETE);
