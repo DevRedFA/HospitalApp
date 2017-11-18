@@ -68,7 +68,7 @@ public class AppointmentView extends VerticalLayout implements View {
 
     @PostConstruct
     void init() {
-        LabelsHolder.chageLocale(VaadinSession.getCurrent().getLocale());
+//        LabelsHolder.chageLocale(VaadinSession.getCurrent().getLocale());
 
         appointedBy = new Label(APPOINTEDBY);
         fulfilledBy = new TextField(FULFILLEDBY);

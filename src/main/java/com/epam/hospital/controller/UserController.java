@@ -68,7 +68,6 @@ public class UserController {
     @RequestMapping(value = "/bla", method = RequestMethod.GET)
     public String bla(@RequestParam(value = "lang") String locale){
 
-        System.err.println(locale);
         LabelsHolder.chageLocale(new Locale(locale));
         return "login";
     }

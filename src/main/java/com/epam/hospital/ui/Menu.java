@@ -19,19 +19,9 @@ public class Menu extends HorizontalLayout {
     private ResourceBundle resourceBundle;
     NativeSelect<String> select;
     Label label;
-    public static Locale local;
-    public static void initLocale(String locale){
-        local = new Locale(locale);
-    }
-
 
     public Menu(User user) {
-//        if(!VaadinSession.getCurrent().getLocale().equals(local)) {
-//            VaadinSession.getCurrent().setLocale(local);
-//
-//        }
-
-        LabelsHolder.chageLocale(VaadinSession.getCurrent().getLocale());
+        VaadinSession.getCurrent().setLocale(LabelsHolder.globalLocale);
         String sel = "en".equalsIgnoreCase(VaadinSession.getCurrent().getLocale().getLanguage()) ? EN : RU;
         label = new Label();
         label.setCaption(SIGNED + user.getUsername());
@@ -59,8 +49,11 @@ public class Menu extends HorizontalLayout {
 
             if (lan.equals("English")){
                 VaadinSession.getCurrent().setLocale(new Locale("en"));
+                LabelsHolder.chageLocale(VaadinSession.getCurrent().getLocale());
+
             } else if (lan.equals("Русский")) {
                 VaadinSession.getCurrent().setLocale(new Locale("ru"));
+                LabelsHolder.chageLocale(VaadinSession.getCurrent().getLocale());
             }
             Page.getCurrent().reload();
         });

@@ -74,7 +74,7 @@ public class PatientCardView extends VerticalLayout implements View {
 
     @PostConstruct
     void init() {
-        LabelsHolder.chageLocale(VaadinSession.getCurrent().getLocale());
+//        LabelsHolder.chageLocale(VaadinSession.getCurrent().getLocale());
         appointments = new Label(APPOINTMENTS);
         username = new TextField(USERNAME);
         name = new TextField(NAME);

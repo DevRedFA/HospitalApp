@@ -57,7 +57,10 @@ public class LabelsHolder {
     public static String STATUS;
     public static String PATIENTSTAT;
 
+    public static Locale globalLocale;
+
     public static void chageLocale(Locale locale) {
+        globalLocale = locale;
         ResourceBundle resourceBundle = ResourceBundle.getBundle("components", locale);
         SIGNED = resourceBundle.getString("menu.signed.caption");
         SIGNOUT = resourceBundle.getString("menu.signout.button");

@@ -63,7 +63,7 @@ public class DiagnosisView extends VerticalLayout implements View {
 
     @PostConstruct
     void init() {
-        LabelsHolder.chageLocale(VaadinSession.getCurrent().getLocale());
+//        LabelsHolder.chageLocale(VaadinSession.getCurrent().getLocale());
 
         details = new TextArea(DETAILS);
         details.setWidth(500, Unit.PIXELS);
