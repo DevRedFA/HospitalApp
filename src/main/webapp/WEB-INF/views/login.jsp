@@ -41,11 +41,11 @@
             <ul class="dropdown-menu">
                 <form id="languageRU" action="bla" method="get" style="display: none">
                     <input type="hidden" name="language" value="ru"/>
-                    <input name="lang" type="text" value="ru" />
+                    <input name="lang" type="text" value="ru"/>
                 </form>
                 <form id="languageEN" action="bla" method="get" style="display: none">
                     <input type="hidden" name="language" value="en"/>
-                    <input name="lang" type="text" value="en" />
+                    <input name="lang" type="text" value="en"/>
 
                 </form>
                 <li>
@@ -67,13 +67,15 @@
 
         <div class="form-group ${error != null ? 'has-error' : ''}">
             <span>${message}</span>
-            <input name="username" type="text" class="form-control" placeholder=<fmt:message key="login.username"/>
-                   autofocus="true"/>
-            <input name="password" type="password" class="form-control" placeholder=<fmt:message key="login.password"></fmt:message>>
+            <input name="username" type="text" class="form-control" placeholder=
+            <fmt:message key="login.username"/>
+                    autofocus="true"/>
+            <input name="password" type="password" class="form-control" placeholder=<fmt:message
+                    key="login.password"></fmt:message>>
             <span>${error}</span>
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-
-            <button class="btn btn-lg btn-primary btn-block" type="submit"><fmt:message key="login.button"/></button>
+                <button class="btn btn-lg btn-primary btn-block" type="submit"><fmt:message
+                        key="login.button"/></button>
             <h4 class="text-center"><a href="${contextPath}/registration"><fmt:message key="create.lable"/></a></h4>
         </div>
 
