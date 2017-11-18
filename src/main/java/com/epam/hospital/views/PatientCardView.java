@@ -268,33 +268,6 @@ public class PatientCardView extends VerticalLayout implements View {
             }
         });
 
-        fulfil.addClickListener(clickEvent -> {
-            try {
-                Set<PatientAppointment> selectedItems = appointmentsGrid.getSelectedItems();
-                PatientAppointment appointment = null;
-                for (PatientAppointment appointment1 : selectedItems) {
-                    appointment = appointment1;
-                }
-                patientAppointmentService.fulfil(appointment, user);
-                Page.getCurrent().reload();
-            } catch (Exception e) {
-                Notification.show(APPTOFULFILL);
-            }
-        });
-
-        discharge.addClickListener(clickEvent -> {
-            try {
-                Set<PatientDiagnosis> selectedItems = diagnosesGrid.getSelectedItems();
-                PatientDiagnosis diagnosis = null;
-                for (PatientDiagnosis diagnosis1 : selectedItems) {
-                    diagnosis = diagnosis1;
-                }
-                patientDiagnosesService.discharge(diagnosis);
-                Page.getCurrent().reload();
-            } catch (Exception e) {
-                Notification.show(DIAGNOSISTODISCHARGE);
-            }
-        });
 
         Set<PatientDiagnosis> patientDiagnoses = patient.getPatientDiagnoses();
         if (patientDiagnoses != null && !patientDiagnoses.isEmpty()) {
@@ -305,6 +278,21 @@ public class PatientCardView extends VerticalLayout implements View {
         }
 
 
+        discharge.addClickListener(clickEvent -> {
+            try {
+                Set<PatientDiagnosis> selectedItems = diagnosesGrid.getSelectedItems();
+                PatientDiagnosis diagnosis = null;
+                for (PatientDiagnosis diagnosis1 : selectedItems) {
+                    diagnosis = diagnosis1;
+                }
+                patientDiagnosesService.discharge(diagnosis);
+                diagnosesGrid.setItems(patient.getPatientDiagnoses());
+//                Page.getCurrent().reload();
+            } catch (Exception e) {
+                Notification.show(DIAGNOSISTODISCHARGE);
+            }
+        });
+
         Set<PatientAppointment> patientAppointments = patient.getPatientAppointments();
         if (patientAppointments != null && !patientAppointments.isEmpty()) {
             appointmentsGrid.setItems(patientAppointments);
@@ -312,6 +300,21 @@ public class PatientCardView extends VerticalLayout implements View {
             appointmentsGrid.setItems(Collections.EMPTY_LIST);
             patient.setPatientAppointments(Collections.emptySet());
         }
+
+        fulfil.addClickListener(clickEvent -> {
+            try {
+                Set<PatientAppointment> selectedItems = appointmentsGrid.getSelectedItems();
+                PatientAppointment appointment = null;
+                for (PatientAppointment appointment1 : selectedItems) {
+                    appointment = appointment1;
+                }
+                patientAppointmentService.fulfil(appointment, user);
+                appointmentsGrid.setItems(patient.getPatientAppointments());
+//                Page.getCurrent().reload();
+            } catch (Exception e) {
+                Notification.show(APPTOFULFILL);
+            }
+        });
 
         newDiagnosis.addClickListener(clickEvent -> {
             try {
@@ -342,7 +345,9 @@ public class PatientCardView extends VerticalLayout implements View {
                     diagnosis = diagnosis1;
                 }
                 patientDiagnosesService.deletePatientDiagnosis(diagnosis);
-                Page.getCurrent().reload();
+                Set<PatientDiagnosis> patientDiagnoses1 = patient.getPatientDiagnoses();
+                patientDiagnoses1.remove(diagnosis);
+                diagnosesGrid.setItems(patientDiagnoses1);
             } catch (Exception e) {
                 Notification.show(DIAGNOSISTODELETE);
             }
@@ -361,7 +366,10 @@ public class PatientCardView extends VerticalLayout implements View {
                         .getName()
                         .equals("Extra service")) {
                     patientAppointmentService.deletePatientAppointment(appointment);
-                    Page.getCurrent().reload();
+//                    Page.getCurrent().reload();
+                    Set<PatientAppointment> patientAppointments1 = patient.getPatientAppointments();
+                    patientAppointments1.remove(appointment);
+                    appointmentsGrid.setItems(patientAppointments1);
                 } else {
                     Notification.show("You can not delete appointments made by doctor");
                 }
