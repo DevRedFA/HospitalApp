@@ -188,8 +188,15 @@ public class AppointmentView extends VerticalLayout implements View {
             });
 
             save.addClickListener(clickEvent -> {
-                patientAppointmentService.saveOrUpdate(patientAppointment);
-                getUI().getNavigator().navigateTo(MainUI.CARD + "/" + patientAppointment.getPatient().getId());
+                boolean correctData = true;
+                if (patientAppointment.getAppointment() == null) {
+                    correctData = false;
+                    Notification.show("Choose appointment");
+                }
+                if (correctData) {
+                    patientAppointmentService.saveOrUpdate(patientAppointment);
+                    getUI().getNavigator().navigateTo(MainUI.CARD + "/" + patientAppointment.getPatient().getId());
+                }
             });
         }
     }

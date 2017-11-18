@@ -41,7 +41,7 @@ public class PatientServiceImpl implements PatientService {
     @Override
     @Transactional
     public List<Patient> getFirstPartOfPatients() {
-        currentPos += step;
+        currentPos = step;
         return patientDao.getPatientsByRange(0, step);
     }
 

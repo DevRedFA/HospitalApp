@@ -122,7 +122,7 @@ public class PatientCardView extends VerticalLayout implements View {
         diagnosisTab.addComponent(diagnosesGrid);
         appointmentsTab.addComponent(appointmentsButtons);
         appointmentsTab.addComponent(appointmentsGrid);
-        tabSheet.addTab(diagnosisTab, DIAGNOSIS);
+        tabSheet.addTab(diagnosisTab, DIAGNOSES);
         tabSheet.addTab(appointmentsTab, APPOINTMENTS);
         components.addComponent(tabSheet);
     }
@@ -177,7 +177,6 @@ public class PatientCardView extends VerticalLayout implements View {
                     return appointedBy != null ? appointedBy.getUsername() : "";
                 }
         ).setCaption(FULFILLBY);
-
 
         String userRole = getRole(user);
         switch (userRole) {
@@ -247,7 +246,26 @@ public class PatientCardView extends VerticalLayout implements View {
         });
 
         savePatientData.addClickListener(changeEvent -> {
-            patientService.saveOrUpdatePatient(patient);
+            boolean correctData = true;
+            if (patient.getBirthdate() == null) {
+                Notification.show("Set birth day");
+                correctData = false;
+            }
+            if (patient.getUser() == null) {
+                Notification.show("Set correct user name");
+                correctData = false;
+            }
+            if (patient.getName() == null) {
+                Notification.show("Set name");
+                correctData = false;
+            }
+            if (patient.getSurname() == null) {
+                Notification.show("Set surname");
+                correctData = false;
+            }
+            if (correctData) {
+                patientService.saveOrUpdatePatient(patient);
+            }
         });
 
         fulfil.addClickListener(clickEvent -> {
