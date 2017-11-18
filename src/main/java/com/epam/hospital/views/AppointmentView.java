@@ -89,13 +89,13 @@ public class AppointmentView extends VerticalLayout implements View {
         appointmentData.addComponent(appointedBy);
         appointmentData.addComponent(appointedBy);
         appointmentData.addComponent(appointedDate);
-        appointmentData.addComponent(fulfilledBy);
-        appointmentData.addComponent(fulfilledDate);
+//        appointmentData.addComponent(fulfilledBy);
+//        appointmentData.addComponent(fulfilledDate);
         buttons.addComponent(save);
         buttons.addComponent(backToPatient);
         appointmentSel.setEmptySelectionAllowed(false);
-        appointedDate.setDateFormat("MM/dd/yyyy HH:mm:ss");
-        fulfilledDate.setDateFormat("MM/dd/yyyy HH:mm:ss");
+        appointedDate.setDateFormat(DATETIMEFORMAT);
+        fulfilledDate.setDateFormat(DATETIMEFORMAT);
     }
 
 
@@ -112,6 +112,8 @@ public class AppointmentView extends VerticalLayout implements View {
             String userRole = getRole(user);
             if (userRole.equals("ROLE_PATIENT")) {
                 allAppointments = appointmentService.getAllCommercialAppointments();
+                appointedBy.setEnabled(false);
+                appointedDate.setEnabled(false);
             } else {
                 allAppointments = appointmentService.getAllAppointments();
             }
@@ -164,10 +166,18 @@ public class AppointmentView extends VerticalLayout implements View {
 
 
             appointedDate.addValueChangeListener(changeEvent -> {
+//                if (changeEvent.getValue().compareTo(LocalDateTime.now()) < 0) {
+//                    Notification.show("Put correct date and time");
+//                } else {
                 patientAppointment.setAppointedDate(Timestamp.valueOf(changeEvent.getValue()));
+//                }
             });
             fulfilledDate.addValueChangeListener(changeEvent -> {
+//                if (changeEvent.getValue().compareTo(LocalDateTime.now()) < 0) {
+//                    Notification.show("Put correct date and time");
+//                } else {
                 patientAppointment.setFulfilledDate(Timestamp.valueOf(changeEvent.getValue()));
+//                }
             });
 
             backToPatient.addClickListener(clickEvent -> {
@@ -180,6 +190,7 @@ public class AppointmentView extends VerticalLayout implements View {
 
             save.addClickListener(clickEvent -> {
                 patientAppointmentService.saveOrUpdate(patientAppointment);
+                getUI().getNavigator().navigateTo(MainUI.CARD + "/" + patientAppointment.getPatient().getId());
             });
         }
     }

@@ -8,6 +8,8 @@ public interface PatientService {
 
     Patient getPatientById(int id);
 
+    List<Patient> getAllPatients();
+
     List<Patient> getFirstPartOfPatients();
 
     List<Patient> getNextPartOfPatients();
@@ -20,4 +22,5 @@ public interface PatientService {
 
     boolean saveOrUpdatePatient(Patient patient);
 
+    boolean deletePatient(Patient patient);
 }

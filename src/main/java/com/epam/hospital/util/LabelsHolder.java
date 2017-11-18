@@ -1,5 +1,9 @@
 package com.epam.hospital.util;
 
+import com.vaadin.server.VaadinSession;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -15,6 +19,7 @@ public class LabelsHolder {
     public static String P_CARD;
     public static String NEXT;
     public static String ADD_P;
+    public static String DEL_P;
     public static String SELECTPATIENT;
     public static String DETAILS;
     public static String DIAGNOSIS;
@@ -56,6 +61,13 @@ public class LabelsHolder {
     public static String PATIENTNOTFOUND;
     public static String STATUS;
     public static String PATIENTSTAT;
+    public static String DELETEDIAGNOSIS;
+    public static String DELETEAPPOINTMENTS;
+    public static String APPTODELETE;
+    public static String DIAGNOSISTODELETE;
+    public static String DATETIMEFORMAT;
+    public static String DATEFORMAT;
+
 
     public static void chageLocale(Locale locale) {
         ResourceBundle resourceBundle = ResourceBundle.getBundle("components", locale);
@@ -68,6 +80,7 @@ public class LabelsHolder {
         P_CARD = resourceBundle.getString("patient.list.button.patientDetails");
         NEXT = resourceBundle.getString("patient.list.button.next");
         ADD_P = resourceBundle.getString("patient.list.button.add");
+        DEL_P = resourceBundle.getString("patient.list.button.del");
         SELECTPATIENT = resourceBundle.getString("card.patient.select");
         DETAILS = resourceBundle.getString("card.grid.details");
         DIAGNOSIS = resourceBundle.getString("card.grid.diagnosis");
@@ -111,5 +124,17 @@ public class LabelsHolder {
         PATIENTNOTFOUND = resourceBundle.getString("card.patient.notfound");
         STATUS = resourceBundle.getString("grid.diagnosis.status");
         PATIENTSTAT = resourceBundle.getString("card.patient.status");
+        DELETEDIAGNOSIS = resourceBundle.getString("card.diagnosis.del.button");
+        DELETEAPPOINTMENTS = resourceBundle.getString("card.appointment.del.button");
+        APPTODELETE = resourceBundle.getString("card.appointment.todelete");
+        DIAGNOSISTODELETE = resourceBundle.getString("card.diagnosis.todelete");
+
+        DateFormat dateTimeInstance = DateFormat.getDateTimeInstance(3, 2, locale);
+        SimpleDateFormat simpleDateTimeFormat = (SimpleDateFormat) dateTimeInstance;
+        DATETIMEFORMAT = simpleDateTimeFormat.toPattern();
+
+        DateFormat dateInstance = DateFormat.getDateInstance(3,  locale);
+        SimpleDateFormat simpleDateFormat = (SimpleDateFormat) dateInstance;
+        DATEFORMAT = simpleDateFormat.toPattern();
     }
 }

@@ -40,6 +40,7 @@ public class PatientCardView extends VerticalLayout implements View {
     private TextField name;
     private TextField surname;
     private DateField birthday;
+    private TabSheet tabSheet = new TabSheet();
 
 
     @Autowired
@@ -60,11 +61,17 @@ public class PatientCardView extends VerticalLayout implements View {
     private Button fulfil;
     private Button changeDiagnosis;
     private Button changeAppointment;
+    private Button deleteDiagnosis;
+    private Button deleteAppointment;
+
 
     private Logger logger = Logger.getLogger(PatientCardView.class);
     private HorizontalLayout patientData = new HorizontalLayout();
     private HorizontalLayout diagnosisButtons = new HorizontalLayout();
     private HorizontalLayout appointmentsButtons = new HorizontalLayout();
+    private VerticalLayout diagnosisTab = new VerticalLayout();
+    private VerticalLayout appointmentsTab = new VerticalLayout();
+
     @Setter
     User user;
 
@@ -80,7 +87,8 @@ public class PatientCardView extends VerticalLayout implements View {
         name = new TextField(NAME);
         surname = new TextField(SURNAME);
         birthday = new DateField(BIRTHDATE);
-
+        deleteDiagnosis = new Button(DELETEDIAGNOSIS);
+        deleteAppointment = new Button(DELETEAPPOINTMENTS);
         diagnoses = new Label(DIAGNOSES);
         newDiagnosis = new Button(NEWDIAGNOSIS);
         savePatientData = new Button(SAVEPATIENT);
@@ -89,8 +97,8 @@ public class PatientCardView extends VerticalLayout implements View {
         fulfil = new Button(FULFILL);
         changeDiagnosis = new Button(CHANGEDIAGNOSIS);
         changeAppointment = new Button(CHANGEAPPOINT);
-
-
+        birthday.setDateFormat(DATEFORMAT);
+        birthday.setLocale(VaadinSession.getCurrent().getLocale());
         setSpacing(true);
         patientData.addComponent(username);
         patientData.addComponent(name);
@@ -100,24 +108,23 @@ public class PatientCardView extends VerticalLayout implements View {
         patientData.setComponentAlignment(savePatientData, Alignment.BOTTOM_RIGHT);
         savePatientData.setWidth("100%");
         components.addComponent(patientData);
-        components.addComponent(diagnoses);
         diagnoses.setContentMode(ContentMode.PREFORMATTED);
         appointments.setContentMode(ContentMode.PREFORMATTED);
-        appointmentsButtons.addComponent(appointments);
         appointmentsButtons.addComponent(newAppointment);
         appointmentsButtons.addComponent(changeAppointment);
+        appointmentsButtons.addComponent(deleteAppointment);
         appointmentsButtons.addComponent(fulfil);
-        appointmentsButtons.setComponentAlignment(appointments, Alignment.MIDDLE_LEFT);
-        diagnosisButtons.addComponent(diagnoses);
         diagnosisButtons.addComponent(newDiagnosis);
         diagnosisButtons.addComponent(changeDiagnosis);
+        diagnosisButtons.addComponent(deleteDiagnosis);
         diagnosisButtons.addComponent(discharge);
-        diagnosisButtons.setComponentAlignment(diagnoses, Alignment.MIDDLE_LEFT);
-        components.addComponent(diagnosisButtons);
-        components.addComponent(diagnosesGrid);
-        components.addComponent(appointmentsButtons);
-        components.addComponent(appointmentsGrid);
-
+        diagnosisTab.addComponent(diagnosisButtons);
+        diagnosisTab.addComponent(diagnosesGrid);
+        appointmentsTab.addComponent(appointmentsButtons);
+        appointmentsTab.addComponent(appointmentsGrid);
+        tabSheet.addTab(diagnosisTab, DIAGNOSIS);
+        tabSheet.addTab(appointmentsTab, APPOINTMENTS);
+        components.addComponent(tabSheet);
     }
 
 
@@ -142,7 +149,7 @@ public class PatientCardView extends VerticalLayout implements View {
         }
         diagnosesGrid.setSelectionMode(Grid.SelectionMode.SINGLE);
         diagnosesGrid.removeAllColumns();
-        diagnosesGrid.addColumn(s -> String.valueOf(s.getId())).setCaption(ID);
+        diagnosesGrid.setDescription(DIAGNOSES);
         diagnosesGrid.addColumn(s -> s.getDiagnosis().getName()).setCaption(DIAGNOSIS);
         diagnosesGrid.addColumn(s -> formatTime(s.getDiagnosedDate())).setCaption(DIAGNOSISDEATE);
         diagnosesGrid.addColumn(s -> s.getDiagnosedBy().getUsername()).setCaption(DIAGNOSEDBY);
@@ -155,7 +162,7 @@ public class PatientCardView extends VerticalLayout implements View {
 
         appointmentsGrid.setSelectionMode(Grid.SelectionMode.SINGLE);
         appointmentsGrid.removeAllColumns();
-        appointmentsGrid.addColumn(s -> String.valueOf(s.getId())).setCaption(ID);
+        appointmentsGrid.setDescription(APPOINTMENTS);
         appointmentsGrid.addColumn(s -> s.getAppointment().getName()).setCaption(APPOINTMENT);
         appointmentsGrid.addColumn(s -> s.getAppointment().getAppointmentType().getName()).setCaption(APPOINTMENTTYPE);
         appointmentsGrid.addColumn(s -> formatTime(s.getAppointedDate())).setCaption(APPOINTMENTDATE);
@@ -179,6 +186,8 @@ public class PatientCardView extends VerticalLayout implements View {
                 username.setValue(userRole.toString());
                 newDiagnosis.setEnabled(false);
                 changeDiagnosis.setEnabled(false);
+//                deleteAppointment.setEnabled(false);
+                deleteDiagnosis.setEnabled(false);
                 fulfil.setEnabled(false);
                 discharge.setEnabled(false);
                 break;
@@ -187,6 +196,8 @@ public class PatientCardView extends VerticalLayout implements View {
                 changeAppointment.setEnabled(false);
                 newDiagnosis.setEnabled(false);
                 changeDiagnosis.setEnabled(false);
+                deleteAppointment.setEnabled(false);
+                deleteDiagnosis.setEnabled(false);
                 discharge.setEnabled(false);
                 break;
         }
@@ -305,6 +316,42 @@ public class PatientCardView extends VerticalLayout implements View {
             }
         });
 
+        deleteDiagnosis.addClickListener(clickEvent -> {
+            try {
+                Set<PatientDiagnosis> selectedItems = diagnosesGrid.getSelectedItems();
+                PatientDiagnosis diagnosis = null;
+                for (PatientDiagnosis diagnosis1 : selectedItems) {
+                    diagnosis = diagnosis1;
+                }
+                patientDiagnosesService.deletePatientDiagnosis(diagnosis);
+                Page.getCurrent().reload();
+            } catch (Exception e) {
+                Notification.show(DIAGNOSISTODELETE);
+            }
+        });
+
+        deleteAppointment.addClickListener(clickEvent -> {
+            try {
+                Set<PatientAppointment> selectedItems = appointmentsGrid.getSelectedItems();
+                PatientAppointment appointment = null;
+                for (PatientAppointment appointment1 : selectedItems) {
+                    appointment = appointment1;
+                }
+                if (!userRole.equals("ROLE_PATIENT")
+                        || appointment.getAppointment()
+                        .getAppointmentType()
+                        .getName()
+                        .equals("Extra service")) {
+                    patientAppointmentService.deletePatientAppointment(appointment);
+                    Page.getCurrent().reload();
+                } else {
+                    Notification.show("You can not delete appointments made by doctor");
+                }
+            } catch (Exception e) {
+                Notification.show(APPTODELETE);
+            }
+        });
+
         newAppointment.addClickListener(clickEvent -> {
             try {
                 getUI().getNavigator().navigateTo(MainUI.APPOINTMENT + "/new/" + patient.getId());
@@ -324,7 +371,7 @@ public class PatientCardView extends VerticalLayout implements View {
                         || appointment.getAppointment()
                         .getAppointmentType()
                         .getName()
-                        .equals("EXTRA_SERVICE")) {
+                        .equals("Extra service")) {
                     getUI().getNavigator().navigateTo(MainUI.APPOINTMENT + "/" + appointment.getId());
                 }
             } catch (Exception e) {

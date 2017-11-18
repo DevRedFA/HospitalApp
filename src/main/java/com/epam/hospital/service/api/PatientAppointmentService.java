@@ -13,6 +13,9 @@ public interface PatientAppointmentService {
 
     PatientAppointment getPatientAppointmentById(int id);
 
+    boolean deletePatientAppointment(PatientAppointment appointment);
+
+
     static String getFormattedView(PatientAppointment appointment) {
         StringBuilder sb = new StringBuilder();
         sb.append("Appointment: ")

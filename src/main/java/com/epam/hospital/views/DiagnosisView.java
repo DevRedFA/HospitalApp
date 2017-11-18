@@ -19,12 +19,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.PostConstruct;
 import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 import static com.epam.hospital.util.LabelsHolder.*;
+import static java.text.DateFormat.SHORT;
+import static java.text.DateFormat.getDateInstance;
 
 @UIScope
 @SpringView
@@ -87,7 +92,9 @@ public class DiagnosisView extends VerticalLayout implements View {
         buttons.addComponent(save);
         buttons.addComponent(backToPatient);
         diagnosisSel.setEmptySelectionAllowed(false);
-        diagnosedDate.setDateFormat("MM/dd/yyyy HH:mm:ss");
+
+        diagnosedDate.setDateFormat(DATETIMEFORMAT);
+
     }
 
 
@@ -153,6 +160,7 @@ public class DiagnosisView extends VerticalLayout implements View {
 
             save.addClickListener(clickEvent -> {
                 patientDiagnosesService.saveOrUpdate(patientDiagnosis);
+                getUI().getNavigator().navigateTo(MainUI.CARD + "/" + patientDiagnosis.getPatient().getId());
             });
         }
     }
