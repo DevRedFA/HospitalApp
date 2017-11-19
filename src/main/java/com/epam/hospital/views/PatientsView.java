@@ -48,7 +48,9 @@ public class PatientsView extends VerticalLayout implements View {
     void init() {
         if (LabelsHolder.globalLocale == null) {
             LabelsHolder.chageLocale(VaadinSession.getCurrent().getLocale());
-        }  else { VaadinSession.getCurrent().setLocale(globalLocale); }
+        } else {
+            VaadinSession.getCurrent().setLocale(globalLocale);
+        }
         previousPage = new Button(PREV);
         patientDetails = new Button(P_CARD);
         nextPage = new Button(NEXT);
@@ -78,7 +80,7 @@ public class PatientsView extends VerticalLayout implements View {
         });
         patientGrid.addItemClickListener(item -> {
             if (item.getMouseEventDetails().isDoubleClick()) {
-                Patient patient = (Patient) item.getItem();
+                Patient patient = item.getItem();
                 String s = MainUI.CARD + "/" + patient.getId();
                 getUI().getNavigator().navigateTo(s);
             }
@@ -107,7 +109,6 @@ public class PatientsView extends VerticalLayout implements View {
                 patientService.deletePatient(selectedPatient);
                 patientService.getAllPatients();
                 patientGrid.setItems(patientService.updatePartOfPatients());
-//                Page.getCurrent().reload();
             } else {
                 Notification.show(SELECTPATIENT);
             }

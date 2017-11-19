@@ -41,6 +41,7 @@ public class DiagnosisView extends VerticalLayout implements View {
 
     private TextArea details;
     private Label diagnosis;
+    private Label patientField;
     private NativeSelect<String> diagnosisSel = new NativeSelect<>();
     private Label diagnosedBy;
     private DateTimeField diagnosedDate;
@@ -79,7 +80,7 @@ public class DiagnosisView extends VerticalLayout implements View {
         diagnosis = new Label(DIAGNOSIS);
         diagnosedBy = new Label(DIAGNISEDBY);
         diagnosedDate = new DateTimeField(DIAGNOSEDDATE);
-
+        patientField = new Label(PATIENT);
         backToPatient = new Button(BACKTOTHEPATIENT);
         save = new Button(SAVE);
 
@@ -87,6 +88,7 @@ public class DiagnosisView extends VerticalLayout implements View {
         setSpacing(true);
         components.addComponent(diagnosisData);
         components.addComponent(buttons);
+        diagnosisData.addComponent(patientField);
         diagnosisData.addComponent(diagnosis);
         diagnosisData.addComponent(diagnosisSel);
         diagnosisData.addComponent(details);
@@ -128,7 +130,10 @@ public class DiagnosisView extends VerticalLayout implements View {
                 diagnosisSel.setValue(patientDiagnosis.getDiagnosis().getName());
 
             }
-
+            if (patientDiagnosis.getPatient() != null) {
+                patientField.setValue(PATIENT + ": " + patientDiagnosis.getPatient().getName()
+                        + " " + patientDiagnosis.getPatient().getSurname());
+            }
             if (patientDiagnosis.getDetails() != null) {
                 details.setValue(patientDiagnosis.getDetails());
             }

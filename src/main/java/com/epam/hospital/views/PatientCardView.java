@@ -291,7 +291,6 @@ public class PatientCardView extends VerticalLayout implements View {
                 }
                 patientDiagnosesService.discharge(diagnosis);
                 diagnosesGrid.setItems(patient.getPatientDiagnoses());
-                Page.getCurrent().reload();
             } catch (Exception e) {
                 Notification.show(DIAGNOSISTODISCHARGE);
             }
@@ -338,6 +337,19 @@ public class PatientCardView extends VerticalLayout implements View {
                 getUI().getNavigator().navigateTo(MainUI.DIAGNOSIS + "/" + diagnosis.getId());
             } catch (Exception e) {
                 Notification.show(APPTOCHANGE);
+            }
+        });
+
+        diagnosesGrid.addItemClickListener(item -> {
+            try {
+                if (item.getMouseEventDetails().isDoubleClick()) {
+                    PatientDiagnosis diagnosis = item.getItem();
+                    if (userRole.equals("ROLE_DOCTOR")) {
+                        getUI().getNavigator().navigateTo(MainUI.DIAGNOSIS + "/" + diagnosis.getId());
+                    }
+                }
+            } catch (Exception e) {
+                logger.error(e);
             }
         });
 
@@ -389,6 +401,25 @@ public class PatientCardView extends VerticalLayout implements View {
                 logger.error(e);
             }
         });
+
+
+        appointmentsGrid.addItemClickListener(item -> {
+            try {
+                if (item.getMouseEventDetails().isDoubleClick()) {
+                    PatientAppointment appointment = item.getItem();
+                    if (userRole.equals("ROLE_DOCTOR")
+                            || appointment.getAppointment()
+                            .getAppointmentType()
+                            .getName()
+                            .equals("Extra service")) {
+                        getUI().getNavigator().navigateTo(MainUI.APPOINTMENT + "/" + appointment.getId());
+                    }
+                }
+            } catch (Exception e) {
+                logger.error(e);
+            }
+        });
+
 
         changeAppointment.addClickListener(clickEvent -> {
             try {

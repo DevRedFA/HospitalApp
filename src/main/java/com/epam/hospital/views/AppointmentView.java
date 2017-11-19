@@ -38,7 +38,7 @@ public class AppointmentView extends VerticalLayout implements View {
     private TextField fulfilledBy;
     private Label appointment;
     private NativeSelect<String> appointmentSel = new NativeSelect<>();
-    private TextField patientField;
+    private Label patientField;
     private DateTimeField appointedDate;
     private DateTimeField fulfilledDate;
 
@@ -77,7 +77,7 @@ public class AppointmentView extends VerticalLayout implements View {
         appointedBy = new Label(APPOINTEDBY);
         fulfilledBy = new TextField(FULFILLEDBY);
         appointment = new Label(APPOINTMENT);
-        patientField = new TextField(PATIENT);
+        patientField = new Label(PATIENT);
         appointedDate = new DateTimeField(APPDATE);
         fulfilledDate = new DateTimeField(FULFULLDATE);
         backToPatient = new Button(BACKTOPATIENT);
@@ -138,9 +138,12 @@ public class AppointmentView extends VerticalLayout implements View {
                 int idAppointment = Integer.parseInt(event.getParameters());
                 patientAppointment = patientAppointmentService.getPatientAppointmentById(idAppointment);
                 appointmentSel.setValue(patientAppointment.getAppointment().getName());
+                patient = patientAppointment.getPatient();
             }
-            patientField.setValue(patient.getName() + " " + patient.getSurname());
-
+            if (patientAppointment.getPatient() != null) {
+                patientField.setValue(PATIENT + ": " + patientAppointment.getPatient().getName()
+                        + " " + patientAppointment.getPatient().getSurname());
+            }
             if (patientAppointment.getFulfilledDate() != null) {
                 fulfilledDate.setValue(patientAppointment.getFulfilledDate().toLocalDateTime());
             }
